@@ -12,6 +12,10 @@
  * for that construction alone, and its name says it is an independent review.
  */
 export const sources = {
+  ps5teardown: { name: 'iFixit · 原版 PS5 实机拆解与双面主板照片（2020）', url: 'https://www.ifixit.com/Teardown/PlayStation+5+Teardown/138280' },
+  dualsenserepair: { name: 'iFixit · 初代 DualSense 机构与维修分解资料', url: 'https://www.ifixit.com/Device/DualSense' },
+  sonyservice: { name: 'Sony · ILCE-7M4 / 7M4K 服务手册分解图（第三方镜像）', url: 'https://manuals.plus/m/662ac7b243a51dfb6adfa3f731348687443abee969b90e085dcd0aebbb51fbad.pdf' },
+  earbudteardown: { name: '52audio · AirPods Pro 2 USB-C 实机拆解（2023）', url: 'https://www.52audio.com/archives/178135.html' },
   ps5official: { name: '索尼 PlayStation · 2020 原版 PS5 官方拆解', url: 'https://blog.playstation.com/2020/10/07/ps5-teardown-an-inside-look-at-our-most-transformative-console-yet/' },
   ps5faq: { name: '索尼 PlayStation · 原版 PS5 架构与规格问答', url: 'https://blog.playstation.com/2020/11/09/ps5-the-ultimate-faq/' },
   iphonespec: { name: 'Apple · iPhone 15 官方技术规格', url: 'https://support.apple.com/en-gb/111831' },

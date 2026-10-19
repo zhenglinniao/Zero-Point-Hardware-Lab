@@ -82,11 +82,45 @@ await test('all digital assembly, dissection and inventory bounds remain finite 
     }
   }
 });
-await test('PS5 board, cooling, fan, power and disc drive occupy separate installed regions',()=>{
+await test('PS5 installed modules clear one another including the two-sided board components',()=>{
   const model=models.get('ps5')!;
-  const boxes=['ps5board','ps5cooling','ps5-fan','ps5-power','ps5-drive'].map((id)=>({id,box:new T.Box3().setFromObject(model.pieces.find((piece)=>piece.concept===id)!.object)}));
+  const boxes=['ps5cooling','ps5-fan','ps5-power','ps5-drive'].map((id)=>({id,box:new T.Box3().setFromObject(model.pieces.find((piece)=>piece.concept===id)!.object)}));
   for(let a=0;a<boxes.length;a++) for(let b=a+1;b<boxes.length;b++) {
     assert.ok(!boxes[a].box.intersectsBox(boxes[b].box),`${boxes[a].id} intersects ${boxes[b].id}`);
+  }
+  // A single box for the entire board fills empty space between the low APU
+  // and upper fan notch. Check each actual subassembly in installed coordinates.
+  model.root.updateMatrixWorld(true);
+  const installed=model.pieces.find(p=>p.concept==='ps5board')!.object.children[0];
+  for(const piece of models.get('ps5board')!.pieces) {
+    const bound=new T.Box3().setFromObject(piece.object).applyMatrix4(installed.matrixWorld);
+    for(const other of boxes) assert.ok(!bound.intersectsBox(other.box),`${piece.concept} intersects ${other.id}`);
+  }
+});
+
+await test('original PS5 has eight GDDR6 packages, six NAND packages on two faces and an enclosed fan',()=>{
+  const board=digitalDefinitions.find(d=>d.id==='ps5board')!;
+  assert.equal(board.parts.filter(p=>p.id.startsWith('memory')).length,8);
+  const nand=board.parts.filter(p=>p.id.startsWith('nand'));
+  assert.equal(nand.length,6);
+  assert.equal(nand.filter(p=>p.pos[1]>0).length,3);
+  assert.equal(nand.filter(p=>p.pos[1]<0).length,3);
+  const ps5=models.get('ps5')!;
+  const fan=new T.Box3().setFromObject(ps5.pieces.find(p=>p.concept==='ps5-fan')!.object);
+  const cover=new T.Box3().setFromObject(ps5.pieces.find(p=>p.concept==='ps5-left-cover')!.object);
+  assert.ok(fan.max.y<=cover.max.y,'fan must stay below the exterior top');
+});
+
+await test('iPhone rear-view landmarks match Apple and internal flex stays beneath the glass',()=>{
+  const phone=digitalDefinitions.find(d=>d.id==='phone')!;
+  const part=(id:string)=>phone.parts.find(p=>p.id===id)!;
+  assert.ok(part('speaker').pos[0]<0 && part('haptic').pos[0]>0,'speaker left, Taptic Engine right');
+  assert.ok(part('truedepth').pos[2]<-55,'front camera is separate at the top');
+  const model=models.get('phone')!;
+  const glass=new T.Box3().setFromObject(model.pieces.find(p=>p.concept==='phone-back')!.object);
+  for(const id of ['phone-camera-flex','phone-battery-flex','phone-fasteners']) {
+    const box=new T.Box3().setFromObject(model.pieces.find(p=>p.concept===id)!.object);
+    assert.ok(box.max.y<glass.min.y,`${id} pokes through back glass`);
   }
 });
 await test('earbuds fit below the closed case lid and phone battery clears its logic board',()=>{

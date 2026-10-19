@@ -2,15 +2,17 @@ import { concept, type Category, type Concept } from '../concept.ts';
 import type { LevelDef } from '../levels.ts';
 import type { SourceId } from '../sources.ts';
 import type { Vec3 } from '../layout.ts';
+import { refineDigitalDefinitions } from './refinements.ts';
 
 export type DigitalLevel = 'ps5' | 'ps5board' | 'ps5cooling' | 'phone' | 'phoneboard' | 'phonecamera' | 'camera' | 'camerasensor' | 'cameralens' | 'gamepad' | 'gamepadboard' | 'earbuds' | 'earbudunit' | 'earbuddriver';
-export type ShapeKind = 'box' | 'board' | 'chip' | 'battery' | 'screen' | 'wing' | 'frame' | 'fan' | 'fins' | 'pipes' | 'lens' | 'ring' | 'coil' | 'sensor' | 'shutter' | 'grip-shell' | 'buttons' | 'stick' | 'earbud' | 'diaphragm';
+export type ShapeKind = 'box' | 'board' | 'chip' | 'battery' | 'screen' | 'wing' | 'frame' | 'fan' | 'fins' | 'pipes' | 'lens' | 'ring' | 'coil' | 'sensor' | 'shutter' | 'grip-shell' | 'buttons' | 'stick' | 'earbud' | 'diaphragm' | 'flex' | 'screws' | 'connector' | 'trigger' | 'actuator' | 'tray' | 'shield' | 'mount';
 export type DigitalPart = {
   id: string; name: string; category: Category; shape: ShapeKind;
   size: Vec3; pos: Vec3; delta: Vec3; color: string;
   description: string; purpose: string; open?: DigitalLevel; opensFirst?: boolean;
+  rotation?: Vec3; sources?: SourceId[]; quantity?: string;
 };
-type Definition = { id: DigitalLevel; parent: DigitalLevel | null; name: string; summary: string; unit: number; source: SourceId; specs?: Record<string, string>; parts: DigitalPart[]; camera?: LevelDef['camera'] };
+export type Definition = { id: DigitalLevel; parent: DigitalLevel | null; name: string; summary: string; unit: number; source: SourceId; specs?: Record<string, string>; parts: DigitalPart[]; camera?: LevelDef['camera'] };
 
 function p(id: string, name: string, category: Category, shape: ShapeKind, size: Vec3, pos: Vec3, delta: Vec3, color: string, description: string, purpose: string, open?: DigitalLevel, opensFirst = false): DigitalPart {
   return { id, name, category, shape, size, pos, delta, color, description, purpose, open, opensFirst };
@@ -148,6 +150,8 @@ export const digitalDefinitions: Definition[] = [
   ] },
 ];
 
+refineDigitalDefinitions(digitalDefinitions);
+
 export const digitalRoots = digitalDefinitions.filter((item) => item.parent === null).map((item) => item.id);
 const phases = [['Assembled', 0], ['Dissection', 50], ['Inventory', 100]] as const;
 export const digitalLevels = Object.fromEntries(digitalDefinitions.map((item) => [item.id, {
@@ -156,8 +160,8 @@ export const digitalLevels = Object.fromEntries(digitalDefinitions.map((item) =>
   ...(item.parent ? { branchLabel: item.name } : {}), camera: item.camera ?? { padding: 1.05, direction: [1.2,1.0,1.5] },
 } satisfies LevelDef])) as unknown as Record<DigitalLevel, LevelDef>;
 
-export const digitalAccuracy = '依据公开厂商资料制作的教学示意模型。外观、内部位置、元件数量、排线与紧固细节经过简化；不代表完整物料清单、精确电路、光学处方或维修操作指南。';
+export const digitalAccuracy = '依照所列型号的内部视图、拆解照片或分解图重建主要组件。壳体曲面、板形、排线和紧固件为观察资料后的几何近似；未测绘的尺寸、微型元件与走线不作为维修依据，镜头和动圈子层级仍是原理模型。';
 export const digitalConcepts: Concept[] = digitalDefinitions.flatMap((item) => [
   ...(item.parent ? [] : [concept({ id: item.id, name: item.name, level: item.id, open: item.id, parent: null, category: 'Chassis', description: item.summary + '。', purpose: '通过可选择的三维组件理解这类数码产品的结构和功能分工。', quantity: '1 台教学参考设备', specifications: item.specs ?? {}, representationType: 'physical', physicalAccuracy: digitalAccuracy, sources: [item.source], searchTerms: [item.id, item.name, item.summary] })]),
-  ...item.parts.map((part) => concept({ id: part.open ?? `${item.id}-${part.id}`, level: item.id, open: part.open, parent: item.id, name: part.name, category: part.category, description: part.description, purpose: part.purpose, quantity: '1 组教学示意组件（不等于实物数量）', specifications: part.open ? (digitalDefinitions.find((entry) => entry.id === part.open)?.specs ?? {}) : {}, representationType: 'physical', physicalAccuracy: digitalAccuracy, sources: [item.source], searchTerms: [item.id, item.name, part.name], opensFirst: part.opensFirst })),
+  ...item.parts.map((part) => concept({ id: part.open ?? `${item.id}-${part.id}`, level: item.id, open: part.open, parent: item.id, name: part.name, category: part.category, description: part.description, purpose: part.purpose, quantity: part.quantity ?? '1 个组件 / 总成（微型支持件随总成展示）', specifications: part.open ? (digitalDefinitions.find((entry) => entry.id === part.open)?.specs ?? {}) : {}, representationType: 'physical', physicalAccuracy: digitalAccuracy, sources: part.sources ?? [item.source], searchTerms: [item.id, item.name, part.name], opensFirst: part.opensFirst })),
 ]);
