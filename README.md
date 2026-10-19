@@ -2,6 +2,10 @@
 
 一个以「观察 → 拆解 → 理解」为核心的中文硬件学习应用。首页、原创矢量结构示意、三条课程、九个实验、知识检查与学习记录由 zln 设计实现；底层程序化 3D 模型、渲染器和英文部件资料复用 [PC Anatomy](https://github.com/Yoosseph/pc-anatomy)，保留 MIT 许可及 Yoseph 署名。
 
+![原创学习台的实际浏览器截图](docs/screenshots/learning-home.png)
+
+![引导实验工作台的实际浏览器截图](docs/screenshots/learning-lab.png)
+
 ## 启动
 
 需要 Node.js 22.13 或更新版本，在项目目录运行：
