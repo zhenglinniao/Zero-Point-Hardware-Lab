@@ -35,8 +35,9 @@ import { glowMaterial } from './parts.ts';
 export const CARD = {
   /** Across the slot, ÷ length. A 350 mm card stands about 150 mm tall. */
   width: 146 / 348,
-  /** Total thickness of the cooler, ÷ length: three and a half slots. */
-  depth: 68 / 348,
+  /** PCB-to-shroud datum, NOT total thickness. Raised shroud features (4.0194
+   * mm) plus the backplate underside (5.22 mm) complete the 72 mm envelope. */
+  depth: (72 - 4.0194 - 5.22) / 348,
   /**
    * Where the three fans sit along the card, ÷ length.
    *
@@ -205,6 +206,7 @@ export function buildCardCooler(
     pos: Vec3,
     width: number,
     color = '#b7bbbc',
+    heightRatio = 0.22,
   ) => {
     const canvas = document.createElement('canvas');
     canvas.width = 512;
@@ -222,7 +224,7 @@ export function buildCardCooler(
     texture.colorSpace = T.SRGBColorSpace;
     texture.anisotropy = 8;
     const plane = new T.Mesh(
-      new T.PlaneGeometry(width, width * 0.22),
+      new T.PlaneGeometry(width, width * heightRatio),
       new T.MeshBasicMaterial({
         map: texture,
         transparent: true,
@@ -395,7 +397,7 @@ export function buildCardCooler(
     put(shroud, slash, [-L * 0.19 + i * L * 0.012, L * 0.008, W * 0.35]);
   }
   const mark = new T.Group();
-  label(mark, 'GEFORCE RTX', [0, 0, 0], L * 0.29, '#b6babc');
+  label(mark, 'GEFORCE RTX', [0, 0, 0], L * 0.29, '#b6babc', 0.075);
   mark.rotation.x = (logoEdge * Math.PI) / 2;
   put(shroud, mark, [-L * 0.015, -D * 0.08, logoEdge * (W / 2 + L * 0.001)]);
   // Restrained ARGB indicator confined to the distal TUF badge.

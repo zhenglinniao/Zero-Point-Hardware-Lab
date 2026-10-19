@@ -304,7 +304,14 @@ export function buildHardware(tools: ModelTools) {
     add('fan', fan.object, [fan.x, seat.fan, 0], [fan.x * 0.16, 5.1, 0]);
   for (const x of [-155, 0, 155])
     for (const z of [-64, 64])
-      register('fastener', buildScrew(material, m(2.3)), x, 66, z, [0, 5.7, 0]);
+      register(
+        'fastener',
+        buildScrew(material, m(2.3)),
+        x,
+        CARD.depth * 348 - 2,
+        z,
+        [0, 5.7, 0],
+      );
   for (const [i, f] of CARD.fans.entries()) {
     const x = f * 348,
       motor = new T.Group();
@@ -331,7 +338,8 @@ export function buildHardware(tools: ModelTools) {
       1.5,
       0,
     );
-    register('fanmotor', motor, x, 56, 0, [x * 0.004, 4.5, 0]);
+    const motorY = CARD.depth * 348 - 12;
+    register('fanmotor', motor, x, motorY, 0, [x * 0.004, 4.5, 0]);
     const headerX = -145 + i * 13;
     register(
       'fanheader',
@@ -347,9 +355,9 @@ export function buildHardware(tools: ModelTools) {
         [
           [headerX + j, 4, 48],
           [headerX + j, 13, 64],
-          [x, 50, 64],
-          [x, 54, 16],
-          [x + j * 0.6, 56, 0],
+          [x, motorY - 6, 64],
+          [x, motorY - 2, 16],
+          [x + j * 0.6, motorY, 0],
         ].map((p) => new T.Vector3(...v(p[0], p[1], p[2]))),
       );
       cable.add(
