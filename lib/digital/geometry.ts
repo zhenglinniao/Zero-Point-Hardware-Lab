@@ -1,12 +1,8 @@
 import * as T from 'three';
-import {
-  controllerShell,
-  controllerFascia,
-  cameraGrip,
-  earbudShell,
-  chargingCase,
-} from './molded-shells.ts';
+import { cameraGrip, earbudShell, chargingCase } from './molded-shells.ts';
 import { decorateBoard } from './board-detail.ts';
+import { gamepadExterior } from './gamepad-asset.ts';
+import { buildLensPart } from './lens-geometry.ts';
 import type { ModelTools } from '../hardware.ts';
 import type { Vec3 } from '../layout.ts';
 import type { DigitalLevel, DigitalPart } from './catalogue.ts';
@@ -20,6 +16,8 @@ export function detailedGeometry(
   tools: ModelTools,
 ): T.Group {
   const g = new T.Group();
+  const imported = level === 'gamepad' ? gamepadExterior(part) : null;
+  if (imported) g.add(imported);
   const [w, h, d] = part.size;
   const ink = '#171c23',
     silver = '#9da5aa',
@@ -443,23 +441,6 @@ export function detailedGeometry(
     }
   }
   function shellController(top: boolean) {
-    put(
-      new T.Mesh(
-        controllerShell(top),
-        mat(part.color, 0.02, top ? 0.48 : 0.66),
-      ),
-    );
-    if (top)
-      put(
-        new T.Mesh(
-          controllerFascia(),
-          new T.MeshStandardMaterial({
-            color: '#171b21',
-            metalness: 0,
-            roughness: 0.82,
-          }),
-        ),
-      );
     for (const x of [-52, 52])
       for (const z of [-25, 27]) {
         put(disk(2.7, 7, '#d2d6d3', 1.1), [x, top ? 4 : -7, z]);
@@ -472,23 +453,6 @@ export function detailedGeometry(
         rib.rotation.y = side * -0.25;
         put(rib, [side * (55 + i * 1.6), top ? 6 : -10, 10 + i * 5]);
       }
-    if (top) {
-      for (const side of [-1, 1])
-        tube(
-          [
-            [side * 27.5, 15.5, -34],
-            [side * 28, 17.4, -22],
-            [side * 25, 17.6, -9],
-          ],
-          0.45,
-          '#5b91b8',
-        );
-      for (let row = 0; row < 3; row++)
-        for (let col = 0; col < 9; col++)
-          put(disk(0.5, 0.16, ink), [(col - 4) * 1.6, 17.7, -3 + row * 1.7]);
-      put(disk(3.2, 0.9, '#252a30'), [0, 17.8, 20]);
-      text('PS', [0, 18.3, 20], 4, '#a2a7aa');
-    }
   }
   function trigger() {
     put(plate(w, 2, d, '#30383c', 3), [0, -h * 0.35, 0]);
@@ -513,7 +477,7 @@ export function detailedGeometry(
       tooth.rotation.y = a;
       put(tooth, [4 + Math.sin(a) * 6, 1, Math.cos(a) * 6]);
     }
-    put(plate(w * 0.85, 4, 9, ink, 3), [0, h * 0.35, -d * 0.35]);
+    if (!imported) put(plate(w * 0.85, 4, 9, ink, 3), [0, h * 0.35, -d * 0.35]);
     tube(
       [
         [-7, 1, -6],
@@ -571,7 +535,8 @@ export function detailedGeometry(
 
   const id = part.id;
   let handled = true;
-  if (level === 'ps5' && part.shape === 'wing') {
+  if (level === 'cameralens') g.add(buildLensPart(part, tools));
+  else if (level === 'ps5' && part.shape === 'wing') {
     // Thin doubly curved surface with a disc-side swelling. Grid topology keeps
     // thickness and curvature, rather than a side-view profile extruded flat.
     const geo = new T.PlaneGeometry(d, h, 28, 42);
@@ -986,18 +951,6 @@ export function detailedGeometry(
       ]);
     }
     text('P A S M', [0, h / 2 + 0.1, 0], w * 0.8);
-  } else if (level === 'cameralens' && id === 'barrel') {
-    put(disk(w / 2, h, ink, w * 0.42));
-    for (const y of [-h * 0.25, h * 0.22]) {
-      put(disk(w * 0.507, 10, '#202a2c', w * 0.48), [0, y, 0]);
-      for (let i = 0; i < 64; i++) {
-        const a = (i * Math.PI) / 32;
-        const ridge = box([0.55, 9, 0.7], '#3d484b');
-        ridge.rotation.y = a;
-        put(ridge, [Math.sin(a) * w * 0.505, y, Math.cos(a) * w * 0.505]);
-      }
-    }
-    put(disk(w * 0.505, 1.2, silver, w * 0.48), [0, -h / 2 + 0.7, 0]);
   } else if (level === 'gamepad' && (id === 'top' || id === 'back'))
     shellController(id === 'top');
   else if (level === 'gamepad' && (id === 'triggers' || id === 'right-trigger'))
@@ -1023,19 +976,17 @@ export function detailedGeometry(
         c,
       );
   } else if (level === 'gamepad' && id === 'buttons') {
-    // Cross pad is a single moulding, right-side action keys are independent caps.
-    for (const [a, b, c] of [
-      [20, 5, 6],
-      [6, 5, 20],
-    ] as Vec3[])
-      put(box([a, b, c], '#c7cecd'), [-46, 0, 0]);
-    for (let i = 0; i < 4; i++) {
-      const a = (i * Math.PI) / 2;
-      const x = 46 + Math.sin(a) * 8,
-        z = Math.cos(a) * 8;
-      put(disk(4, 5, '#e4e9e8'), [x, 0, z]);
-      text(['△', '○', '×', '□'][i], [x, 2.6, z], 5, '#717f83');
-    }
+    // Source caps, symbols, D-pad and auxiliary keys share their input owner.
+  } else if (level === 'gamepad' && id === 'touch' && imported) {
+    // Exterior pad and light guide come from the licensed surface mesh.
+    flex(
+      [
+        [0, -1, 0],
+        [0, -4, 5],
+        [0, -7, 12],
+      ],
+      8,
+    );
   } else if (level === 'earbuds' && id === 'case') {
     put(new T.Mesh(chargingCase(false, w, h, d), mat('#edf0eb', 0.02, 0.24)));
     const port = plate(9, 0.4, 3, '#20292b', 1.4);
@@ -1192,9 +1143,35 @@ export function detailedGeometry(
           }
           break;
         }
-        put(disk(w / 2, h, silver, w * 0.38));
-        for (let i = 0; i < 4; i++) {
-          const a = (i * Math.PI) / 2;
+        if (level === 'camera') {
+          const shape = new T.Shape();
+          shape.absarc(0, 0, w / 2, 0, Math.PI * 2, false);
+          shape.holes.push(circleHole(0, 0, w * 0.38));
+          for (let i = 0; i < 3; i++) {
+            const a = (i * Math.PI * 2) / 3,
+              c = Math.cos(a),
+              s = Math.sin(a);
+            shape.holes.push(
+              new T.Path(
+                rounded(9, 4.5, 0.5)
+                  .getPoints(16)
+                  .map(
+                    (p) =>
+                      new T.Vector2(
+                        p.x * c + p.y * s + 27.75 * s,
+                        -p.x * s + p.y * c + 27.75 * c,
+                      ),
+                  ),
+              ),
+            );
+          }
+          put(new T.Mesh(extrusion(shape, h), mat(silver, 0.8, 0.28)));
+        } else put(disk(w / 2, h, silver, w * 0.38));
+        for (let i = 0; i < (level === 'camera' ? 3 : 4); i++) {
+          const a =
+            level === 'camera'
+              ? (i * Math.PI * 2) / 3 + Math.PI / 3
+              : (i * Math.PI) / 2;
           screw(
             [Math.sin(a) * w * 0.44, h / 2 + 0.2, Math.cos(a) * w * 0.44],
             0.9,
@@ -1332,6 +1309,32 @@ export function detailedGeometry(
         }
         break;
       case 'sensor':
+        if (level === 'camerasensor') {
+          put(plate(w + 3, h, d + 3, '#29453f', 1));
+          put(plate(w + 1, 0.15, d + 1, '#b4aba1', 0.3), [0, h / 2 + 0.12, 0]);
+          const active = new T.Mesh(
+            extrusion(rounded(w, d, 0.1), 0.1),
+            new T.MeshPhysicalMaterial({
+              color: '#8065a0',
+              metalness: 0.32,
+              roughness: 0.16,
+              iridescence: 0.8,
+              iridescenceIOR: 1.45,
+              iridescenceThicknessRange: [120, 360],
+              clearcoat: 0.65,
+            }),
+          );
+          active.userData.activeSensor = true;
+          put(active, [0, h / 2 + 0.26, 0]);
+          for (const side of [-1, 1])
+            for (let i = 0; i < 24; i++)
+              put(box([0.6, 0.07, 0.25], copper, 0.7), [
+                side * (w / 2 + 0.9),
+                h / 2 + 0.06,
+                (i / 23 - 0.5) * (d - 0.8),
+              ]);
+          break;
+        }
         put(plate(w, h, d, '#29453f', 1));
         put(plate(w * 0.91, 0.15, d * 0.9, '#b4aba1', 0.3), [
           0,
@@ -1393,18 +1396,22 @@ export function detailedGeometry(
         }
         break;
       case 'stick': {
-        const dome = new T.Mesh(
-          new T.SphereGeometry(w * 0.45, 40, 24),
-          mat('#1b2227', 0, 0.8),
-        );
-        dome.scale.y = 0.48;
-        put(dome, [0, -1, 0]);
+        if (!imported) {
+          const dome = new T.Mesh(
+            new T.SphereGeometry(w * 0.45, 40, 24),
+            mat('#1b2227', 0, 0.8),
+          );
+          dome.scale.y = 0.48;
+          put(dome, [0, -1, 0]);
+        }
         put(box([w * 0.8, h * 0.4, d * 0.8], silver), [0, -h * 0.45, 0]);
         for (const x of [-w * 0.42, w * 0.42])
           put(box([3, h * 0.45, d * 0.68], '#4a8362'), [x, -h * 0.4, 0]);
         put(disk(2.5, h * 0.5, ink), [0, h * 0.05, 0]);
-        put(disk(w * 0.43, h * 0.16, ink, w * 0.32), [0, h * 0.43, 0]);
-        put(disk(w * 0.32, 0.6, '#242c30'), [0, h * 0.49, 0]);
+        if (!imported) {
+          put(disk(w * 0.43, h * 0.16, ink, w * 0.32), [0, h * 0.43, 0]);
+          put(disk(w * 0.32, 0.6, '#242c30'), [0, h * 0.49, 0]);
+        }
         break;
       }
       case 'tray':

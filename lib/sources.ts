@@ -12,6 +12,9 @@
  * for that construction alone, and its name says it is an independent review.
  */
 export const sources = {
+  optilandprescription: {name:'Optiland · DoubleGauss 六片四组光学处方（MIT）',url:'https://github.com/optiland/optiland/blob/master/optiland/samples/objectives.py'},
+  dualsenseasset: {name:'Taohid Animation · PS5 Controller 外观网格（CC BY 4.0）',url:'https://sketchfab.com/3d-models/ps5-controller-b7bb9c5102a04cb0b1966c6d02bad7d6'},
+  sonymount: {name:'Sony · E 口 18 mm 法兰距技术资料',url:'https://pro.sony/s3/cms-static-content/file/63/1237491532063.pdf'},
   ps5teardown: { name: 'iFixit · 原版 PS5 实机拆解与双面主板照片（2020）', url: 'https://www.ifixit.com/Teardown/PlayStation+5+Teardown/138280' },
   dualsenserepair: { name: 'iFixit · 初代 DualSense 机构与维修分解资料', url: 'https://www.ifixit.com/Device/DualSense' },
   sonyservice: { name: 'Sony · ILCE-7M4 / 7M4K 服务手册分解图（第三方镜像）', url: 'https://manuals.plus/m/662ac7b243a51dfb6adfa3f731348687443abee969b90e085dcd0aebbb51fbad.pdf' },

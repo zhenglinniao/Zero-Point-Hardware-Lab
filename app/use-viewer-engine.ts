@@ -2,7 +2,7 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 
 type ViewerEngine<State> = {
-  update: (state: State) => void;
+  update: (state: State) => void | Promise<void>;
   dispose: () => void;
 };
 
@@ -13,7 +13,7 @@ type ViewerFactory<State, Callbacks, Engine> = (
   host: HTMLDivElement,
   initial: State,
   callbacks: Callbacks,
-) => Engine;
+) => Engine | Promise<Engine>;
 
 /** Own the shared lazy-load, update, failure, and disposal lifecycle. */
 export function useViewerEngine<
@@ -41,16 +41,19 @@ export function useViewerEngine<
   useEffect(() => {
     latest.current = { state, bindings };
   });
-  useEffect(() => engine.current?.update(state), [state]);
+  useEffect(() => {
+    const result = engine.current?.update(state);
+    if (result) void result.catch(() => setError(setup.current.loadError));
+  }, [state]);
 
   useLayoutEffect(() => {
     let stopped = false;
     void setup.current
       .load()
-      .then((create) => {
+      .then(async (create) => {
         if (stopped || !host.current) return;
         try {
-          engine.current = create(
+          const created = await create(
             host.current,
             latest.current.state,
             setup.current.createCallbacks(
@@ -58,9 +61,21 @@ export function useViewerEngine<
               setError,
             ),
           );
+          if (stopped) {
+            created.dispose();
+            return;
+          }
+          engine.current = created;
+          await created.update(latest.current.state);
+          if (stopped) return;
           setReady(true);
-        } catch {
-          setError(webglError);
+        } catch (error) {
+          if (!stopped)
+            setError(
+              error instanceof Error && /模型|资源/.test(error.message)
+                ? error.message
+                : webglError,
+            );
         }
       })
       .catch(() => {

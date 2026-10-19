@@ -1,4 +1,5 @@
 import * as T from 'three';
+import { prepareModelAssets } from './digital/gamepad-asset.ts';
 import { buildModel, refreshBatches, type Piece } from './models';
 import { resolvePickNear } from './picking.ts';
 import { tapIntent } from './pointer-intent.ts';
@@ -57,11 +58,12 @@ export type SceneCallbacks = {
 /** How far laid out the parts must be before they are named. */
 const LABELS_FROM = 0.97;
 
-export function createViewer(
+export async function createViewer(
   host: HTMLDivElement,
   initial: ExplorerState,
   callbacks: SceneCallbacks,
 ) {
+  await prepareModelAssets(initial.level);
   const runtime = createStageRuntime(host, callbacks.error);
   const { scene, renderer, key, camera, controls } = runtime;
   let state = initial,
@@ -573,8 +575,25 @@ export function createViewer(
   canvas.addEventListener('contextmenu', inspect);
   refresh();
   resize();
+  let requestRevision = 0,
+    disposed = false;
   return {
-    update(next: ExplorerState) {
+    async update(next: ExplorerState) {
+      const revision = ++requestRevision;
+      host.setAttribute('aria-busy', 'true');
+      try {
+        await prepareModelAssets(next.level);
+      } catch (error) {
+        if (!disposed && revision === requestRevision) {
+          host.setAttribute('aria-busy', 'false');
+          callbacks.error(
+            error instanceof Error ? error.message : '精细模型加载失败',
+          );
+        }
+        return;
+      }
+      if (disposed || revision !== requestRevision) return;
+      host.setAttribute('aria-busy', 'false');
       hovered = null;
       callbacks.hover(null, 0, 0, false);
       const arriving = dive?.phase === 'out' && next.level !== state.level;
@@ -610,6 +629,8 @@ export function createViewer(
       wake();
     },
     dispose() {
+      disposed = true;
+      requestRevision++;
       loop.dispose();
       observer.disconnect();
       canvas.removeEventListener('pointerdown', down);

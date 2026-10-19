@@ -78,7 +78,7 @@ export default function Viewer({
           rather than being drawn underneath it. */}
       {loading && !error && (
         <div className="empty-scene loading">
-          <h3>正在生成部件模型…</h3>
+          <h3>正在加载部件与模型…</h3>
         </div>
       )}
       {!ready && !error && (

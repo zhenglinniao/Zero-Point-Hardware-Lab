@@ -6,6 +6,7 @@ import type {
 } from './catalogue.ts';
 import type { Category } from '../concept.ts';
 import type { Vec3 } from '../layout.ts';
+import { refineOpticalLens } from './lens-layout.ts';
 
 /** Dimensions below are photo-derived approximations unless the specification says otherwise.
  * Stable component IDs keep shared links, saved lessons and inspection working. */
@@ -489,7 +490,23 @@ export function refineDigitalDefinitions(definitions: Definition[]) {
   get('gamepad').name = 'DualSense 无线控制器';
   get('gamepad').summary = '初代 DualSense · 双摇杆、触觉与自适应扳机';
   get('gamepad').specs!['模型范围'] =
-    '初代 DualSense 拆解参考；后续硬件修订可能不同';
+    'CC BY 4.0 外观网格 + 资料参考内部结构；不是完整厂家 CAD';
+  get('gamepad').specs!['外观模型'] =
+    'Taohid Animation · PS5 Controller · CC BY 4.0';
+  for (const part of get('gamepad').parts)
+    if (
+      [
+        'top',
+        'back',
+        'touch',
+        'buttons',
+        'leftstick',
+        'rightstick',
+        'triggers',
+        'right-trigger',
+      ].includes(part.id)
+    )
+      part.sources = ['dualsenseasset', 'dualsenserepair'];
   edit('gamepad', 'top', {
     size: [160, 22, 100],
     pos: [0, 0, 0],
@@ -505,7 +522,7 @@ export function refineDigitalDefinitions(definitions: Definition[]) {
   });
   edit('gamepad', 'board', {
     size: [96, 2, 48],
-    pos: [0, 0, -1],
+    pos: [0, 0, -9],
     delta: [0, 24, 0],
   });
   edit('gamepad', 'battery', {
@@ -513,8 +530,8 @@ export function refineDigitalDefinitions(definitions: Definition[]) {
     pos: [0, -10, -4],
     delta: [0, -32, 15],
   });
-  edit('gamepad', 'leftstick', { size: [22, 21, 22], pos: [-28, 14, 12] });
-  edit('gamepad', 'rightstick', { size: [22, 21, 22], pos: [28, 14, 12] });
+  edit('gamepad', 'leftstick', { size: [22, 21, 22], pos: [-25.4, 14, 0] });
+  edit('gamepad', 'rightstick', { size: [22, 21, 22], pos: [25.4, 14, 0] });
   edit('gamepad', 'buttons', { size: [126, 7, 28], pos: [0, 17.5, -18] });
   edit('gamepad', 'touch', {
     size: [52, 3, 28],
@@ -524,7 +541,7 @@ export function refineDigitalDefinitions(definitions: Definition[]) {
   edit('gamepad', 'triggers', {
     shape: 'trigger',
     size: [27, 21, 25],
-    pos: [-54, 2, -34],
+    pos: [-49.1, -3, -42.9],
     delta: [-40, 10, -30],
     name: '左侧自适应扳机机构',
     description:
@@ -536,7 +553,7 @@ export function refineDigitalDefinitions(definitions: Definition[]) {
     '右侧自适应扳机机构',
     'trigger',
     [27, 21, 25],
-    [54, 2, -34],
+    [49.1, -3, -42.9],
     [40, 10, -30],
     '右手扳机具有对应的电机、蜗杆传动、齿轮与触发臂。',
   );
@@ -749,4 +766,5 @@ export function refineDigitalDefinitions(definitions: Definition[]) {
     'Power',
     '#c2ae76',
   );
+  refineOpticalLens(definitions);
 }

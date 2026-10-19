@@ -1,0 +1,10 @@
+PS5 Controller — Taohid Animation
+Original creator: https://sketchfab.com/taohidanimation
+Original model: https://sketchfab.com/3d-models/ps5-controller-b7bb9c5102a04cb0b1966c6d02bad7d6
+License: Creative Commons Attribution 4.0 International
+https://creativecommons.org/licenses/by/4.0/
+License text: /licenses/CC-BY-4.0.txt
+
+Retrieved 2026-10-19 from https://github.com/SafaElmali/dualsense-studio/blob/main/controller/dualsense.glb
+The mirror preparation splits disconnected components, bakes transforms and names controls; the original geometry, UVs and textures are preserved.
+Zero Point Hardware Lab modifications: uniform 160 mm display calibration, rotation to the lab coordinate frame, mapping to named selectable assemblies, material adjustment, independent CPU/GPU ownership. Internal hardware is separately authored and is not part of the licensed exterior mesh. This is not manufacturer dimensional CAD.

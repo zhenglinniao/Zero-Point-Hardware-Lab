@@ -86,7 +86,7 @@ Manufacturer documents support component roles, architecture or construction. Th
 | camera-battery | 可充电电池包 | Sony α7 IV 相机 | [Sony · ILCE-7M4 / 7M4K 服务手册分解图（第三方镜像）](https://manuals.plus/m/662ac7b243a51dfb6adfa3f731348687443abee969b90e085dcd0aebbb51fbad.pdf) |
 | camerasensor | 传感器与防抖组件 | Sony α7 IV 相机 | [Sony · ILCE-7M4 / 7M4K 服务手册分解图（第三方镜像）](https://manuals.plus/m/662ac7b243a51dfb6adfa3f731348687443abee969b90e085dcd0aebbb51fbad.pdf) |
 | camera-shutter | 焦平面快门示意 | Sony α7 IV 相机 | [Sony · ILCE-7M4 / 7M4K 服务手册分解图（第三方镜像）](https://manuals.plus/m/662ac7b243a51dfb6adfa3f731348687443abee969b90e085dcd0aebbb51fbad.pdf) |
-| cameralens | 代表性可换镜头 | Sony α7 IV 相机 | [Sony · ILCE-7M4 / 7M4K 服务手册分解图（第三方镜像）](https://manuals.plus/m/662ac7b243a51dfb6adfa3f731348687443abee969b90e085dcd0aebbb51fbad.pdf) |
+| cameralens | 100 mm 双高斯教学镜头 | Sony α7 IV 相机 | [Optiland · DoubleGauss 六片四组光学处方（MIT）](https://github.com/optiland/optiland/blob/master/optiland/samples/objectives.py) |
 | camera-finder | 电子取景器 | Sony α7 IV 相机 | [Sony · ILCE-7M4 / 7M4K 服务手册分解图（第三方镜像）](https://manuals.plus/m/662ac7b243a51dfb6adfa3f731348687443abee969b90e085dcd0aebbb51fbad.pdf) |
 | camera-dial | 拍摄控制拨轮 | Sony α7 IV 相机 | [Sony · ILCE-7M4 / 7M4K 服务手册分解图（第三方镜像）](https://manuals.plus/m/662ac7b243a51dfb6adfa3f731348687443abee969b90e085dcd0aebbb51fbad.pdf) |
 | camera-mount | E 卡口与电气触点 | Sony α7 IV 相机 | [Sony · ILCE-7M4 / 7M4K 服务手册分解图（第三方镜像）](https://manuals.plus/m/662ac7b243a51dfb6adfa3f731348687443abee969b90e085dcd0aebbb51fbad.pdf) |
@@ -100,23 +100,36 @@ Manufacturer documents support component roles, architecture or construction. Th
 | camerasensor-filter | 保护与滤光层示意 | 传感器与防抖 | [Sony · ILCE-7M4 / 7M4K 服务手册分解图（第三方镜像）](https://manuals.plus/m/662ac7b243a51dfb6adfa3f731348687443abee969b90e085dcd0aebbb51fbad.pdf) |
 | camerasensor-actuators | 防抖驱动机构示意 | 传感器与防抖 | [Sony · ILCE-7M4 / 7M4K 服务手册分解图（第三方镜像）](https://manuals.plus/m/662ac7b243a51dfb6adfa3f731348687443abee969b90e085dcd0aebbb51fbad.pdf) |
 | camerasensor-flex | 柔性信号连接 | 传感器与防抖 | [Sony · ILCE-7M4 / 7M4K 服务手册分解图（第三方镜像）](https://manuals.plus/m/662ac7b243a51dfb6adfa3f731348687443abee969b90e085dcd0aebbb51fbad.pdf) |
-| cameralens-barrel | 外部镜筒 | 可换镜头原理 | [Sony · 光圈与景深的光学原理（通用镜头示意依据）](https://www.sony.co.uk/electronics/what-is-aperture-depth-of-field) |
-| cameralens-frontglass | 前镜组示意 | 可换镜头原理 | [Sony · 光圈与景深的光学原理（通用镜头示意依据）](https://www.sony.co.uk/electronics/what-is-aperture-depth-of-field) |
-| cameralens-focusglass | 移动对焦镜组示意 | 可换镜头原理 | [Sony · 光圈与景深的光学原理（通用镜头示意依据）](https://www.sony.co.uk/electronics/what-is-aperture-depth-of-field) |
-| cameralens-iris | 光圈叶片示意 | 可换镜头原理 | [Sony · 光圈与景深的光学原理（通用镜头示意依据）](https://www.sony.co.uk/electronics/what-is-aperture-depth-of-field) |
-| cameralens-rearglass | 后镜组示意 | 可换镜头原理 | [Sony · 光圈与景深的光学原理（通用镜头示意依据）](https://www.sony.co.uk/electronics/what-is-aperture-depth-of-field) |
-| cameralens-focusmotor | 对焦驱动区域 | 可换镜头原理 | [Sony · 光圈与景深的光学原理（通用镜头示意依据）](https://www.sony.co.uk/electronics/what-is-aperture-depth-of-field) |
-| cameralens-mount | 卡口与触点 | 可换镜头原理 | [Sony · 光圈与景深的光学原理（通用镜头示意依据）](https://www.sony.co.uk/electronics/what-is-aperture-depth-of-field) |
+| cameralens-barrel | 剖视外镜筒与调焦刻度 | 100 mm 双高斯教学镜头 | [Optiland · DoubleGauss 六片四组光学处方（MIT）](https://github.com/optiland/optiland/blob/master/optiland/samples/objectives.py) |
+| cameralens-frontglass | 第 1 片 · 前部正透镜 | 100 mm 双高斯教学镜头 | [Optiland · DoubleGauss 六片四组光学处方（MIT）](https://github.com/optiland/optiland/blob/master/optiland/samples/objectives.py) |
+| cameralens-focusglass | 第 2 / 3 片 · 前胶合双片 | 100 mm 双高斯教学镜头 | [Optiland · DoubleGauss 六片四组光学处方（MIT）](https://github.com/optiland/optiland/blob/master/optiland/samples/objectives.py) |
+| cameralens-iris | 九叶光圈与枢轴 | 100 mm 双高斯教学镜头 | [Optiland · DoubleGauss 六片四组光学处方（MIT）](https://github.com/optiland/optiland/blob/master/optiland/samples/objectives.py) |
+| cameralens-rearglass | 第 6 片 · 后部正透镜 | 100 mm 双高斯教学镜头 | [Optiland · DoubleGauss 六片四组光学处方（MIT）](https://github.com/optiland/optiland/blob/master/optiland/samples/objectives.py) |
+| cameralens-focusmotor | 调焦电机与丝杠机构 | 100 mm 双高斯教学镜头 | [Optiland · DoubleGauss 六片四组光学处方（MIT）](https://github.com/optiland/optiland/blob/master/optiland/samples/objectives.py) |
+| cameralens-mount | E 口适配卡口与电气触点 | 100 mm 双高斯教学镜头 | [Optiland · DoubleGauss 六片四组光学处方（MIT）](https://github.com/optiland/optiland/blob/master/optiland/samples/objectives.py) |
+| cameralens-innerglass | 第 4 / 5 片 · 后胶合双片 | 100 mm 双高斯教学镜头 | [Optiland · DoubleGauss 六片四组光学处方（MIT）](https://github.com/optiland/optiland/blob/master/optiland/samples/objectives.py) |
+| cameralens-frontcell | 前透镜座与压圈 | 100 mm 双高斯教学镜头 | [Optiland · DoubleGauss 六片四组光学处方（MIT）](https://github.com/optiland/optiland/blob/master/optiland/samples/objectives.py) |
+| cameralens-midcell | 前胶合镜组固定筒 | 100 mm 双高斯教学镜头 | [Optiland · DoubleGauss 六片四组光学处方（MIT）](https://github.com/optiland/optiland/blob/master/optiland/samples/objectives.py) |
+| cameralens-rearcell | 后胶合镜组固定筒 | 100 mm 双高斯教学镜头 | [Optiland · DoubleGauss 六片四组光学处方（MIT）](https://github.com/optiland/optiland/blob/master/optiland/samples/objectives.py) |
+| cameralens-endcell | 后透镜座与压圈 | 100 mm 双高斯教学镜头 | [Optiland · DoubleGauss 六片四组光学处方（MIT）](https://github.com/optiland/optiland/blob/master/optiland/samples/objectives.py) |
+| cameralens-spacers | 消光隔圈与轴向间隔筒 | 100 mm 双高斯教学镜头 | [Optiland · DoubleGauss 六片四组光学处方（MIT）](https://github.com/optiland/optiland/blob/master/optiland/samples/objectives.py) |
+| cameralens-helicoid | 调焦螺旋套筒 | 100 mm 双高斯教学镜头 | [Optiland · DoubleGauss 六片四组光学处方（MIT）](https://github.com/optiland/optiland/blob/master/optiland/samples/objectives.py) |
+| cameralens-irisdrive | 光圈驱动环与连杆销 | 100 mm 双高斯教学镜头 | [Optiland · DoubleGauss 六片四组光学处方（MIT）](https://github.com/optiland/optiland/blob/master/optiland/samples/objectives.py) |
+| cameralens-adapter | 后部适配筒 | 100 mm 双高斯教学镜头 | [Optiland · DoubleGauss 六片四组光学处方（MIT）](https://github.com/optiland/optiland/blob/master/optiland/samples/objectives.py) |
+| cameralens-filterring | 前端滤镜螺纹环 | 100 mm 双高斯教学镜头 | [Optiland · DoubleGauss 六片四组光学处方（MIT）](https://github.com/optiland/optiland/blob/master/optiland/samples/objectives.py) |
+| cameralens-flex | 镜头控制柔性线路 | 100 mm 双高斯教学镜头 | [Optiland · DoubleGauss 六片四组光学处方（MIT）](https://github.com/optiland/optiland/blob/master/optiland/samples/objectives.py) |
+| cameralens-seal | 卡口密封圈 | 100 mm 双高斯教学镜头 | [Optiland · DoubleGauss 六片四组光学处方（MIT）](https://github.com/optiland/optiland/blob/master/optiland/samples/objectives.py) |
+| cameralens-fasteners | 镜筒安装螺钉 | 100 mm 双高斯教学镜头 | [Optiland · DoubleGauss 六片四组光学处方（MIT）](https://github.com/optiland/optiland/blob/master/optiland/samples/objectives.py) |
 | gamepad | DualSense 无线控制器 | DualSense 无线控制器 | [iFixit · 初代 DualSense 机构与维修分解资料](https://www.ifixit.com/Device/DualSense) |
-| gamepad-top | 上壳与握柄 | DualSense 无线控制器 | [iFixit · 初代 DualSense 机构与维修分解资料](https://www.ifixit.com/Device/DualSense) |
-| gamepad-back | 下部外壳 | DualSense 无线控制器 | [iFixit · 初代 DualSense 机构与维修分解资料](https://www.ifixit.com/Device/DualSense) |
+| gamepad-top | 上壳与握柄 | DualSense 无线控制器 | [Taohid Animation · PS5 Controller 外观网格（CC BY 4.0）](https://sketchfab.com/3d-models/ps5-controller-b7bb9c5102a04cb0b1966c6d02bad7d6) · [iFixit · 初代 DualSense 机构与维修分解资料](https://www.ifixit.com/Device/DualSense) |
+| gamepad-back | 下部外壳 | DualSense 无线控制器 | [Taohid Animation · PS5 Controller 外观网格（CC BY 4.0）](https://sketchfab.com/3d-models/ps5-controller-b7bb9c5102a04cb0b1966c6d02bad7d6) · [iFixit · 初代 DualSense 机构与维修分解资料](https://www.ifixit.com/Device/DualSense) |
 | gamepadboard | 输入与控制电路 | DualSense 无线控制器 | [iFixit · 初代 DualSense 机构与维修分解资料](https://www.ifixit.com/Device/DualSense) |
 | gamepad-battery | 充电电池 | DualSense 无线控制器 | [iFixit · 初代 DualSense 机构与维修分解资料](https://www.ifixit.com/Device/DualSense) |
-| gamepad-leftstick | 左摇杆模块 | DualSense 无线控制器 | [iFixit · 初代 DualSense 机构与维修分解资料](https://www.ifixit.com/Device/DualSense) |
-| gamepad-rightstick | 右摇杆模块 | DualSense 无线控制器 | [iFixit · 初代 DualSense 机构与维修分解资料](https://www.ifixit.com/Device/DualSense) |
-| gamepad-buttons | 方向键与动作键组 | DualSense 无线控制器 | [iFixit · 初代 DualSense 机构与维修分解资料](https://www.ifixit.com/Device/DualSense) |
-| gamepad-touch | 触控面板 | DualSense 无线控制器 | [iFixit · 初代 DualSense 机构与维修分解资料](https://www.ifixit.com/Device/DualSense) |
-| gamepad-triggers | 左侧自适应扳机机构 | DualSense 无线控制器 | [iFixit · 初代 DualSense 机构与维修分解资料](https://www.ifixit.com/Device/DualSense) |
+| gamepad-leftstick | 左摇杆模块 | DualSense 无线控制器 | [Taohid Animation · PS5 Controller 外观网格（CC BY 4.0）](https://sketchfab.com/3d-models/ps5-controller-b7bb9c5102a04cb0b1966c6d02bad7d6) · [iFixit · 初代 DualSense 机构与维修分解资料](https://www.ifixit.com/Device/DualSense) |
+| gamepad-rightstick | 右摇杆模块 | DualSense 无线控制器 | [Taohid Animation · PS5 Controller 外观网格（CC BY 4.0）](https://sketchfab.com/3d-models/ps5-controller-b7bb9c5102a04cb0b1966c6d02bad7d6) · [iFixit · 初代 DualSense 机构与维修分解资料](https://www.ifixit.com/Device/DualSense) |
+| gamepad-buttons | 方向键与动作键组 | DualSense 无线控制器 | [Taohid Animation · PS5 Controller 外观网格（CC BY 4.0）](https://sketchfab.com/3d-models/ps5-controller-b7bb9c5102a04cb0b1966c6d02bad7d6) · [iFixit · 初代 DualSense 机构与维修分解资料](https://www.ifixit.com/Device/DualSense) |
+| gamepad-touch | 触控面板 | DualSense 无线控制器 | [Taohid Animation · PS5 Controller 外观网格（CC BY 4.0）](https://sketchfab.com/3d-models/ps5-controller-b7bb9c5102a04cb0b1966c6d02bad7d6) · [iFixit · 初代 DualSense 机构与维修分解资料](https://www.ifixit.com/Device/DualSense) |
+| gamepad-triggers | 左侧自适应扳机机构 | DualSense 无线控制器 | [Taohid Animation · PS5 Controller 外观网格（CC BY 4.0）](https://sketchfab.com/3d-models/ps5-controller-b7bb9c5102a04cb0b1966c6d02bad7d6) · [iFixit · 初代 DualSense 机构与维修分解资料](https://www.ifixit.com/Device/DualSense) |
 | gamepad-haptics | 左侧线性触觉执行器 | DualSense 无线控制器 | [iFixit · 初代 DualSense 机构与维修分解资料](https://www.ifixit.com/Device/DualSense) |
 | gamepad-right-trigger | 右侧自适应扳机机构 | DualSense 无线控制器 | [iFixit · 初代 DualSense 机构与维修分解资料](https://www.ifixit.com/Device/DualSense) |
 | gamepad-right-haptic | 右侧线性触觉执行器 | DualSense 无线控制器 | [iFixit · 初代 DualSense 机构与维修分解资料](https://www.ifixit.com/Device/DualSense) |

@@ -1,3 +1,4 @@
+import './model-assets.ts';
 import { after, test } from 'node:test';
 import assert from 'node:assert/strict';
 import * as T from 'three';
@@ -8,7 +9,8 @@ import { levelPath, systemRoot, systemRoots } from '../lib/levels.ts';
 import { chineseIntro } from '../lib/zh.ts';
 import { devices } from '../lib/devices.ts';
 import { applyPiecePose, disposeModelResources, ModelStageScratch, posedModelBounds, prepareModelInventory } from '../lib/model-stage.ts';
-import { controllerShell, controllerFascia } from '../lib/digital/molded-shells.ts';
+import { gamepadExterior } from '../lib/digital/gamepad-asset.ts';
+import {doubleGaussSurfaces,lensElements,opticalCentre,opticalVertices,sphericalSag,paraxialPrescription,imagePlaneY} from '../lib/digital/lens-prescription.ts';
 
 const oldDocument = globalThis.document;
 globalThis.document = { createElement: () => ({ width:0, height:0, getContext: () => new Proxy({}, { get: (_,key) => key==='createImageData' ? (w:number,h:number)=>({ data:new Uint8ClampedArray(w*h*4) }) : ()=>{} }) }) } as unknown as Document;
@@ -179,29 +181,6 @@ await test('switching models releases both board traces and mesh resources witho
   assert.deepEqual(disposed,[1,1,1]);
 });
 
-await test('controller mouldings have a real cavity, pierced controls and a continuous centre fascia',()=>{
-  const material=new T.MeshBasicMaterial({side:T.DoubleSide});
-  const shell=new T.Mesh(controllerShell(true),material);
-  const fascia=new T.Mesh(controllerFascia(),material);
-  const ray=new T.Raycaster();
-  const hits=(mesh:T.Mesh,x:number,z:number)=>{
-    mesh.updateMatrixWorld(true);
-    ray.set(new T.Vector3(x,50,z),new T.Vector3(0,-1,0));
-    return ray.intersectObject(mesh,false);
-  };
-  const wall=hits(shell,55,20);
-  assert.ok(wall.length>=2,'outer and inner walls must both exist');
-  const thickness=wall[0].point.y-wall[1].point.y;
-  assert.ok(thickness>1 && thickness<4,`wall thickness ${thickness}`);
-  for(const x of [-28,28]) assert.equal(hits(shell,x,12).length,0,'thumbstick bores cannot contain a cap');
-  for(const z of [-5,0,10,20,25,30]) {
-    const face=hits(fascia,0,z);
-    assert.ok(face.length>0,`missing centre panel at ${z}`);
-    assert.ok(face[0].point.y>8,'centre panel must enclose the battery, not fold into its cavity');
-  }
-  shell.geometry.dispose();fascia.geometry.dispose();material.dispose();
-});
-
 await test('board details remain attached to their selectable PCB and batches have finite transforms',()=>{
   for(const level of ['ps5board','phoneboard','gamepadboard'] as DigitalLevel[]) {
     const model=models.get(level)!;
@@ -237,4 +216,60 @@ await test('the wide PS5 stand stays below its side covers instead of piercing t
     }
   });
   assert.ok(standVertices>0);
+});
+
+await test('licensed controller surfaces map once to named assemblies at one uniform scale',()=>{
+  const model=models.get('gamepad')!,bounds=new T.Box3();let count=0;
+  const names=new Set<string>();
+  for(const piece of model.pieces)piece.object.traverse(object=>{
+    if(!(object instanceof T.Mesh) || object.userData.assetAuthor!=='Taohid Animation')return;
+    count++;assert.ok(!names.has(object.name),`duplicated artist mesh ${object.name}`);names.add(object.name);
+    bounds.union(new T.Box3().setFromObject(object));
+    if(object.name.startsWith('back-shell'))assert.equal(piece.concept,'gamepad-back');
+    if(object.name.startsWith('touchpad'))assert.equal(piece.concept,'gamepad-touch');
+  });
+  assert.equal(count,81);assert.ok(Math.abs(bounds.getSize(new T.Vector3()).x-160/18)<1e-5);
+});
+
+await test('independent controller instances own their geometry, material and texture handles',()=>{
+  const part=digitalDefinitions.find(d=>d.id==='gamepad')!.parts.find(p=>p.id==='back')!;
+  const a=gamepadExterior(part)!,b=gamepadExterior(part)!;
+  const meshA=a.children[0] as T.Mesh,meshB=b.children[0] as T.Mesh;
+  assert.notEqual(meshA.geometry,meshB.geometry);assert.notEqual(meshA.material,meshB.material);
+  assert.notEqual((meshA.material as T.MeshStandardMaterial).normalMap,(meshB.material as T.MeshStandardMaterial).normalMap);
+  disposeModelResources({root:a,pieces:[]});
+  assert.ok(new T.Box3().setFromObject(b).getSize(new T.Vector3()).x>150);
+  disposeModelResources({root:b,pieces:[]});
+});
+
+await test('prescription glass has positive edge thickness and shares both cemented interfaces',()=>{
+  for(const element of lensElements)for(let i=0;i<=64;i++){
+    const r=element.clearRadius*i/64;
+    const front=opticalVertices[element.front]+sphericalSag(doubleGaussSurfaces[element.front].radius,r);
+    const back=opticalVertices[element.back]+sphericalSag(doubleGaussSurfaces[element.back].radius,r);
+    assert.ok(back-front>0,`inverted optical solid ${element.id} at ${r}`);
+  }
+  assert.equal(lensElements[1].back,lensElements[2].front);
+  assert.equal(lensElements[3].back,lensElements[4].front);
+  const optics=paraxialPrescription();
+  assert.ok(Math.abs(optics.focalLength-100.003748)<.00001);
+  assert.ok(Math.abs(optics.backFocus-61.487536)<.0001);
+  assert.ok(Math.abs(optics.imageHeight)<.00001);
+  assert.ok(optics.stopRadius>6 && optics.stopRadius<7);
+});
+
+await test('all six curved glass solids render and the source image plane meets the full-frame sensor',()=>{
+  const lens=models.get('cameralens')!,ids:number[]=[];
+  lens.root.traverse(object=>{if(object instanceof T.Mesh && object.userData.opticalElement)ids.push(object.userData.opticalElement);});
+  assert.deepEqual(ids.sort((a,b)=>a-b),[1,2,3,4,5,6]);
+  const camera=models.get('camera')!;camera.root.updateMatrixWorld(true);
+  const assembly=camera.pieces.find(p=>p.concept==='cameralens')!.object.children[0];
+  const image=assembly.localToWorld(new T.Vector3(0,imagePlaneY/10,0));
+  const sensitive=new T.Box3();
+  camera.root.traverse(object=>{if(object instanceof T.Mesh && object.userData.activeSensor)sensitive.union(new T.Box3().setFromObject(object));});
+  const size=sensitive.getSize(new T.Vector3());
+  assert.ok(Math.abs(size.x-36/15)<1e-5);assert.ok(Math.abs(size.y-24/15)<1e-5);
+  assert.ok(Math.abs(image.z-sensitive.max.z)<1e-5,'optical image must land on the active face');
+  assert.ok(Math.abs(27.5/15-sensitive.max.z-18/15)<1e-5,'E-mount mating face is 18 mm ahead of sensor');
+  assert.ok(opticalCentre>38 && opticalCentre<40);
 });

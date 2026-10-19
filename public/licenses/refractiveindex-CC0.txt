@@ -1,0 +1,6 @@
+SCHOTT Sellmeier coefficients are taken from the refractiveindex.info database copy distributed with Optiland 0.6.3.
+The database states: refractiveindex.info database is in the public domain; copyright and related rights waived via CC0 1.0.
+https://github.com/polyanskiy/refractiveindex.info-database
+https://creativecommons.org/publicdomain/zero/1.0/
+Glass records: glass/schott/N-SSK2.yml, N-SK2.yml, F5.yml, N-SK16.yml.
+Only Sellmeier coefficients are used, for visible wavelengths within the source validity ranges.

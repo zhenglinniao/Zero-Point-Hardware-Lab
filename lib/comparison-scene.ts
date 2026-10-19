@@ -1,4 +1,5 @@
 import * as T from 'three';
+import { prepareModelAssets } from './digital/gamepad-asset.ts';
 import {
   comparisonPanePoint,
   type ComparisonLevel,
@@ -44,11 +45,15 @@ type PaneModel = {
   layoutSignature: string;
 };
 
-export function createComparisonViewer(
+export async function createComparisonViewer(
   host: HTMLDivElement,
   initial: ComparisonViewState,
   callbacks: ComparisonSceneCallbacks,
 ) {
+  await Promise.all([
+    prepareModelAssets(initial.left),
+    prepareModelAssets(initial.right),
+  ]);
   const runtime = createStageRuntime(host, callbacks.error);
   const { scene, renderer, key, camera, controls } = runtime;
   renderer.autoClear = false;
@@ -358,8 +363,16 @@ export function createComparisonViewer(
     panes[side] = makePane(level);
   }
 
+  let requestRevision = 0,
+    disposed = false;
   return {
-    update(next: ComparisonViewState) {
+    async update(next: ComparisonViewState) {
+      const revision = ++requestRevision;
+      await Promise.all([
+        prepareModelAssets(next.left),
+        prepareModelAssets(next.right),
+      ]);
+      if (disposed || revision !== requestRevision) return;
       callbacks.hover(null, 0, 0);
       pointerPosition = null;
       const swapped = next.left === state.right && next.right === state.left;
@@ -380,6 +393,8 @@ export function createComparisonViewer(
       wake();
     },
     dispose() {
+      disposed = true;
+      requestRevision++;
       loop.dispose();
       observer.disconnect();
       canvas.removeEventListener('pointerdown', down);

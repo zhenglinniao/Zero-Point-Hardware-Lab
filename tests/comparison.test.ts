@@ -1,3 +1,4 @@
+import './model-assets.ts';
 import { after, test } from 'node:test';
 import assert from 'node:assert/strict';
 import * as T from 'three';
