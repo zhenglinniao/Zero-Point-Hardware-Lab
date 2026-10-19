@@ -2,7 +2,7 @@
 
 **Zero Point Hardware Lab · 拆开，才能看懂。**
 
-一个面向硬件爱好者的中文交互式 3D 学习应用。从电脑到 PS5、手机、相机、手柄与无线耳机，通过「观察 → 拆解 → 理解」认识设备内部的结构与协作。
+一个面向硬件爱好者的中文交互式 3D 学习应用。从电脑、PS5、手机、相机、手柄、无线耳机到内燃机与电动车驱动电机，通过「观察 → 拆解 → 理解」认识设备内部的结构与协作。
 
 [在线体验](https://zero-point-hardware-lab.vercel.app/) · [中文指南](https://zero-point-hardware-lab.vercel.app/guide/zh-CN.html) · [建模范围](docs/DIGITAL-DEVICES.md) · [验证记录](docs/VALIDATION.md)
 
@@ -10,7 +10,7 @@
 
 ## 可以探索什么
 
-**8 台参考设备 · 100 个探索层级 · 859 条部件资料 · 8 条学习路径 · 24 个互动实验**
+**10 台参考设备 · 116 个探索层级 · 1,208 条部件资料 · 8 条学习路径 · 24 个互动实验**
 
 | 设备 | 探索内容 | 打开模型 |
 | --- | --- | --- |
@@ -22,8 +22,18 @@
 | Sony α7 IV 参考结构 | 机身、传感器防抖与通用镜头原理 | [相机](https://zero-point-hardware-lab.vercel.app/?scale=camera) |
 | 初代 DualSense | 输入机构、控制电路与反馈模块 | [手柄](https://zero-point-hardware-lab.vercel.app/?scale=gamepad) |
 | AirPods Pro 2 USB-C 参考结构 | 双电芯、充电板、托盘、耳机内部与动圈原理 | [耳机](https://zero-point-hardware-lab.vercel.app/?scale=earbuds) |
+| Honda GX160 UT2 内燃机 | 缸体、曲柄连杆、活塞环销、OHV 配气、供油与启动器 | [内燃机](https://zero-point-hardware-lab.vercel.app/?scale=engine) |
+| 2012 LEAF 驱动电机 | 48 槽定子、双层 IPM 转子、轴承、水冷与三相接线 | [驱动电机](https://zero-point-hardware-lab.vercel.app/?scale=evmotor) |
 
 这些是帮助理解结构与功能的教学模型，不是精确维修图、完整物料清单或真实性能模拟。具体型号参考与通用原理模型的范围见[设备参考](docs/DIGITAL-DEVICES.md)。
+
+## 内燃机与电动车驱动电机
+
+新增两套共 16 层、347 个可选零件／总成的参考重建。GX160 从曲轴箱进入曲柄连杆、活塞环销、OHV 配气和手拉启动器；LEAF 从水冷机壳进入 48 槽定子、槽内铜线／绝缘／槽楔、双层磁钢转子及轴承内部。两台设备均有六个观察节点和中文说明。
+
+核心尺寸分别对照 Honda 官方服务／装配资料和 DOE / ORNL 实物拆测。整机与子层级共用几何；磁钢、绕组、轴承与铸件中未能实测的部分明确标注重建范围。[资料、尺寸与验证边界](docs/POWERTRAIN-MODELS.md)。
+
+![内燃机实际分层渲染](docs/screenshots/powertrain-engine.png)
 
 ## DualSense 穿模修复
 
@@ -31,7 +41,7 @@
 
 ## 全设备分步拆解与机构深化
 
-八台设备均提供六个可点击的观察节点，并按功能分组显示内部层级。新增九个可深入机构、51 条中文部件说明；整机安装的就是同一份子模型，保持毫米比例、安装朝向和分享链接一致。
+十台设备均提供六个可点击的观察节点，并按功能分组显示内部层级。新增九个可深入机构、51 条中文部件说明；整机安装的就是同一份子模型，保持毫米比例、安装朝向和分享链接一致。
 
 | 设备 | 总层级 | 本轮重点 |
 | --- | ---: | --- |
@@ -41,6 +51,8 @@
 | iPhone 15 | 6 | Taptic Engine 拆薄壁壳、质量块、绕组与弹片；扬声器拆声腔、振膜、音圈与磁路 |
 | Sony α7 IV | 7 | 取景器拆外壳、眼罩、目镜窗口、调节轮与热靴；翻转屏拆外框、显示面与侧铰链 |
 | DualSense | 8 | 左右扳机拆电机、蜗杆、减速齿轮与回复弹簧；左右摇杆拆万向架、双轴电位器、回复弹簧与按压开关 |
+| GX160 内燃机 | 10 | 曲柄连杆、活塞环销、气缸盖与 OHV 配气、正时调速及供油启动 |
+| LEAF 驱动电机 | 6 | 48 槽绕组、双层 IPM 磁钢、支承轴承、水冷夹套与三相接线 |
 | AirPods Pro 2 | 5 | 保留先开盖、再取耳机、最后提托盘的顺序；将单耳、发声单元与耳柄电路归入同一分支 |
 
 [风扇内部](https://zero-point-hardware-lab.vercel.app/?scale=ps5-fan&open=50) · [触觉机构](https://zero-point-hardware-lab.vercel.app/?scale=phone-haptic&open=50) · [摇杆内部](https://zero-point-hardware-lab.vercel.app/?scale=gamepad-leftstick&open=50) · [逐项验证与范围](docs/GEOMETRY-AUDIT.md#全设备观察步骤与机械总成深化)
@@ -165,7 +177,8 @@ React 19 · TypeScript · Three.js · Vite 8 · Tailwind CSS 4 · Node.js Test R
 
 ```text
 app/                   中文学习台、课程任务与拆解工作台
-lib/digital/           新增数码设备目录与程序化 3D 几何
+lib/digital/           数码设备目录与程序化 3D 几何
+lib/powertrain/        动力设备、共享尺寸、磁路与机械几何
 lib/learning.ts        学习路径、知识检查与进度校验
 lib/zh.ts              离线中文术语与功能导读
 lib/                   硬件目录、层级定义与渲染逻辑

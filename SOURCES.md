@@ -348,3 +348,7 @@ The two outer footprints share one physical scale for comparison. Interior posit
 新增设备的主要结构已经按原版实机拆解和具体型号装配资料重建，取代首版的通用功能方块。PS5 参考 CFI-10xx 原版光驱版，iPhone 参考标准 15，DualSense 参考初代，耳机参考 AirPods Pro 2 USB-C；相机使用 ILCE-7M4 服务分解资料，未借用 A7R IV / V 的内部结构冒充 A7 IV。
 
 资料与几何范围逐项记录在 [数码设备参考](docs/DIGITAL-DEVICES.md)，目录引用由 scripts/generate-reference-index.mjs 生成。原始照片仅用于观察，不打包为本项目贴图或模型资产。主要模块、双面封装数量与部分外形规格有直接资料依据；局部曲率、微型支持件、固定点数量、线路形状仍是近似，不能推导为完整 BOM 或可用于维修的测绘。镜头和动圈的深入层级保留为通用原理模型。
+
+## 动力系统参考重建（2026-10-19）
+
+新增 GX160 UT2 与 2012 LEAF 驱动电机。厂家／实测尺寸、Motor-CAD 教学截面和本项目重建假设分别记录于 [动力设备建模说明](docs/POWERTRAIN-MODELS.md)。原图仅用于比对；未打包第三方 CAD、照片或手册。零件引用由目录生成，不能把参考文献链接当作全部几何的精度证明。

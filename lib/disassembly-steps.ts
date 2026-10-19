@@ -31,7 +31,7 @@ export const deviceDisassembly: Partial<Record<LevelId, DisassemblyStep[]>> = {
   ],
   evmotor: [
     step('Assembled', 0, '观察输出轴、水冷机壳与三相接线盒。'),
-    step('移开机壳', 20, '壳体、端盖与轴承离开电磁核心，露出定子和转子。'),
+    step('退出端盖', 20, '端盖与轴承先沿轴向退出，机壳随后滑离电磁核心。'),
     step(
       '抽出转子',
       35,
@@ -41,7 +41,7 @@ export const deviceDisassembly: Partial<Record<LevelId, DisassemblyStep[]>> = {
     step(
       '绕组与磁路',
       68,
-      '分别选择槽绝缘、铜线束、槽楔、跨槽线圈以及八块磁钢。',
+      '分别选择槽绝缘、铜线束、槽楔、跨槽线圈以及八极双层磁钢组。',
     ),
     step(
       'Inventory',

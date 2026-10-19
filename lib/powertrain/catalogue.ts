@@ -8,7 +8,7 @@ import type { Vec3 } from '../layout.ts';
 import { GX, leafMagnetBars, leafCoils } from './dimensions.ts';
 
 export const powertrainAccuracy =
-  '公开资料约束的程序化参考重建。GX160 的缸径、行程、活塞/销/曲柄销及气门尺寸和 LEAF 的铁芯包络、48 槽/8 极来自所列原始资料。铸件曲面、端盖、槽形、磁钢截面、绕组端部、管路和紧固件尺寸为重建；不等同原厂 CAD、完整生产 BOM 或维修模型。铜线以可辨识的线束分组表达，不逐根复现漆包线股数。';
+  '公开资料约束的程序化参考重建。GX160 的缸径、行程、活塞/销/曲柄销及气门尺寸和 LEAF 的铁芯包络、48 槽/8 极来自所列原始资料。铸件曲面、端盖、槽形、磁钢截面、绕组端部、管路和紧固件尺寸为重建；不等同原厂 CAD、完整生产 BOM 或维修模型。铜线以可辨识的线束分组表达，不声称复现原厂逐股走线。';
 const steel = '#8c9aa4',
   dark = '#303a40',
   copper = '#bd783d',

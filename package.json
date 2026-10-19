@@ -2,7 +2,7 @@
   "name": "zero-point-hardware-lab",
   "version": "0.1.0",
   "private": false,
-  "description": "中文交互式 3D 硬件学习实验室：电脑、PS5、手机、相机、手柄与无线耳机拆解，八条课程与二十四个实验。",
+  "description": "中文交互式 3D 硬件学习实验室：电脑、PS5、手机、相机、手柄、耳机、内燃机与电动车电机拆解，八条课程与二十四个实验。",
   "license": "MIT",
   "author": "zln <zhenglinniao1417@gmail.com>",
   "repository": {
