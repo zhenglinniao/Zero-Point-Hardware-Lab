@@ -107,7 +107,15 @@ const notebookBuilders = Object.fromEntries(
   ]),
 ) as Record<NotebookLevel, (tools: ModelTools, root: T.Group) => void>;
 const builders: Record<LevelId, (tools: ModelTools, root: T.Group) => void> = {
-  ...Object.fromEntries(Object.keys(digitalLevels).map((id) => [id, (tools: ModelTools) => buildDigital(id as DigitalLevel, tools)])) as unknown as Record<DigitalLevel, (tools: ModelTools, root: T.Group) => void>,
+  ...(Object.fromEntries(
+    Object.keys(digitalLevels).map((id) => [
+      id,
+      (tools: ModelTools) => buildDigital(id as DigitalLevel, tools),
+    ]),
+  ) as unknown as Record<
+    DigitalLevel,
+    (tools: ModelTools, root: T.Group) => void
+  >),
   ...notebookBuilders,
   pc: buildMachine,
   motherboard: buildMotherboard,
@@ -481,9 +489,32 @@ export function buildModel(level: LevelId): { root: T.Group; pieces: Piece[] } {
         const g = mesh.geometry.index
           ? mesh.geometry.toNonIndexed()
           : mesh.geometry.clone();
-        g.applyMatrix4(
-          new T.Matrix4().multiplyMatrices(inverse, mesh.matrixWorld),
+        const transform = new T.Matrix4().multiplyMatrices(
+          inverse,
+          mesh.matrixWorld,
         );
+        g.applyMatrix4(transform);
+        // A reflected installation changes triangle handedness. Once baked
+        // into vertices the renderer no longer sees the negative determinant,
+        // so preserve the outward face winding explicitly before merging.
+        if (transform.determinant() < 0) {
+          for (const attribute of Object.values(g.attributes)) {
+            const a = attribute.array,
+              stride = attribute.itemSize;
+            for (let i = 0; i < attribute.count; i += 3)
+              for (let j = 0; j < stride; j++) {
+                const b = (i + 1) * stride + j,
+                  c = (i + 2) * stride + j,
+                  temp = a[b];
+                a[b] = a[c];
+                a[c] = temp;
+              }
+          }
+          const tangent = g.getAttribute('tangent');
+          if (tangent)
+            for (let i = 0; i < tangent.count; i++)
+              tangent.setW(i, -tangent.getW(i));
+        }
         return g;
       });
       const merged = mergeGeometries(parts);

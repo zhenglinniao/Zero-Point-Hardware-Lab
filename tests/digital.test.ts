@@ -530,3 +530,19 @@ await test('camera grip handedness and readable face markings follow the front/r
     if(Math.abs(normal.z)>.7)assert.ok(right.x*normal.z>0,'marking is mirrored in its viewing direction');
   }
 });
+
+await test('consolidated mirrored camera faces retain outward triangle winding',()=>{
+  const model=models.get('camera')!;
+  for(const id of ['camera-top','camera-back'])model.pieces.find(p=>p.concept===id)!.object.traverse(o=>{
+    if(!(o instanceof T.Mesh)||!(o.material instanceof T.MeshStandardMaterial))return;
+    const geometry=o.geometry.index?o.geometry.toNonIndexed():o.geometry;
+    const p=geometry.getAttribute('position'),n=geometry.getAttribute('normal');
+    for(let i=0;i<p.count;i+=3){
+      const a=new T.Vector3().fromBufferAttribute(p,i),b=new T.Vector3().fromBufferAttribute(p,i+1),c=new T.Vector3().fromBufferAttribute(p,i+2);
+      const cross=b.sub(a).cross(c.sub(a));if(cross.lengthSq()<1e-12)continue;
+      const normal=[0,1,2].reduce((v,j)=>v.add(new T.Vector3().fromBufferAttribute(n,i+j)),new T.Vector3());
+      assert.ok(cross.dot(normal)>=-1e-9,`${id} has an inverted merged face`);
+    }
+    if(geometry!==o.geometry)geometry.dispose();
+  });
+});

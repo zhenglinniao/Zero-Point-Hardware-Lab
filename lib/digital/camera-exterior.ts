@@ -264,6 +264,10 @@ export function cameraExterior(part: DigitalPart, tools: ModelTools) {
     }
     const geo = new T.BufferGeometry();
     geo.setAttribute('position', new T.Float32BufferAttribute(positions, 3));
+    const uv: number[] = [];
+    for (let i = 0; i < positions.length; i += 3)
+      uv.push(positions[i] / 44 + 0.5, positions[i + 2] / 55 + 0.5);
+    geo.setAttribute('uv', new T.Float32BufferAttribute(uv, 2));
     geo.setIndex(indices);
     geo.computeVertexNormals();
     const housing = put(new T.Mesh(geo, mat()));
