@@ -503,3 +503,30 @@ await test('earphones lift vertically clear of their pockets before the tray lif
     }
   }finally{for(const p of model.pieces)applyPiecePose(p,'earbuds',0,scratch);}
 });
+
+await test('camera monitor closes the rear window and rear panel blocks views into the main board',()=>{
+  const model=models.get('camera')!;model.root.updateMatrixWorld(true);
+  const owner=(object:T.Object3D)=>{for(let o:T.Object3D|null=object;o;o=o.parent)if(o.userData.piece)return o.userData.piece.concept;return '';};
+  for(const x of [-17.5,17,51.5])for(const y of [-30,-9,12]){
+    const ray=new T.Raycaster(new T.Vector3(x/15,y/15,-10),new T.Vector3(0,0,1));
+    const hit=ray.intersectObject(model.root,true)[0];assert.ok(hit);
+    assert.equal(owner(hit.object),'camera-display',`rear window leaks at ${x},${y}`);
+  }
+  for(const [x,y] of [[-56,-30],[-50,0],[40,30]]){
+    const hit=new T.Raycaster(new T.Vector3(x/15,y/15,-10),new T.Vector3(0,0,1)).intersectObject(model.root,true)[0];
+    assert.ok(hit);assert.equal(owner(hit.object),'camera-back');
+  }
+});
+
+await test('camera grip handedness and readable face markings follow the front/rear reference views',()=>{
+  const model=models.get('camera')!;model.root.updateMatrixWorld(true);
+  assert.ok(new T.Box3().setFromObject(model.pieces.find(p=>p.concept==='camera-battery')!.object).getCenter(new T.Vector3()).x<0);
+  const labels:T.Mesh[]=[];model.root.traverse(o=>{if(o instanceof T.Mesh&&o.userData.cameraDecal)labels.push(o);});
+  assert.ok(labels.some(o=>o.userData.cameraDecal==='7 IV'));
+  for(const text of ['SONY','7 IV','MENU','AF-ON','AEL','C3'])assert.ok(labels.some(o=>o.userData.cameraDecal===text));
+  for(const label of labels.filter(o=>['SONY','7 IV','MENU'].includes(o.userData.cameraDecal))){
+    const right=new T.Vector3(1,0,0).transformDirection(label.matrixWorld);
+    const normal=new T.Vector3(0,0,1).transformDirection(label.matrixWorld);
+    if(Math.abs(normal.z)>.7)assert.ok(right.x*normal.z>0,'marking is mirrored in its viewing direction');
+  }
+});

@@ -725,4 +725,26 @@ export function refinePrecisionAssemblies(definitions: Definition[]) {
   ] as [string, Vec3][])
     edit('phone-display', id, { delta });
   edit('ps5-power', 'cover', { delta: [65, 55, -100] });
+  edit('camera', 'back', { pos: [0, -1, -28.8], size: [126, 77, 2.4] });
+  edit('camera', 'display', {
+    pos: [-17, -9, -31.8],
+    size: [75.6, 4.4, 52.5],
+    rotation: [0, 0, 0],
+    name: '侧翻显示屏与左侧铰链',
+  });
+  edit('camera', 'finder', { pos: [-8, 41.3, -1], size: [44, 21, 55] });
+  edit('camera', 'top', { pos: [0, 38, 0], size: [127, 5, 60] });
+  edit('camera', 'dial', {
+    pos: [21, 42, -4],
+    size: [20, 8, 20],
+    name: '双层拍摄模式与静态/视频拨盘',
+  });
+  edit('camera', 'base', { pos: [0, -42, 0], size: [123, 3, 44] });
+  // Legacy assemblies used the photographer-right grip on +X while the
+  // optical axis pointed +Z. Convert the body layout to the actual front view.
+  for (const p of get('camera').parts) {
+    p.pos[0] *= -1;
+    p.delta[0] *= -1;
+  }
+  get('camera').camera = { padding: 0.92, direction: [0.95, 0.65, 1.8] };
 }

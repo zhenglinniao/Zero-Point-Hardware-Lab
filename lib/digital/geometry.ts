@@ -1,15 +1,12 @@
 import * as T from 'three';
-import {
-  cameraFrontShell,
-  earbudShell,
-  chargingCase,
-} from './molded-shells.ts';
+import { earbudShell, chargingCase } from './molded-shells.ts';
 import { decorateBoard } from './board-detail.ts';
 import { gamepadExterior } from './gamepad-asset.ts';
 import { buildLensPart } from './lens-geometry.ts';
 import { precisionGeometry } from './precision-geometry.ts';
 import { ps5CoverPoint } from './ps5-cover.ts';
 import { airpodsPocket, airpodsCup } from './airpods-pocket.ts';
+import { cameraExterior } from './camera-exterior.ts';
 import type { ModelTools } from '../hardware.ts';
 import type { Vec3 } from '../layout.ts';
 import type { DigitalLevel, DigitalPart } from './catalogue.ts';
@@ -543,7 +540,9 @@ export function detailedGeometry(
   const id = part.id;
   let handled = true;
   const precision = precisionGeometry(level, part, tools);
-  if (precision) g.add(precision);
+  const exterior = level === 'camera' ? cameraExterior(part, tools) : null;
+  if (exterior) g.add(exterior);
+  else if (precision) g.add(precision);
   else if (level === 'cameralens') g.add(buildLensPart(part, tools));
   else if (level === 'ps5' && part.shape === 'wing') {
     // Thin doubly curved surface with a disc-side swelling. Grid topology keeps
@@ -842,24 +841,6 @@ export function detailedGeometry(
         ]);
     for (const x of [-w * 0.4, w * 0.4])
       screw([x, h / 2 + 0.15, d * 0.3], 0.75);
-  } else if (level === 'camera' && id === 'front') {
-    const shell = new T.Mesh(cameraFrontShell(), mat('#252a2e', 0.06, 0.87));
-    shell.userData.cameraBodyShell = true;
-    put(shell);
-    const branding = new T.Group();
-    text('α 7 IV', [0, 0.15, 0], 20, '#c8cdcb', branding);
-    branding.rotation.x = Math.PI / 2;
-    put(branding, [23, 28, 19.3]);
-    for (const y of [-23, -13, -3]) {
-      const door = box([1.1, 7, 17], '#282e33', 0.05, 1);
-      put(door, [-64, y, -8]);
-    }
-    for (const x of [-53, 28])
-      for (const y of [-31, 31]) {
-        const post = disk(2.1, 10, silver, 0.8);
-        post.rotation.x = Math.PI / 2;
-        put(post, [x, y, 12]);
-      }
   } else if (level === 'camera' && id === 'battery') {
     const cell = put(box([w, h, d], '#31383c', 0.08, 1.2));
     cell.userData.batteryEnvelope = true;
@@ -869,95 +850,6 @@ export function detailedGeometry(
     text('NP-FZ100', [0, 0.1, 0], w * 0.83, '#aab1b2', label);
     label.rotation.x = Math.PI / 2;
     put(label, [0, 0, d / 2 + 0.03]);
-  } else if (level === 'camera' && id === 'back') {
-    const shell = plate(w, 3, h, ink, 7, [rectHole(-10, 0, 70, 45, 2)]);
-    shell.rotation.x = Math.PI / 2;
-    put(shell);
-    const controls = new T.Group();
-    put(disk(10, 2, ink, 6), [42, 1, -2], controls);
-    for (let i = 0; i < 6; i++)
-      put(
-        disk(2.2, 1, '#424a4d'),
-        [37 + (i % 2) * 13, 1.6, -22 + Math.floor(i / 2) * 19],
-        controls,
-      );
-    controls.rotation.x = -Math.PI / 2;
-    g.add(controls);
-  } else if (level === 'camera' && id === 'board') {
-    pcb();
-    chip([22, 2, 22], [-12, 2, 0], 'PROCESSOR');
-    chip([16, 2, 18], [14, 2, 0], 'MEMORY');
-    for (const x of [-30, 30])
-      for (const z of [-21, 21]) connector([10, 1.4, 4], [x, 2, z]);
-    put(plate(30, 0.6, 23, silver, 2), [-8, 3.5, -16]);
-  } else if (level === 'camera' && id === 'finder') {
-    const roof = new T.Shape();
-    roof.moveTo(-w / 2, -h / 2);
-    roof.lineTo(w / 2, -h / 2);
-    roof.lineTo(w / 2, h * 0.08);
-    roof.lineTo(w * 0.32, h / 2);
-    roof.lineTo(-w * 0.32, h / 2);
-    roof.lineTo(-w / 2, h * 0.08);
-    roof.closePath();
-    const housing = new T.ExtrudeGeometry(roof, {
-      depth: d,
-      bevelEnabled: true,
-      bevelThickness: 1,
-      bevelSize: 1,
-      bevelSegments: 3,
-    });
-    housing.translate(0, 0, -d / 2);
-    put(new T.Mesh(housing, mat(ink, 0.12, 0.8)));
-    const logo = new T.Group();
-    text('SONY', [0, 0.1, 0], 21, '#cbd1cd', logo);
-    logo.rotation.x = Math.PI / 2;
-    put(logo, [0, 0, d / 2 + 1.2]);
-    put(plate(21, 2, 18, silver, 1), [0, h / 2 + 1.5, 0]);
-    for (const x of [-8, 8]) put(box([2, 2, 18], ink), [x, h / 2 + 2, 0]);
-    const eyecup = plate(32, 4, 23, '#11171c', 5, [rectHole(0, 0, 23, 15, 2)]);
-    eyecup.rotation.x = Math.PI / 2;
-    put(eyecup, [0, 0, -d / 2]);
-    const optic = new T.Group();
-    lens(8, 7, optic);
-    optic.rotation.x = Math.PI / 2;
-    put(optic, [0, 0, 0]);
-    flex(
-      [
-        [0, -h / 2, 0],
-        [0, -h / 2 - 5, 1],
-        [0, -h / 2 - 9, 6],
-      ],
-      8,
-    );
-  } else if (level === 'camera' && id === 'top') {
-    put(plate(w, h, d, ink, 6, [rectHole(-8, -10, 43, 33, 3)]));
-    put(disk(5, 2, silver), [48, h / 2 + 4, 14]);
-    for (const x of [-60, 60]) put(disk(3, 2, silver, 1.7), [x, h / 2, 0]);
-    for (const [x, z, r] of [
-      [47, -12, 7.5],
-      [24, -13, 6],
-    ] as const) {
-      put(disk(r, 2.2, '#242c31'), [x, h / 2 + 1.2, z]);
-      for (let i = 0; i < 32; i++) {
-        const a = (i * Math.PI) / 16;
-        put(box([0.45, 1.8, 0.45], '#697174'), [
-          x + Math.sin(a) * r,
-          h / 2 + 1.2,
-          z + Math.cos(a) * r,
-        ]);
-      }
-    }
-  } else if (level === 'camera' && id === 'dial') {
-    put(disk(w / 2, h, ink));
-    for (let i = 0; i < 48; i++) {
-      const a = (i * Math.PI) / 24;
-      put(box([0.5, h * 0.8, 0.6], '#4c565a'), [
-        Math.sin(a) * (w / 2 - 0.2),
-        0,
-        Math.cos(a) * (w / 2 - 0.2),
-      ]);
-    }
-    text('P A S M', [0, h / 2 + 0.1, 0], w * 0.8);
   } else if (level === 'gamepad' && (id === 'top' || id === 'back'))
     shellController(id === 'top');
   else if (level === 'gamepad' && (id === 'triggers' || id === 'right-trigger'))
@@ -1484,7 +1376,20 @@ export function detailedGeometry(
     }
   g.userData.detailRevision = 3;
   const native = new T.Group();
-  native.scale.setScalar(1 / unit);
+  native.scale.set(
+    level === 'camera' ? -1 / unit : 1 / unit,
+    1 / unit,
+    1 / unit,
+  );
+  if (level === 'camera')
+    g.traverse((o) => {
+      if (
+        o instanceof T.Mesh &&
+        o.material instanceof T.MeshBasicMaterial &&
+        o.material.map
+      )
+        o.scale.x *= -1;
+    });
   native.add(g);
   // Stage posing changes the selectable root; scale/rotation stay below it.
   const result = new T.Group();

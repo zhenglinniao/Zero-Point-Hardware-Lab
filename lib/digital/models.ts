@@ -43,6 +43,21 @@ export function buildDigital(level: DigitalLevel, tools: ModelTools) {
         assembly.traverse((object) => {
           if (object.userData.closedSection) object.visible = true;
           if (object.userData.cutFace) object.visible = false;
+          if (
+            object instanceof T.Mesh &&
+            object.userData.opticalElement &&
+            object.material instanceof T.MeshPhysicalMaterial
+          ) {
+            // In the closed camera, alpha-blending six pale glass shells
+            // adds their diffuse colour into a milky white disc. Use the
+            // physical transmission pass and depth for the installed lens.
+            object.material.transparent = false;
+            object.material.opacity = 1;
+            object.material.transmission = 0.95;
+            object.material.depthWrite = true;
+            object.material.color.set('#adc0bf');
+            object.material.roughness = 0.035;
+          }
         });
       object.add(assembly);
     } else {
