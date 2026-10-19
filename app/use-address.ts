@@ -1,6 +1,7 @@
 'use client';
 import { useEffect, useRef } from 'react';
 import type { ExplorerState } from '@/lib/explorer-state';
+import { lessonFromSearch } from '@/lib/learning';
 import {
   placeTitle,
   placeToSearch,
@@ -31,7 +32,10 @@ export function useAddress(state: ExplorerState, goTo: (place: Place) => void) {
   useEffect(() => {
     if (diveInto) return;
     const place: Place = { level, selection, explode };
-    const search = placeToSearch(place);
+    const lesson = lessonFromSearch(location.search);
+    const params = new URLSearchParams(placeToSearch(place));
+    if (lesson) params.set('lesson', lesson.id);
+    const search = params.size ? '?' + params.toString() : '';
     document.title = placeTitle(place);
     const url = location.pathname + search + location.hash;
     setCanonical(location.origin + location.pathname + search);

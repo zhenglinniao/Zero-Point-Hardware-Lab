@@ -82,16 +82,16 @@ await test('links that do not make sense open the nearest thing that does', () =
 });
 
 await test('a place is titled after what it shows', () => {
-  assert.equal(placeTitle(homePlace), 'PC Anatomy');
+  assert.equal(placeTitle(homePlace), '零点硬件实验室');
   const part = manifest.find((c) => c.level === 'pc' && !isLevelRoot(c))!;
   assert.equal(
     placeTitle({ level: 'pc', selection: { concept: part.id }, explode: 0 }),
-    `${part.name} · PC Anatomy`,
+    `${part.name} · 零点硬件实验室`,
   );
   const level = levelIds.find((id) => id !== rootLevel)!;
   assert.equal(
     placeTitle({ level, selection: null, explode: 0 }),
-    `${levels[level].name} · PC Anatomy`,
+    `${levels[level].name} · 零点硬件实验室`,
   );
 });
 

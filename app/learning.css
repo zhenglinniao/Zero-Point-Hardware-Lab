@@ -126,7 +126,8 @@
 .zln-lab .compare-button { color: #a1643d; background: #f5eadc; border-color: #dbc4a6; }
 .zln-lab .empty-scene { color: #d1d8c2; }
 .zln-lab .first-visit-hint { color: #92977f; }
-.lesson-coach { display: flex; flex-direction: column; min-height: 100%; }
+.lesson-mode .explorer { overflow: hidden; }
+.lesson-coach { display: flex; flex-direction: column; height: 100%; min-height: 0; }
 .coach-back { align-self: flex-start; display: flex; align-items: center; gap: 6px; color: #8d937e; font-size: 10px; margin: 18px 20px 23px; min-height: 28px; }
 .lesson-coach > .tiny-label { margin: 0 23px; color: #b27c55; font-size: 8px; }
 .lesson-coach > h2 { margin: 8px 23px 18px; font-size: 23px; font-weight: 600; color: #394c34; }
@@ -135,7 +136,7 @@
 .lesson-steps button > span:first-child { border: 1px solid #d9dbcb; border-radius: 50%; width: 21px; height: 21px; display: grid; place-items: center; font: 9px monospace; }
 .lesson-steps button[aria-current='step'] { color: #b55f38; background: #f7ebdd; }
 .lesson-steps button[aria-current='step'] > span:first-child { border-color: #c57c50; background: #df7548; color: #fff; }
-.coach-content { padding: 23px 23px 14px; }
+.coach-content { padding: 23px 23px 14px; flex: 1; min-height: 0; overflow-y: auto; }
 .coach-content > .tiny-label { font-size: 8px; }
 .coach-content h3 { font-size: 17px; color: #425139; margin: 9px 0 12px; font-weight: 600; }
 .coach-content > p, .observe-task p, .answer-feedback p, .lesson-finished p { font-size: 11px; line-height: 1.9; color: #828b73; margin: 0 0 17px; }
@@ -163,7 +164,7 @@
 .lesson-finished { margin-top: 20px; padding: 16px; background: #edf2e0; border-radius: 6px; color: #789151; }
 .lesson-finished strong { display: block; font-size: 12px; margin: 7px 0; }
 .lesson-finished p { font-size: 10px; margin: 0; }
-.coach-actions { margin-top: auto; padding: 15px 22px 18px; border-top: 1px solid #e7e7da; }
+.coach-actions { flex: none; padding: 15px 22px 18px; border-top: 1px solid #e7e7da; }
 .coach-actions > button { display: flex; align-items: center; justify-content: space-between; background: #3d5137; color: #fff9e6; min-height: 44px; border-radius: 5px; width: 100%; padding: 10px 14px; font-size: 11px; }
 .coach-actions > span { display: flex; gap: 5px; justify-content: center; align-items: center; margin-top: 10px; font-size: 8px; color: #9b9e86; }
 @media (prefers-reduced-motion: no-preference) { .diagram-chip, .diagram-package { transition: transform 240ms cubic-bezier(.23, 1, .32, 1); } .diagram-connections { transition: opacity 150ms ease; } .academy-primary:active, .course-card:active { transform: scale(.985); } }
@@ -186,7 +187,7 @@
   .learning-journal { flex-wrap: wrap; gap: 12px; padding: 20px; } .journal-symbol { display: none; } .learning-journal > div:nth-child(2) { width: 100%; } .journal-total { margin-left: 0; } .journal-track { display: block; margin-left: auto; width: 100px; }
   .academy-footer { flex-wrap: wrap; gap: 12px; line-height: 1.8; padding-bottom: 36px; }
   .lab-header { height: 68px; padding: 0 14px; gap: 10px; } .lab-home { gap: 9px; } .lab-home strong { font-size: 11px; letter-spacing: .4px; } .lab-home small { font-size: 5px; } .lab-mark { font-size: 30px; }
-  .lab-header-actions { gap: 8px; } .lab-header-actions button { min-width: 30px; justify-content: center; min-height: 44px; } .lab-header-actions button > span, .lab-header-actions kbd { display: none; } .lab-header-actions .lab-free { display: none; }
+  .lab-header-actions { gap: 8px; } .lab-header-actions button { min-width: 30px; justify-content: center; min-height: 44px; } .lab-header-actions button > span, .lab-header-actions kbd { display: none; } .lab-header-actions .lab-task-toggle > span { display: inline; } .lab-header-actions .lab-free { display: none; }
   .zln-lab .stage-heading { top: 87px; left: 18px; right: 18px; } .zln-lab .stage-heading h1 { font-size: 21px; max-width: none; } .zln-lab .stage-meta { display: none; }
   .zln-lab .viewport { inset: 152px 12px 128px; border-radius: 9px; } .zln-lab .stage-tools { left: 22px; right: 22px; bottom: 140px; }
   .zln-lab .disassembly { left: 12px; right: 12px; bottom: 14px; height: 99px; padding: 10px 13px; gap: 10px; } .zln-lab .disassembly .play { width: 40px; height: 47px; min-width: 40px; } .zln-lab .disassembly-readout { display: none; } .zln-lab .disassembly-intro { gap: 0; } .zln-lab .phase-labels button { font-size: 8px; } .zln-lab .timeline { min-width: 0; }

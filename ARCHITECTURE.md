@@ -1,5 +1,33 @@
 # PC Anatomy — architecture
 
+## Zero Point learning product (2026-10-19 redesign)
+
+The root route now opens an original Chinese learning dashboard. `app/learning-home.tsx`
+owns the course selection, authored interactive SVG, progress journal and confirmed reset.
+`lib/learning.ts` defines three paths and nine experiments, validates saved progress,
+and chooses the first incomplete step on resume. `app/lesson-coach.tsx` combines
+observation conditions with knowledge checks: correct answers record completion;
+wrong answers provide retry feedback. Observations require a reported model and
+the specified disassembly amount. They do not claim to track the user's gaze or
+whether every recommended part was inspected.
+
+`app/page.tsx` composes the dashboard and redesigned lab. Guided navigation calls
+the shared explorer's `goTo`; free mode retains the complete original model tree.
+`app/learning.css` scopes the paper/orange shell and responsive task drawer. The
+task body scrolls independently so the next action stays visible. Course links use
+`?lesson=inside|graphics|memory`; `app/use-address.ts` retains a valid course id
+alongside model query parameters. Plain `?scale=` links still open free exploration.
+
+Completion ids are stored locally under `zln-lab-progress-v1`; corrupt data is
+filtered, and storage failures retain session state with a visible status. Progress
+is not an account or cross-device sync. The 3D geometry, renderer, English catalogue
+and comparison engine remain upstream code with MIT attribution. The original
+product additions do not claim independent authorship of those models.
+
+`tests/learning.test.ts` covers lesson integrity, storage-data validation, resume
+selection and course links. `scripts/learning-smoke.mjs` checks the actual learning
+flow, persistence, reset, mobile drawer and free-mode deep links in Edge.
+
 ## Local replica additions (2026-10-19)
 
 The complete upstream explorer is retained. `public/guide/zh-CN.html` adds a

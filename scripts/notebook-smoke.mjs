@@ -125,14 +125,14 @@ try {
   await phase('Inventory', 'pc', 100);
   await capture('pc-inventory');
   console.log('Checking Chinese guide and return to the explorer');
-  await page.getByRole('link', { name: '使用指南' }).click();
+  await page.goto(base + '/guide/zh-CN.html');
   await page.getByRole('heading', { name: '第一次探索，只需三步' }).waitFor();
   assert.equal(await page.locator('html').getAttribute('lang'), 'zh-CN');
   await capture('guide-zh-desktop');
   await page.setViewportSize({ width: 390, height: 844 });
   assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true);
   await capture('guide-zh-mobile');
-  await page.getByRole('link', { name: '开始探索 →' }).click();
+  await page.goto(base + '/?scale=pc');
   await ready('pc');
   await page.setViewportSize({ width: 1440, height: 1000 });
   console.log('Checking mobile navigation and deep links');
@@ -144,7 +144,7 @@ try {
   await ready('maccell');
   await page.setViewportSize({ width: 390, height: 844 });
   await page
-    .getByRole('button', { name: 'Toggle systems' })
+    .getByRole('button', { name: '展开实验面板' })
     .evaluate((button) => button.click());
   await page
     .locator('.system-picker button')

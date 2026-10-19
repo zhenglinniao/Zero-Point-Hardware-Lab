@@ -1,7 +1,7 @@
 'use client';
 import { useCallback, useEffect, useState } from 'react';
 import { ArrowLeft, BookOpen, EyeOff, Info, Layers3, Search } from 'lucide-react';
-import { lessons, readProgress, resumeStep, saveProgress, type LearningProgress } from '@/lib/learning';
+import { lessonFromSearch, lessons, readProgress, resumeStep, saveProgress, type LearningProgress } from '@/lib/learning';
 import { levelPath } from '@/lib/levels';
 import { useExplorer } from './use-explorer';
 import { useFirstVisitHint } from './use-first-visit-hint';
@@ -21,8 +21,8 @@ import AboutDialog from './about-dialog';
 import ComparisonWorkbench from './comparison-workbench';
 
 export default function Home() {
-  const [entered, setEntered] = useState(() => new URLSearchParams(location.search).has('scale'));
-  const [lessonId, setLessonId] = useState<string | null>(null);
+  const [entered, setEntered] = useState(() => new URLSearchParams(location.search).has('scale') || !!lessonFromSearch(location.search));
+  const [lessonId, setLessonId] = useState<string | null>(() => lessonFromSearch(location.search)?.id ?? null);
   const [progress, setProgress] = useState<LearningProgress>(readProgress);
   const [saved, setSaved] = useState(true);
   const home = () => {
@@ -32,9 +32,18 @@ export default function Home() {
   useEffect(() => {
     if (!entered) document.title = '零点硬件实验室 · 拆开，才能看懂';
   }, [entered]);
+  useEffect(() => {
+    const followHistory = () => {
+      const lesson = lessonFromSearch(location.search);
+      setEntered(new URLSearchParams(location.search).has('scale') || !!lesson);
+      setLessonId(lesson?.id ?? null);
+    };
+    window.addEventListener('popstate', followHistory);
+    return () => window.removeEventListener('popstate', followHistory);
+  }, []);
   const persist = (next: LearningProgress) => { setProgress(next); setSaved(saveProgress(next)); };
-  if (!entered) return <LearningHome progress={progress} onStart={(id) => { setLessonId(id); setEntered(true); }} onReset={() => persist([])} />;
-  return <Lab key={lessonId ?? 'free'} lessonId={lessonId} progress={progress} saved={saved} onComplete={(id) => { if (!progress.includes(id)) persist([...progress, id]); }} onHome={home} onFree={() => setLessonId(null)} />;
+  if (!entered) return <LearningHome progress={progress} onStart={(id) => { history.replaceState(null, '', location.pathname + (id ? `?lesson=${id}` : '?scale=pc')); setLessonId(id); setEntered(true); }} onReset={() => persist([])} />;
+  return <Lab key={lessonId ?? 'free'} lessonId={lessonId} progress={progress} saved={saved} onComplete={(id) => { if (!progress.includes(id)) persist([...progress, id]); }} onHome={home} onFree={() => { const params = new URLSearchParams(location.search); params.delete('lesson'); history.replaceState(null, '', location.pathname + (params.size ? '?' + params.toString() : '?scale=pc')); setLessonId(null); }} />;
 }
 
 type LabProps = { lessonId: string | null; progress: LearningProgress; saved: boolean; onComplete: (id: string) => void; onHome: () => void; onFree: () => void };

@@ -51,6 +51,10 @@ export const lessons: Lesson[] = [
 ];
 
 export type LearningProgress = string[];
+export function lessonFromSearch(search: string): Lesson | undefined {
+  const id = new URLSearchParams(search).get('lesson');
+  return lessons.find((lesson) => lesson.id === id);
+}
 export const progressKey = 'zln-lab-progress-v1';
 const validIds = new Set(lessons.flatMap((lesson) => lesson.steps.map((step) => step.id)));
 

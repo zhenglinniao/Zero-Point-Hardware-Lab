@@ -95,11 +95,11 @@ export function searchToPlace(search: string): Place {
 
 /** The page title for a place: the part when one is described, else the scale. */
 export function placeTitle(place: Place): string {
-  if (place.level === rootLevel && !place.selection) return 'PC Anatomy';
+  if (place.level === rootLevel && !place.selection) return '零点硬件实验室';
   const name = place.selection
     ? byId[place.selection.concept]?.name
     : levels[place.level].name;
-  return name ? `${name} · PC Anatomy` : 'PC Anatomy';
+  return name ? `${name} · 零点硬件实验室` : '零点硬件实验室';
 }
 
 /** Same place, ignoring how a selection reached it. */

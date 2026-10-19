@@ -15,10 +15,10 @@ export default function AboutDialog({ open, onOpenChange }: Props) {
   return (
     <Dialog open={open} onOpenChange={onOpenChange} modal>
       <DialogContent className="about-dialog">
-        <DialogTitle>From the case down to a compute core.</DialogTitle>
+        <DialogTitle>零点硬件实验室 · 来源与创作</DialogTitle>
         <DialogDescription>
-          PC Anatomy is a free, interactive 3D computer hardware explorer. Learn
-          how a desktop PC works by inspecting and disassembling its components.
+          中文课程首页、原创矢量示意、九个互动实验、知识检查与本地学习记录由 zln 设计实现。
+          底层 3D 几何、渲染器及英文部件资料复用 PC Anatomy（Yoseph），遵循 MIT 许可。
         </DialogDescription>
         <p>
           Start with an assembled ATX tower, take it apart, and keep going: into

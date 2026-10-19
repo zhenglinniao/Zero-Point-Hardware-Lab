@@ -51,7 +51,8 @@ export default function LearningHome({ progress, onStart, onReset }: Props) {
   const [expanded, setExpanded] = useState(true);
   const [resetConfirm, setResetConfirm] = useState(false);
   const total = lessons.reduce((sum, lesson) => sum + lesson.steps.length, 0);
-  const next = lessons.find((lesson) => lesson.steps.some((step) => !progress.includes(step.id))) ?? lessons[0];
+  const last = lessons.find((lesson) => lesson.steps.some((step) => step.id === progress[progress.length - 1]));
+  const next = last?.steps.some((step) => !progress.includes(step.id)) ? last : lessons.find((lesson) => lesson.steps.some((step) => !progress.includes(step.id))) ?? lessons[0];
   return (
     <main className="learning-home">
       <aside className="academy-rail">
