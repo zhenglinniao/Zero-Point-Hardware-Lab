@@ -1,0 +1,77 @@
+{
+  "date": "2026-10-19",
+  "baseline": "c9c5056a832424bf3c2d9eaccda95548c8f4b382",
+  "deviceCount": 10,
+  "levelCount": 116,
+  "physicalLevels": 78,
+  "logicalLevels": 38,
+  "browserStates": 194,
+  "browserPageErrors": [],
+  "browserScope": "physical: assembled and 50%; logical: assembled only; 1280x900. Not continuous-path verification.",
+  "geometryScope": "Six selected mesh pairs; 0..70 percent in 5-percent increments; actual meshes including instanced geometry. Positive intersection is not a penetration-depth measurement. Empty list does not prove continuous clearance.",
+  "meshProbes": [
+    {
+      "level": "ev-stator",
+      "aId": "core",
+      "bId": "conductor-1",
+      "collisions": [
+        25
+      ]
+    },
+    {
+      "level": "ev-stator",
+      "aId": "core",
+      "bId": "liner-1",
+      "collisions": [
+        25,
+        30
+      ]
+    },
+    {
+      "level": "ev-stator",
+      "aId": "core",
+      "bId": "endturn-1",
+      "collisions": [
+        30
+      ]
+    },
+    {
+      "level": "ev-rotor",
+      "aId": "core",
+      "bId": "magnet-1",
+      "collisions": []
+    },
+    {
+      "level": "engine-head",
+      "aId": "head",
+      "bId": "valve-0",
+      "collisions": [
+        0,
+        5,
+        10,
+        15,
+        20,
+        25,
+        30,
+        35,
+        40
+      ]
+    },
+    {
+      "level": "engine-head",
+      "aId": "head",
+      "bId": "valve-1",
+      "collisions": [
+        0,
+        5,
+        10,
+        15,
+        20,
+        25,
+        30,
+        35,
+        40
+      ]
+    }
+  ]
+}
