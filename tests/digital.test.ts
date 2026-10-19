@@ -357,6 +357,7 @@ await test('NP-FZ100 body follows the official dimensions and clears the actual 
     const point=shell.worldToLocal(new T.Vector3(x,y,z));
     const hits=new T.Raycaster(point,direction,.0001,200).intersectObject(probe);
     const unique=hits.filter((hit,i)=>i===0||Math.abs(hit.distance-hits[i-1].distance)>.0001);
+    assert.ok(unique.length>=2,'sample must be inside a cavity enclosed by the actual shell');
     assert.equal(unique.length%2,0,'battery or card slot sample is inside rendered shell material');
     if(unique.length)assert.ok(unique[0].distance>.15,'battery and slots must retain actual mesh clearance');
   }
