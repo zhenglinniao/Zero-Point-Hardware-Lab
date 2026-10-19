@@ -314,5 +314,36 @@
     "selected geometry checks, not all pairs at every pose",
     "photo-derived PS5 layout, not OEM CAD",
     "R10 physical envelope fixed; full connector/photo acceptance pending"
-  ]
+  ],
+  "production": {
+    "url": "https://zero-point-hardware-lab.vercel.app/",
+    "deployment": "https://zero-point-hardware-2obwxcuzi-zhenglinniao1417-3980s-projects.vercel.app",
+    "states": [
+      {
+        "width": 1440,
+        "id": "ps5-power",
+        "amount": 50,
+        "mode": "manufacturing"
+      },
+      {
+        "width": 1440,
+        "id": "ps5cooling",
+        "amount": 0,
+        "mode": "welded"
+      },
+      {
+        "width": 1440,
+        "id": "card",
+        "amount": 0,
+        "mode": "assembly"
+      },
+      {
+        "width": 390,
+        "id": "ps5cooling",
+        "amount": 50,
+        "mode": "welded"
+      }
+    ],
+    "errors": []
+  }
 }

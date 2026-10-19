@@ -42,6 +42,8 @@
 
 机器记录见 [验收数据](review-continuation-validation.json)。
 
+已推送 GitHub 并部署至 [正式站点](https://zero-point-hardware-lab.vercel.app/)。线上再核查电源、散热器、显卡及 390 px 散热视图共 4 个状态，确认新节点与演示类型已上线，无页面异常。
+
 ## 仍未关闭
 
 | 范围 | 待完善内容 |
