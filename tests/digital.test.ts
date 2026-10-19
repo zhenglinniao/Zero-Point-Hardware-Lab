@@ -111,6 +111,22 @@ await test('original PS5 has eight GDDR6 packages, six NAND packages on two face
   assert.ok(fan.max.y<=cover.max.y,'fan must stay below the exterior top');
 });
 
+await test('PS5 packages move away from their own PCB face throughout dissection',()=>{
+  const model=models.get('ps5board')!;
+  const definition=digitalDefinitions.find(d=>d.id==='ps5board')!;
+  try {
+    const scratch=new ModelStageScratch();
+    for(const amount of [0,.1,.25,.5]) {
+      for(const piece of model.pieces) applyPiecePose(piece,'ps5board',amount,scratch);
+      const pcb=new T.Box3().setFromObject(model.pieces.find(p=>p.concept==='ps5board-pcb')!.object);
+      for(const part of definition.parts.filter(p=>p.id==='apu'||p.id.startsWith('memory')||p.id.startsWith('nand'))) {
+        const box=new T.Box3().setFromObject(model.pieces.find(p=>p.concept===`ps5board-${part.id}`)!.object);
+        assert.ok(part.pos[1]>0 ? box.min.y>pcb.max.y : box.max.y<pcb.min.y,`${part.id} crosses PCB at ${amount}`);
+      }
+    }
+  } finally {for(const piece of model.pieces) applyPiecePose(piece,'ps5board',0,new ModelStageScratch());}
+});
+
 await test('iPhone rear-view landmarks match Apple and internal flex stays beneath the glass',()=>{
   const phone=digitalDefinitions.find(d=>d.id==='phone')!;
   const part=(id:string)=>phone.parts.find(p=>p.id===id)!;

@@ -69,17 +69,19 @@ export function refineDigitalDefinitions(definitions: Definition[]) {
   });
   edit('ps5', 'cooling', { pos: [-34, -25, 25] });
   edit('ps5', 'frame', { shape: 'frame', size: [94, 360, 235] });
-  get('ps5board').camera = { direction: [1, -1.6, 1.1], padding: 1.1 };
+  get('ps5board').camera = { direction: [1.2, 1.5, 1.1], padding: 1.1 };
   edit('ps5cooling', 'coldplate', { pos: [-17, 28, 46.5] });
   edit('ps5cooling', 'interface', { pos: [-17, 29.3, 46.5] });
   edit('ps5cooling', 'pipes', { pos: [0, 26, 0] });
   edit('ps5board', 'pcb', {
+    delta: [0, 0, 0],
     description:
       '依照原版主板照片绘制带风扇避让缺口的板形、铜箔接地边界、安装孔与接口边缘。微型走线仅为视觉近似。',
   });
   edit('ps5board', 'apu', {
     size: [52, 4, 52],
     pos: [-12, -5, 4],
+    delta: [170, -45, 0],
     rotation: [Math.PI, 0, 0],
     description:
       '绿色封装基板上的裸露芯片与四周支持件，接触面通过液态金属连接散热器。没有把它画成桌面 CPU 的金属顶盖。',
@@ -88,7 +90,7 @@ export function refineDigitalDefinitions(definitions: Definition[]) {
     name: 'GDDR6 内存封装 1',
     size: [14, 1.6, 12],
     pos: [-48, 3, -20],
-    delta: [-45, -25, -10],
+    delta: [-45, 25, -10],
     description: '8 个 2 GB GDDR6 封装中的一个，位于主板背面；合计 16 GB。',
     quantity: '1 颗（同组共 8 颗）',
   });
@@ -109,7 +111,7 @@ export function refineDigitalDefinitions(definitions: Definition[]) {
       'chip',
       [14, 1.6, 12],
       pos,
-      [(i % 2 ? 1 : -1) * 35, -25, i * 4 - 12],
+      [(i % 2 ? 1 : -1) * 35, 25, i * 4 - 12],
       '主板背面独立内存封装；8 颗 2 GB GDDR6 组成 16 GB 统一内存。',
       'Memory',
       '#171b20',
