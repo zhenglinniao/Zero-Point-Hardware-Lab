@@ -16,11 +16,16 @@ export function cameraExterior(part: DigitalPart, tools: ModelTools) {
   const g = new T.Group(),
     black = '#17191b',
     rubber = '#101213';
+  const finishes = new Map<string, T.MeshStandardMaterial>();
   const mat = (color = black, metal = 0.03, rough = 0.72) => {
+    const key = `${color}/${metal}/${rough}`;
+    const existing = finishes.get(key);
+    if (existing) return existing;
     const m = tools.material(color, metal, rough).clone();
     m.roughnessMap = null;
     m.bumpScale = color === rubber ? 0.16 : 0.07;
     m.envMapIntensity = 0.4;
+    finishes.set(key, m);
     return m;
   };
   const put = <O extends T.Object3D>(o: O, p: Vec3 = [0, 0, 0]) => {
