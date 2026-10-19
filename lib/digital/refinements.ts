@@ -522,12 +522,12 @@ export function refineDigitalDefinitions(definitions: Definition[]) {
   });
   edit('gamepad', 'board', {
     size: [96, 2, 48],
-    pos: [0, 0, -9],
+    pos: [0, 10, -17],
     delta: [0, 24, 0],
   });
   edit('gamepad', 'battery', {
     size: [40, 10, 31],
-    pos: [0, -10, -4],
+    pos: [0, 0, -14],
     delta: [0, -32, 15],
   });
   edit('gamepad', 'leftstick', { size: [22, 21, 22], pos: [-25.4, 14, 0] });
@@ -559,8 +559,8 @@ export function refineDigitalDefinitions(definitions: Definition[]) {
   );
   edit('gamepad', 'haptics', {
     shape: 'actuator',
-    size: [21, 18, 34],
-    pos: [-52, -5, 24],
+    size: [15, 15, 25.2],
+    pos: [-55, -12, 19],
     delta: [-30, -20, 30],
     name: '左侧线性触觉执行器',
     description:
@@ -571,8 +571,8 @@ export function refineDigitalDefinitions(definitions: Definition[]) {
     'right-haptic',
     '右侧线性触觉执行器',
     'actuator',
-    [21, 18, 34],
-    [52, -5, 24],
+    [15, 15, 25.2],
+    [55, -12, 19],
     [30, -20, 30],
     '右侧独立线性执行器通过线缆接到控制电路，向右手传递触觉反馈。',
   );
@@ -582,7 +582,7 @@ export function refineDigitalDefinitions(definitions: Definition[]) {
     '电池承载架',
     'tray',
     [47, 3, 38],
-    [0, -3, -4],
+    [0, -3, -15],
     [0, -25, 0],
     '电池架定位中央电池，并与周围的主板、扬声器与线缆分开。',
     'Chassis',

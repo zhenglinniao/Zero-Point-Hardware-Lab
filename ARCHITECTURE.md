@@ -2,11 +2,11 @@
 
 ## Multi-device Chinese explorer (2026-10-19)
 
-The current app contains eight independent device roots, 82 scales and 741 concepts.
+The current app contains eight independent device roots, 82 scales and 754 concepts.
 The 14 new scales are declared with their native dimensions and part ownership in
 `lib/digital/catalogue.ts`, built by `lib/digital/models.ts`, and registered through
 the same model/manifest/level contracts as the desktop and notebooks. Five new
-device families have 148 authored catalogue entries. `lib/devices.ts` is the
+device families have 161 catalogue entries including roots. `lib/devices.ts` is the
 home library; tests require its roots to match `systemRoots` exactly.
 
 Each device family uses a documented millimetres-per-unit conversion. Installing a
@@ -674,3 +674,11 @@ as part of the task rather than a follow-up.
 `lib/digital/refinements.ts` applies photo-referenced layouts while preserving existing component IDs, saved lessons and deep links. `lib/digital/geometry.ts` builds native-millimetre shells, apertures, board outlines, connectors, flex, dual-sided packages and mechanical modules. Native transforms stay below the stage-owned root. There are 143 selectable component definitions across the fourteen digital scales, plus five root catalogue entries. Internal fasteners/passives remain part of their named assembly, rather than fictitious independently identified electronic parts.
 
 Moulded digital enclosures now use static field-extracted surfaces (molded-shells.ts), with independently owned geometry clones and analytic field normals. The controller fascia uses a pierced, subdivided contour projected onto its shell, so a thin overlay cannot disappear between field samples. board-detail.ts maps board artwork in native millimetres and batches representative support devices while keeping package and aperture keepouts. These batches inherit their owning PCB's picking and motion identity.
+
+## Licensed meshes and optical prescriptions (2026-10-19)
+
+Current totals: 8 roots, 82 scales, 754 concepts; 156 digital component definitions plus 5 digital root entries. The earlier totals above describe the previous revision.
+
+`gamepad-asset.ts` lazily loads the credited CC BY GLB, caches a private CPU template and clones geometry, materials and texture handles per rendered instance. Viewer and comparison creation/update await assets, reject stale navigation revisions and dispose engines resolving after unmount. Failure is reported instead of silently substituting the old coarse shell.
+
+`lens-prescription.ts` contains the MIT DoubleGauss prescription and CC0 glass coefficients. `lens-layout.ts` maps native millimetres into assemblies; `lens-geometry.ts` creates closed spherical solids and authored sectioned mechanics. Tests cover cemented interfaces, edge thickness, paraxial imaging, and the mounted sensor plane. Mechanical dimensions and clear aperture choices are teaching design.

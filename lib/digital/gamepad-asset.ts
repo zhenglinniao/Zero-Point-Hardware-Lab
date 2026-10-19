@@ -70,7 +70,9 @@ export async function prepareModelAssets(level: LevelId) {
       await installGamepadAsset(await response.arrayBuffer());
     })().catch((error) => {
       pending = null;
-      throw new Error(`手柄模型资源加载失败，请刷新后重试。${error instanceof Error?error.message:''}`);
+      throw new Error(
+        `手柄模型资源加载失败，请刷新后重试。${error instanceof Error ? error.message : ''}`,
+      );
     });
   await pending;
 }

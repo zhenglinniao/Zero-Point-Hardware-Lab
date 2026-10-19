@@ -273,3 +273,25 @@ await test('all six curved glass solids render and the source image plane meets 
   assert.ok(Math.abs(27.5/15-sensitive.max.z-18/15)<1e-5,'E-mount mating face is 18 mm ahead of sensor');
   assert.ok(opticalCentre>38 && opticalCentre<40);
 });
+
+await test('controller battery and haptic bodies stay inside the licensed shell at representative sections',()=>{
+  const definition=digitalDefinitions.find(d=>d.id==='gamepad')!;
+  const shell=new T.Group();
+  for(const part of definition.parts){const exterior=gamepadExterior(part);if(exterior){exterior.position.set(...part.pos);shell.add(exterior);}}
+  shell.updateMatrixWorld(true);
+  const sections:[number,number,number,number][]=[];
+  for(const id of ['battery','haptics','right-haptic']){
+    const part=definition.parts.find(p=>p.id===id)!;
+    const [x,y,z]=part.pos,half=part.size[1]/2;
+    for(const offset of id==='battery'?[0]:[-part.size[2]/2,part.size[2]/2])sections.push([x,z+offset,y-half,y+half]);
+  }
+  for(const [x,z,bottom,top] of sections){
+    const ray=new T.Raycaster(new T.Vector3(x,100,z),new T.Vector3(0,-1,0));
+    const hits=ray.intersectObject(shell,true).filter(hit=>/^(back-shell|black-front-shell|white-shell)/.test(hit.object.name));
+    assert.ok(hits.length>=2,`closed shell section ${x},${z}`);
+    const heights=hits.map(hit=>hit.point.y);
+    assert.ok(top<Math.max(...heights),`body pierces upper skin at ${x},${z}`);
+    assert.ok(bottom>Math.min(...heights),`body pierces lower skin at ${x},${z}`);
+  }
+  disposeModelResources({root:shell,pieces:[]});
+});

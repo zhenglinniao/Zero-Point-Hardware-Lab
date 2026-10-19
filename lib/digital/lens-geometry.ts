@@ -18,8 +18,17 @@ import {
 export function buildLensPart(part: DigitalPart, tools: ModelTools) {
   const g = new T.Group(),
     id = part.id;
-  const metal = (color = '#7d888c', rough = 0.32) =>
-    tools.material(color, 0.8, rough);
+  const finishes = new Map<string, T.MeshStandardMaterial>();
+  const metal = (color = '#7d888c', rough = 0.44) => {
+    const key = color + rough;
+    if (finishes.has(key)) return finishes.get(key)!;
+    const material = tools.material(color, 0.78, rough).clone();
+    material.roughnessMap = null;
+    material.roughness = rough;
+    material.envMapIntensity = 0.9;
+    finishes.set(key, material);
+    return material;
+  };
   const plastic = () => tools.material('#151c22', 0.05, 0.72);
   const put = (object: T.Object3D, x = 0, y = 0, z = 0) => {
     object.position.set(x, y, z);
@@ -33,12 +42,13 @@ export function buildLensPart(part: DigitalPart, tools: ModelTools) {
     material: T.Material = metal(),
     section = false,
   ) => {
+    const b = Math.min(0.5, h * 0.2, (outer - inner) * 0.2);
     const profile = [
       [inner, -h / 2],
-      [outer - 0.5, -h / 2],
-      [outer, -h / 2 + 0.5],
-      [outer, h / 2 - 0.5],
-      [outer - 0.5, h / 2],
+      [outer - b, -h / 2],
+      [outer, -h / 2 + b],
+      [outer, h / 2 - b],
+      [outer - b, h / 2],
       [inner, h / 2],
       [inner, -h / 2],
     ].map(([x, y]) => new T.Vector2(x, y));
@@ -182,18 +192,6 @@ export function buildLensPart(part: DigitalPart, tools: ModelTools) {
   } else if (id === 'helicoid') {
     put(ring(29, 27.6, 25, metal('#827f68'), true));
     for (let start = 0; start < 3; start++) {
-      const points: T.Vector3[] = [];
-      for (let i = 0; i <= 720; i++) {
-        const a = (i / 720) * Math.PI * 18 + (start * Math.PI * 2) / 3;
-        if (a % (Math.PI * 2) < Math.PI / 2) continue;
-        points.push(
-          new T.Vector3(
-            Math.sin(a) * 29.1,
-            -11 + (i / 720) * 22,
-            Math.cos(a) * 29.1,
-          ),
-        );
-      }
       // Each turn is a separate open helix arc; do not bridge the section cut.
       for (let turn = 0; turn < 9; turn++) {
         const arc: T.Vector3[] = [];

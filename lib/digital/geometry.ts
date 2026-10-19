@@ -7,8 +7,8 @@ import type { ModelTools } from '../hardware.ts';
 import type { Vec3 } from '../layout.ts';
 import type { DigitalLevel, DigitalPart } from './catalogue.ts';
 
-/** Authored, photo-referenced geometry in native millimetres. No remote textures,
- * mesh downloads, opaque fake internal blocks, or random component placement. */
+/** Native-millimetre teaching geometry, licensed controller surfaces and
+ * prescription-based optical solids. Sources are recorded per assembly. */
 export function detailedGeometry(
   level: DigitalLevel,
   part: DigitalPart,
@@ -443,15 +443,15 @@ export function detailedGeometry(
   function shellController(top: boolean) {
     for (const x of [-52, 52])
       for (const z of [-25, 27]) {
-        put(disk(2.7, 7, '#d2d6d3', 1.1), [x, top ? 4 : -7, z]);
+        put(disk(2.7, 7, '#d2d6d3', 1.1), [x, top ? -2 : -17, z]);
         for (const sign of [-1, 1])
-          put(box([8, 1, 1.1], '#cbd1cf'), [x + sign * 4, top ? 7 : -11, z]);
+          put(box([8, 1, 1.1], '#cbd1cf'), [x + sign * 4, top ? 0 : -19, z]);
       }
     for (const side of [-1, 1])
       for (let i = 0; i < 5; i++) {
         const rib = box([1.2, 5.5, 10], '#ced4d0', 0.02, 0.3);
         rib.rotation.y = side * -0.25;
-        put(rib, [side * (55 + i * 1.6), top ? 6 : -10, 10 + i * 5]);
+        put(rib, [side * (55 + i * 1.6), top ? -4 : -16, 10 + i * 5]);
       }
   }
   function trigger() {
@@ -957,9 +957,11 @@ export function detailedGeometry(
     trigger();
   else if (level === 'gamepad' && (id === 'haptics' || id === 'right-haptic')) {
     const motor = new T.Group();
-    put(disk(9, 31, silver), [0, 0, 0], motor);
-    put(disk(7.8, 2, ink), [0, 16, 0], motor);
-    put(disk(7, 1, copper), [0, -16, 0], motor);
+    const radius = Math.min(w, h) / 2,
+      length = d - 1.2;
+    put(disk(radius, length, silver), [0, 0, 0], motor);
+    put(disk(radius * 0.88, 1.2, ink), [0, length / 2, 0], motor);
+    put(disk(radius * 0.8, 1, copper), [0, -length / 2, 0], motor);
     motor.rotation.x = Math.PI / 2;
     g.add(motor);
     for (const [x, c] of [
