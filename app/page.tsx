@@ -1,12 +1,15 @@
 'use client';
 import { useCallback, useEffect, useState } from 'react';
-import { EyeOff } from 'lucide-react';
+import { ArrowLeft, BookOpen, EyeOff, Info, Layers3, Search } from 'lucide-react';
+import { lessons, readProgress, resumeStep, saveProgress, type LearningProgress } from '@/lib/learning';
 import { levelPath } from '@/lib/levels';
 import { useExplorer } from './use-explorer';
 import { useFirstVisitHint } from './use-first-visit-hint';
 import Viewer from './viewer';
 import PerformanceTip from './performance-tip';
-import Topbar from './topbar';
+import LearningHome from './learning-home';
+import LessonCoach from './lesson-coach';
+import './learning.css';
 import ScaleNav from './scale-nav';
 import SystemsList from './systems-list';
 import StageHeading from './stage-heading';
@@ -18,7 +21,28 @@ import AboutDialog from './about-dialog';
 import ComparisonWorkbench from './comparison-workbench';
 
 export default function Home() {
+  const [entered, setEntered] = useState(() => new URLSearchParams(location.search).has('scale'));
+  const [lessonId, setLessonId] = useState<string | null>(null);
+  const [progress, setProgress] = useState<LearningProgress>(readProgress);
+  const [saved, setSaved] = useState(true);
+  const home = () => {
+    history.replaceState(null, '', location.pathname);
+    setEntered(false);
+  };
+  useEffect(() => {
+    if (!entered) document.title = '零点硬件实验室 · 拆开，才能看懂';
+  }, [entered]);
+  const persist = (next: LearningProgress) => { setProgress(next); setSaved(saveProgress(next)); };
+  if (!entered) return <LearningHome progress={progress} onStart={(id) => { setLessonId(id); setEntered(true); }} onReset={() => persist([])} />;
+  return <Lab key={lessonId ?? 'free'} lessonId={lessonId} progress={progress} saved={saved} onComplete={(id) => { if (!progress.includes(id)) persist([...progress, id]); }} onHome={home} onFree={() => setLessonId(null)} />;
+}
+
+type LabProps = { lessonId: string | null; progress: LearningProgress; saved: boolean; onComplete: (id: string) => void; onHome: () => void; onFree: () => void };
+
+function Lab({ lessonId, progress, saved, onComplete, onHome, onFree }: LabProps) {
   const explorer = useExplorer();
+  const lesson = lessons.find((item) => item.id === lessonId);
+  const [stepIndex, setStepIndex] = useState(() => lesson ? resumeStep(lesson, progress) : 0);
   const { state, selected, logical, layers, selectConcept, choose, navigate } =
     explorer;
   const [search, setSearch] = useState(false),
@@ -30,6 +54,15 @@ export default function Home() {
     // to say to the reader, and saying the wrong one was what put "No
     // structures visible" on screen for the whole of a cold load.
     [count, setCount] = useState<number | null>(null);
+
+  const step = lesson?.steps[stepIndex];
+  const { goTo } = explorer;
+  useEffect(() => {
+    if (step) {
+      setCount(null);
+      goTo({ level: step.level, selection: null, explode: 0 });
+    }
+  }, [step, goTo]);
 
   const { hint, dismissHint } = useFirstVisitHint(
     state,
@@ -92,18 +125,17 @@ export default function Home() {
   return (
     <main
       className={
-        'workbench' +
+        'workbench zln-lab' +
+        (lesson ? ' lesson-mode' : '') +
         (selected ? ' has-selection' : '') +
         (logical ? ' logical' : '')
       }
     >
-      <Topbar
-        layers={layers}
-        onReset={explorer.reset}
-        onToggleLayers={() => explorer.setLayers(!layers)}
-        onSearch={() => setSearch(true)}
-        onAbout={() => setAbout(true)}
-      />
+      <header className="lab-header">
+        <button className="lab-home" onClick={onHome} aria-label="返回学习台"><span className="lab-mark">z·</span><strong>零点硬件实验室<small>ZERO POINT / HARDWARE LAB</small></strong></button>
+        <span className="lab-breadcrumb">学习台 <span>/</span> {lesson?.title ?? '自由拆解'}</span>
+        <div className="lab-header-actions"><button className="lab-task-toggle" onClick={() => explorer.setLayers(!layers)} aria-expanded={layers} aria-label="展开实验面板"><Layers3 size={18} /><span>{lesson ? '任务' : '层级'}</span></button>{lesson && <button onClick={onFree} className="lab-free">自由探索<ArrowLeft size={13} /></button>}<button onClick={() => setSearch(true)} aria-label="Find a component"><Search size={17} /><span>检索部件</span><kbd>/</kbd></button><button onClick={() => setAbout(true)} aria-label="About and sources"><Info size={18} /></button></div>
+      </header>
       <PerformanceTip ready={count !== null && count > 0} />
       {layers && (
         // Without this the drawer floats over a live 3-D view: a tap meant to
@@ -118,7 +150,7 @@ export default function Home() {
         className={'explorer' + (layers ? ' mobile-open' : '')}
         aria-label="System visibility"
       >
-        <ScaleNav
+        {lesson ? <LessonCoach key={step?.id} lesson={lesson} index={stepIndex} progress={progress} state={state} ready={count !== null && count > 0} saved={saved} onComplete={onComplete} onStep={(index) => { setStepIndex(index); explorer.setLayers(false); }} onRestore={() => step && goTo({ level: step.level, selection: null, explode: 0 })} onHome={onHome} /> : <><ScaleNav
           level={state.level}
           shownMenu={explorer.shownMenu}
           shownSubmenu={explorer.shownSubmenu}
@@ -137,8 +169,9 @@ export default function Home() {
           onSetConceptVisible={explorer.setConceptVisible}
           onSelectConcept={selectResult}
         />
+        </>}
       </aside>
-      <StageHeading
+      {lesson && step ? <section className="stage-heading lab-stage-heading"><div><span className="tiny-label"><BookOpen size={12} />实验 {lesson.number} / 步骤 {stepIndex + 1}</span><h1>{step.title}</h1></div><span className="stage-model-note">拖动旋转 · 滚轮缩放 · 右键查看资料</span></section> : <StageHeading
         level={state.level}
         explode={state.explode}
         logical={logical}
@@ -147,7 +180,7 @@ export default function Home() {
         hint={hint}
         onDismissHint={dismissHint}
         onNavigate={navigate}
-      />
+      />}
       <Viewer
         state={state}
         loading={count === null}
@@ -184,6 +217,9 @@ export default function Home() {
         onToggleAuto={explorer.toggleAuto}
         onSetExplode={explorer.setExplode}
         onReset={explorer.reset}
+        title="拆解进度"
+        sectionLabel="拆解控制"
+        sliderLabel="Disassemble the specimen"
       />
       <SearchDialog
         open={search}
