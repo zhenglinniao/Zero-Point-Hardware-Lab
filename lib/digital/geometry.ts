@@ -9,6 +9,7 @@ import { gamepadExterior } from './gamepad-asset.ts';
 import { buildLensPart } from './lens-geometry.ts';
 import { precisionGeometry } from './precision-geometry.ts';
 import { ps5CoverPoint } from './ps5-cover.ts';
+import { airpodsPocket, airpodsCup } from './airpods-pocket.ts';
 import type { ModelTools } from '../hardware.ts';
 import type { Vec3 } from '../layout.ts';
 import type { DigitalLevel, DigitalPart } from './catalogue.ts';
@@ -511,28 +512,28 @@ export function detailedGeometry(
       [0, 0, 0],
       parent,
     );
-    const vent = new T.Mesh(
-      new T.SphereGeometry(1, 24, 12),
-      mat('#151c20', 0.1, 0.85),
-    );
-    vent.scale.set(2.5, 0.3, 1.5);
-    vent.rotation.z = 0.4;
-    put(vent, [-5, 10.4, -2], parent);
-    for (let i = 0; i < 7; i++)
-      put(
-        box([0.15, 0.1, 1.7], '#657071'),
-        [-6.4 + i * 0.45, 10.6, -2],
-        parent,
-      );
+    const ventGeometry = new T.CircleGeometry(1, 64),
+      v = ventGeometry.getAttribute('position');
+    for (let i = 0; i < v.count; i++) {
+      const x = -4.4 + v.getX(i) * 1.8,
+        z = -2 + v.getY(i) * 0.7;
+      const y =
+        5 +
+        7.5 *
+          Math.sqrt(Math.max(0, 1 - (x / 8.2) ** 2 - ((z + 0.8) / 8.3) ** 2));
+      v.setXYZ(i, x, y + 0.025, z);
+    }
+    ventGeometry.computeVertexNormals();
+    const ventMaterial = mat('#172023', 0, 0.75).clone();
+    ventMaterial.side = T.DoubleSide;
+    put(new T.Mesh(ventGeometry, ventMaterial), [0, 0, 0], parent);
     const sensor = new T.Mesh(
       new T.SphereGeometry(1, 20, 12),
       mat('#0f1720', 0.15, 0.22),
     );
     sensor.scale.set(0.4, 1.6, 1.1);
     put(sensor, [7.5, 4, 1], parent);
-    put(plate(1.1, 0.25, 7, '#9ca5a5', 0.5), [2, -5, 7.7], parent);
-    for (const x of [1, 3])
-      put(box([0.65, 0.3, 2.6], copper, 0.6), [x, -13.1, 5], parent);
+    put(box([1.5, 6, 0.08], '#e4e8e5', 0, 0.03), [2.3, -5, 7.65], parent);
     if (!shell) {
       put(disk(4.4, 3.5, '#e3e8e4', 2.6), [0, 12, -4], parent);
       put(disk(5.4, 2.5, '#dbe1db', 2.5), [0, 13.7, -4], parent);
@@ -996,41 +997,59 @@ export function detailedGeometry(
       8,
     );
   } else if (level === 'earbuds' && id === 'case') {
-    put(new T.Mesh(chargingCase(false, w, h, d), mat('#edf0eb', 0.02, 0.24)));
-    const port = plate(9, 0.4, 3, '#20292b', 1.4);
-    port.rotation.x = Math.PI / 2;
-    put(port, [0, -h / 2 + 3, d / 2 - 0.15]);
-    put(disk(0.7, 0.2, '#8d9b6c'), [0, 0, d / 2 + 0.1]);
-  } else if (level === 'earbuds' && id === 'lid') {
-    put(new T.Mesh(chargingCase(true, w, h, d), mat('#edf0eb', 0.02, 0.24)));
-    put(
-      plate(w - 7, 1, d - 5, '#f7f8f2', 7, [
-        circleHole(-14, 0, 7),
-        circleHole(14, 0, 7),
-      ]),
-      [0, -h / 2, 0],
+    const shell = put(
+      new T.Mesh(chargingCase(false, w, h, d), mat('#f3f5f3', 0.0, 0.3)),
     );
+    shell.name = 'airpods-case-analytic-shell';
+    const led = put(
+      new T.Mesh(new T.SphereGeometry(0.36, 20, 12), mat('#73936d', 0, 0.45)),
+      [0, 9.4, 10.85],
+    );
+    led.scale.z = 0.2;
+    put(plate(8.8, 0.15, 2.3, '#283033', 1), [0, -h / 2 - 0.01, 0]);
+    for (const x of [-12, -10, -8, 8, 10, 12])
+      put(disk(0.42, 0.12, '#283033'), [x, -h / 2 + 0.05, 0]);
+  } else if (level === 'earbuds' && id === 'lid') {
+    put(new T.Mesh(chargingCase(true, w, h, d), mat('#f3f5f3', 0, 0.3))).name =
+      'airpods-lid-analytic-shell';
+    // Recessed magnets, rather than a second flat slab under the lid.
+    for (const x of [-24, 24])
+      put(plate(3, 0.45, 3, '#dfe2df', 1), [x, -h / 2 + 1.2, 0]);
   } else if (level === 'earbuds' && id === 'tray') {
     put(
-      plate(w, h, d, '#eaefec', 8, [
-        rectHole(-14, 0, 24.4, 17.2, 4),
-        rectHole(14, 0, 24.4, 17.2, 4),
-      ]),
+      plate(w, h, d, '#eaefec', 8, [airpodsPocket(true), airpodsPocket(false)]),
     );
     for (const x of [-14, 14]) {
-      put(plate(25.2, 6, 18, '#d6dedb', 4.4, [rectHole(0, 0, 24.4, 17.2, 4)]), [
+      put(new T.Mesh(airpodsCup(x < 0), mat('#e7ece8', 0, 0.4)), [
         x,
-        -4,
+        -h / 2,
         0,
       ]);
       for (const offset of [-1, 1])
-        put(disk(0.7, 2, copper), [x + offset * 1.5, -9, 3]);
+        put(disk(0.55, 0.8, copper), [
+          x + (x < 0 ? -5 : 5) + offset * 1.2,
+          -20.5,
+          x < 0 ? 2.3 : -2.3,
+        ]);
     }
   } else if (level === 'earbuds' && id === 'left') budShell(g, false);
   else if (level === 'earbudunit' && id === 'shell') budShell();
   else if (level === 'earbudunit' && id === 'cap')
     put(new T.Mesh(earbudShell(true, true), mat('#edf0ed', 0.02, 0.22)));
-  else if (level === 'earbudunit' && id === 'tip') {
+  else if (level === 'earbudunit' && id === 'flex') {
+    flex(
+      [
+        [0, 3, 1],
+        [1, 1, 3.5],
+        [2.3, -1, 5],
+        [2.3, -3, 5],
+      ],
+      1.2,
+    );
+  } else if (level === 'earbudunit' && id === 'contacts') {
+    for (const x of [-1.05, 1.05])
+      put(box([0.65, 0.15, 2.4], silver, 0.75, 0.06), [x, 0, 0]);
+  } else if (level === 'earbudunit' && id === 'tip') {
     const points = [
       [2.5, -2.5],
       [3.5, -2.5],

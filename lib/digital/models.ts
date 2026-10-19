@@ -11,6 +11,11 @@ export function buildDigital(level: DigitalLevel, tools: ModelTools) {
     value.map((v) => v / definition.unit) as Vec3;
   for (const part of definition.parts) {
     const object = new T.Group();
+    if (level === 'earbuds' && part.id === 'lid')
+      object.userData.hinge = {
+        pivot: [0, 9.4 / definition.unit, -8.6 / definition.unit],
+        angle: (-Math.PI * 105) / 180,
+      };
     if (part.motion) object.userData.disassemblyWindow = part.motion;
     const nested = part.open ?? part.assembly;
     if (nested) {

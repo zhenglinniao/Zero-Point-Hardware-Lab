@@ -20,6 +20,13 @@ export class ModelStageScratch {
 
 export const laidOutAmount = (value: number) => smoothstep(0.7, 1, value);
 
+function hingeAngle(piece: Piece, value: number) {
+  const hinge = piece.object.userData.hinge;
+  return hinge
+    ? hinge.angle * smoothstep(0, 0.16, value) * (1 - laidOutAmount(value))
+    : 0;
+}
+
 export function piecePosture(
   piece: Piece,
   grid: number,
@@ -60,6 +67,20 @@ export function pieceDestination(
         (levels[level].spread ?? 1),
     );
   const grid = laidOutAmount(value);
+  const hinge = piece.object.userData.hinge;
+  if (hinge) {
+    // Rotate the installed centre around the fixed hinge BEFORE detaching.
+    const pivot = new T.Vector3(...(hinge.pivot as [number, number, number]));
+    position
+      .sub(piece.base)
+      .add(
+        piece.base
+          .clone()
+          .sub(pivot)
+          .applyAxisAngle(new T.Vector3(1, 0, 0), hingeAngle(piece, value)),
+      )
+      .add(pivot);
+  }
   inventoryTarget
     .copy(piece.inventory)
     .addScaledVector(
@@ -100,6 +121,11 @@ export function applyPiecePose(
     piece.object.quaternion
       .copy(piece.restQuat)
       .slerp(piece.lie, laidOutAmount(value));
+  if (piece.object.userData.hinge)
+    piece.object.quaternion.setFromAxisAngle(
+      new T.Vector3(1, 0, 0),
+      hingeAngle(piece, value),
+    );
   if (piece.batch) {
     scratch.matrix.compose(
       piece.object.position,
@@ -159,6 +185,14 @@ export function posedModelBounds(
       scratch.inventoryTarget,
     );
     const posture = piecePosture(piece, grid, scratch.extent, scratch.centre);
+    if (piece.object.userData.hinge) {
+      const matrix = new T.Matrix4().makeRotationX(hingeAngle(piece, value));
+      const box = new T.Box3()
+        .setFromCenterAndSize(posture.centre, posture.extent)
+        .applyMatrix4(matrix);
+      posture.extent = box.getSize(scratch.extent);
+      posture.centre = box.getCenter(scratch.centre);
+    }
     scratch.half.copy(posture.extent).multiplyScalar(destination.scale * 0.52);
     target.expandByPoint(
       scratch.point

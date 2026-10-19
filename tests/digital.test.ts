@@ -144,10 +144,11 @@ await test('iPhone rear-view landmarks match Apple and internal flex stays benea
 });
 await test('earbuds fit below the closed case lid and phone battery clears its logic board',()=>{
   const model=models.get('earbuds')!;
-  const lid=new T.Box3().setFromObject(model.pieces.find((piece)=>piece.concept==='earbuds-lid')!.object);
+  // The lid is a hollow cap; its lower rim overlaps the earphone height.
+  // Actual shell containment is checked below rather than using its AABB floor.
   for(const id of ['earbuds-left','earbudunit']) {
     const box=new T.Box3().setFromObject(model.pieces.find((piece)=>piece.concept===id)!.object);
-    assert.ok(box.max.y<lid.min.y,id);
+    assert.ok(box.max.y<21.4/10,id);
     assert.ok(box.min.y>-19/10,'buds must clear the case floor');
   }
   const phone=models.get('phone')!;
@@ -337,8 +338,8 @@ await test('both earphones use the same native assembly and turn their nozzle al
     const piece=model.pieces.find(p=>p.concept===id)!;
     const box=new T.Box3().setFromObject(piece.object);bounds.push(box);
     assert.ok(box.min.z>-9/10 && box.max.z<9/10,'heads must clear front and rear case walls');
-    assert.ok(box.max.y<16.5/10,'heads must clear the closed lid');
-    assert.ok(box.min.y>-12.85/10,'stems must clear the battery envelope');
+    assert.ok(box.max.y<21.4/10,'heads must clear the closed lid');
+    assert.ok(box.min.y>-13/10,'stems must clear the battery envelope');
   }
   assert.ok(bounds[0].getSize(new T.Vector3()).distanceTo(bounds[1].getSize(new T.Vector3()))<1e-6);
 });
@@ -383,11 +384,11 @@ await test('phone magnetic ring clears the logic-board shield and stays beneath 
 await test('case lower shell opens upward and lid opens downward rather than trapping solid ceilings',async()=>{
   const {chargingCase}=await import('../lib/digital/molded-shells.ts');
   for(const lid of [false,true]){
-    const material=new T.MeshBasicMaterial({side:T.DoubleSide}),geometry=chargingCase(lid,60.6,lid?7:38,21.7),mesh=new T.Mesh(geometry,material);
+    const material=new T.MeshBasicMaterial({side:T.DoubleSide}),geometry=chargingCase(lid,60.6,lid?13.1:31.9,21.7),mesh=new T.Mesh(geometry,material);
     mesh.updateMatrixWorld(true);
     const ray=new T.Raycaster(new T.Vector3(0,lid?-20:30,0),new T.Vector3(0,lid?1:-1,0));
     const hits=ray.intersectObject(mesh);assert.ok(hits.length>0);
-    assert.ok(lid?hits[0].point.y>1:hits[0].point.y< -16,'opening must face the earphone tray');
+    assert.ok(lid?hits[0].point.y>5:hits[0].point.y< -14,'opening must face the earphone tray');
     geometry.dispose();material.dispose();
   }
 });
@@ -403,4 +404,102 @@ await test('PS5 cover snap seats follow the actual inner skin instead of floatin
       assert.ok(hits.length>0&&hits[0].distance<1.2/40,'snap base must sit on the deformed inner skin');
     }
   }
+});
+
+await test('earphone electronic and acoustic meshes remain inside the continuous external body',async()=>{
+  const {earbudOuterField}=await import('../lib/digital/molded-shells.ts');
+  const model=models.get('earbudunit')!;model.root.updateMatrixWorld(true);
+  for(const id of ['earbudunit-battery','earbuddriver','earbudunit-processor','earbudunit-mic','earbudunit-flex']){
+    let worst=-Infinity;
+    model.pieces.find(p=>p.concept===id)!.object.traverse(o=>{
+      if(!(o instanceof T.Mesh))return;
+      const positions=o.geometry.getAttribute('position'),instance=new T.Matrix4();
+      for(let j=0;j<(o instanceof T.InstancedMesh?o.count:1);j++){
+        if(o instanceof T.InstancedMesh)o.getMatrixAt(j,instance);else instance.identity();
+        for(let i=0;i<positions.count;i+=Math.max(1,Math.floor(positions.count/200))){
+          const point=new T.Vector3().fromBufferAttribute(positions,i).applyMatrix4(instance).applyMatrix4(o.matrixWorld).multiplyScalar(3);
+          worst=Math.max(worst,earbudOuterField(point.x,point.y,point.z));
+        }
+      }
+    });
+    assert.ok(worst< -1.02,`${id} crosses the shell: ${worst} mm`);
+  }
+});
+
+await test('lid opens about its fixed rear hinge before detaching and returns exactly',()=>{
+  const model=models.get('earbuds')!,lid=model.pieces.find(p=>p.concept==='earbuds-lid')!;
+  const pivot=new T.Vector3(0,.94,-.86),local=pivot.clone().sub(lid.base);
+  for(const value of [0,.04,.08,.12,.16]){
+    applyPiecePose(lid,'earbuds',value,new ModelStageScratch());model.root.updateMatrixWorld(true);
+    assert.ok(lid.object.localToWorld(local.clone()).distanceTo(pivot)<1e-9);
+  }
+  assert.ok(lid.object.rotation.x< -Math.PI/2);
+  applyPiecePose(lid,'earbuds',0,new ModelStageScratch());
+  assert.ok(lid.object.position.distanceTo(lid.base)<1e-9);assert.ok(lid.object.quaternion.angleTo(new T.Quaternion())<1e-9);
+});
+
+await test('installed earphones and charging modules stay inside the rounded case cavity',()=>{
+  const model=models.get('earbuds')!;model.root.updateMatrixWorld(true);
+  for(const id of ['earbuds-left','earbudunit','earbuds-battery','earbuds-battery-right','earbuds-board','earbuds-coil']){
+    let worst=-Infinity;
+    model.pieces.find(p=>p.concept===id)!.object.traverse(o=>{
+      if(!(o instanceof T.Mesh))return;
+      const positions=o.geometry.getAttribute('position'),instance=new T.Matrix4();
+      for(let j=0;j<(o instanceof T.InstancedMesh?o.count:1);j++){
+        if(o instanceof T.InstancedMesh)o.getMatrixAt(j,instance);else instance.identity();
+        for(let i=0;i<positions.count;i+=Math.max(1,Math.floor(positions.count/200))){
+          const p=new T.Vector3().fromBufferAttribute(positions,i).applyMatrix4(instance).applyMatrix4(o.matrixWorld).multiplyScalar(10);
+          const q=new T.Vector3(Math.abs(p.x)-20.3,Math.abs(p.y)-12.6,Math.abs(p.z)-.85);
+          const d=new T.Vector3(Math.max(0,q.x),Math.max(0,q.y),Math.max(0,q.z)).length()+Math.min(Math.max(q.x,q.y,q.z),0)-8.8;
+          worst=Math.max(worst,d);
+        }
+      }
+    });
+    assert.ok(worst<-.08,`${id} intersects the inner case wall: ${worst} mm`);
+  }
+});
+
+await test('earphone cross sections pass through the actual tray openings',async()=>{
+  const {airpodsPocket}=await import('../lib/digital/airpods-pocket.ts');
+  const model=models.get('earbuds')!;model.root.updateMatrixWorld(true);
+  const inside=(p:T.Vector3,polygon:T.Vector2[])=>{
+    let hit=false;
+    for(let i=0,j=polygon.length-1;i<polygon.length;j=i++){
+      const a=polygon[i],b=polygon[j];
+      if((a.y>p.z)!==(b.y>p.z)&&p.x<(b.x-a.x)*(p.z-a.y)/(b.y-a.y)+a.x)hit=!hit;
+    }return hit;
+  };
+  for(const [id,left] of [['earbuds-left',true],['earbudunit',false]] as const){
+    const polygon=airpodsPocket(left).getPoints(32);
+    model.pieces.find(p=>p.concept===id)!.object.traverse(o=>{
+      if(!(o instanceof T.Mesh)||o instanceof T.InstancedMesh)return;
+      const positions=o.geometry.getAttribute('position'),index=o.geometry.index;
+      for(let i=0;i<(index?.count??positions.count);i+=3){
+        const triangle=[0,1,2].map(j=>new T.Vector3().fromBufferAttribute(positions,index?index.getX(i+j):i+j).applyMatrix4(o.matrixWorld).multiplyScalar(10));
+        for(const y of [8,8.5,9])for(let j=0;j<3;j++){
+          const a=triangle[j],b=triangle[(j+1)%3];
+          if((a.y>y)===(b.y>y))continue;
+          const point=a.clone().lerp(b,(y-a.y)/(b.y-a.y));
+          assert.ok(inside(point,polygon),`${id} crosses tray plastic at ${point.toArray().join(",")}`);
+        }
+      }
+    });
+  }
+});
+
+await test('earphones lift vertically clear of their pockets before the tray lifts',()=>{
+  const model=models.get('earbuds')!,scratch=new ModelStageScratch();
+  try{
+    for(const value of [.16,.2,.24,.27]){
+      for(const p of model.pieces)applyPiecePose(p,'earbuds',value,scratch);
+      model.root.updateMatrixWorld(true);
+      const tray=model.pieces.find(p=>p.concept==='earbuds-tray')!;
+      assert.ok(tray.object.position.distanceTo(tray.base)<1e-9);
+      for(const id of ['earbuds-left','earbudunit']){
+        const p=model.pieces.find(p=>p.concept===id)!;
+        assert.equal(p.object.position.x,p.base.x);assert.equal(p.object.position.z,p.base.z);
+        if(value===.27)assert.ok(new T.Box3().setFromObject(p.object).min.y>new T.Box3().setFromObject(tray.object).max.y);
+      }
+    }
+  }finally{for(const p of model.pieces)applyPiecePose(p,'earbuds',0,scratch);}
 });

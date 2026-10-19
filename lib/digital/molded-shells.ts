@@ -1,5 +1,6 @@
 import * as T from 'three';
 import { MarchingCubes } from 'three/addons/objects/MarchingCubes.js';
+import { horizontalSection } from './mesh-section.ts';
 
 type Field = (x: number, y: number, z: number) => number;
 const cache = new Map<string, T.BufferGeometry>();
@@ -161,18 +162,34 @@ export function cameraFrontShell() {
   return surface('camera-front-continuous-v2', [68, 44, 39], cameraFrontField);
 }
 
+export function earbudOuterField(x: number, y: number, z: number) {
+  const head = (Math.hypot(x / 8.2, (y - 5) / 7.5, (z + 0.8) / 8.3) - 1) * 7.5;
+  const stem = capsule((x - 2.3) * 1.2, y, z, 0, -15.5, 5, 0, 3, 5, 2.7);
+  const neck = capsule(x, y, z, 0, 6, -7, 0, 6, -9.8, 2.8);
+  return blend(blend(head, stem, 2.5), neck, 1);
+}
 export function earbudShell(open: boolean, cap = false) {
-  return surface(`earbud-${open}-${cap}`, [12, 18, 12], (x, y, z) => {
-    // A swollen acoustic head joins a short, flattened stem without a seam of
-    // intersecting boxes. Cavity opens towards the driver on the service side.
-    const head =
-      (Math.hypot(x / 8.2, (y - 5) / 7.5, (z + 0.8) / 8.3) - 1) * 7.5;
-    const stem = capsule(x * 1.2, y, z, 2.3, -12, 5, 2.3, 3, 5, 2.7);
-    const body = blend(head, stem, 2.5);
-    let shell = Math.max(body, -(body + 1.0));
-    if (open) shell = Math.max(shell, cap ? 7.25 - y : y - 7.2);
-    return shell;
-  });
+  const sectionKey = `earbud-section-v4-${cap}`;
+  if (open && cache.has(sectionKey)) return cache.get(sectionKey)!.clone();
+  const whole = surface(
+    'earbud-whole-v4',
+    [12, 20, 15],
+    (x, y, z) => {
+      // A swollen acoustic head joins a short, flattened stem without a seam of
+      // intersecting boxes. Cavity opens towards the driver on the service side.
+      const body = earbudOuterField(x, y, z);
+      let shell = Math.max(body, -(body + 1.0));
+      const bore = Math.max(Math.hypot(x, y - 6) - 2.0, z + 7.5);
+      shell = Math.max(shell, -bore);
+      return shell;
+    },
+    128,
+  );
+  if (!open) return whole;
+  const section = horizontalSection(whole, cap ? 7.25 : 7.2, cap);
+  whole.dispose();
+  cache.set(sectionKey, section);
+  return section.clone();
 }
 
 export function chargingCase(
@@ -181,22 +198,69 @@ export function chargingCase(
   height: number,
   depth: number,
 ) {
-  return surface(
-    `case-v2-${lid}-${width}-${height}`,
-    [width / 2 + 2, height / 2 + 2, depth / 2 + 2],
-    (x, y, z) => {
-      const r = Math.min(9, height / 2 - 0.3, depth / 2 - 0.3);
-      const outer = roundedBox(x, y, z, width / 2, height / 2, depth / 2, r);
-      const inner = roundedBox(
-        x,
-        y + (lid ? 1.8 : -1.8),
-        z,
-        width / 2 - 1.5,
-        height / 2,
-        depth / 2 - 1.5,
-        Math.max(1, r - 1.3),
+  // Both parts are sections of ONE 45.2 mm body. Analytic rings preserve the
+  // 1.2 mm wall and clean seam; a voxel grid cannot resolve this thin rim.
+  const total = 45.2,
+    wall = 1.2,
+    seam = lid ? 9.5 : 9.3;
+  const centre = lid ? seam + height / 2 : seam - height / 2;
+  const positions: number[] = [],
+    indices: number[] = [];
+  const segments = 192,
+    steps = 56;
+  function ring(y: number, inside: boolean) {
+    const inset = inside ? wall : 0;
+    const radius = 10 - inset,
+      halfY = total / 2 - inset;
+    const q = Math.max(0, Math.abs(y) - (halfY - radius));
+    const r = Math.sqrt(Math.max(0.000001, radius * radius - q * q));
+    const a = width / 2 - inset - radius,
+      b = depth / 2 - inset - radius;
+    for (let i = 0; i < segments; i++) {
+      const quadrant = Math.floor(i / 48);
+      const theta = ((quadrant + (i % 48) / 47) * Math.PI) / 2;
+      const sx = quadrant === 1 || quadrant === 2 ? -1 : 1;
+      const sz = quadrant >= 2 ? -1 : 1;
+      positions.push(
+        sx * a + r * Math.cos(theta),
+        y - centre,
+        sz * b + r * Math.sin(theta),
       );
-      return Math.max(outer, -inner);
-    },
-  );
+    }
+  }
+  const extreme = lid ? total / 2 : -total / 2;
+  for (let k = 0; k <= steps; k++)
+    ring(extreme + ((seam - extreme) * k) / steps, false);
+  for (let k = 0; k <= steps; k++)
+    ring(seam + ((extreme - (lid ? wall : -wall) - seam) * k) / steps, true);
+  const rings = 2 * (steps + 1);
+  for (let k = 0; k < rings - 1; k++)
+    for (let i = 0; i < segments; i++) {
+      const a = k * segments + i,
+        b = k * segments + ((i + 1) % segments),
+        c = b + segments,
+        d = a + segments;
+      if (lid) indices.push(a, b, c, a, c, d);
+      else indices.push(a, c, b, a, d, c);
+    }
+  // The ends are planar, tiny rounded rectangles; close both floor surfaces.
+  for (const [row, flip] of [
+    [0, lid],
+    [rings - 1, !lid],
+  ] as const) {
+    const centerIndex = positions.length / 3;
+    positions.push(0, positions[row * segments * 3 + 1], 0);
+    for (let i = 0; i < segments; i++) {
+      const a = row * segments + i,
+        b = row * segments + ((i + 1) % segments);
+      if (flip) indices.push(centerIndex, b, a);
+      else indices.push(centerIndex, a, b);
+    }
+  }
+  const geometry = new T.BufferGeometry();
+  geometry.setAttribute('position', new T.Float32BufferAttribute(positions, 3));
+  geometry.setIndex(indices);
+  geometry.computeVertexNormals();
+  geometry.computeBoundingBox();
+  return geometry;
 }

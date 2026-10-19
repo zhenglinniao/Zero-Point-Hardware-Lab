@@ -156,7 +156,7 @@ export const digitalRoots = digitalDefinitions.filter((item) => item.parent === 
 const phases = [['Assembled', 0], ['Dissection', 50], ['Inventory', 100]] as const;
 export const digitalLevels = Object.fromEntries(digitalDefinitions.map((item) => [item.id, {
   id: item.id, parent: item.parent, name: item.name, title: item.name, caption: '数码硬件 · 教学示意', summary: item.summary,
-  concept: item.id, kind: 'physical', phases, detailed: true, spread: 1.1,
+  concept: item.id, kind: 'physical', phases: item.id==='earbuds' ? [['Assembled',0],['开盖查看',16],['Dissection',50],['Inventory',100]] : phases, detailed: true, spread: 1.1,
   ...(item.parent ? { branchLabel: item.name } : {}), camera: item.camera ?? { padding: 1.05, direction: [1.2,1.0,1.5] },
 } satisfies LevelDef])) as unknown as Record<DigitalLevel, LevelDef>;
 

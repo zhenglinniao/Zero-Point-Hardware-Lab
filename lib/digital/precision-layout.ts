@@ -631,13 +631,74 @@ export function refinePrecisionAssemblies(definitions: Definition[]) {
   get('camera').specs!['感光面尺寸'] = '35.9 × 23.9 mm（Sony 官方规格）';
   edit('earbuds', 'left', {
     assembly: 'earbudunit',
-    pos: [-14, 2.5, 0],
-    rotation: [0, Math.PI / 2, 0],
-  });
-  edit('earbuds', 'unit', {
-    pos: [14, 2.5, 0],
+    name: '左耳机总成',
+    pos: [-14, 5.4, 0],
     rotation: [0, -Math.PI / 2, 0],
   });
+  for (const id of ['battery', 'battery-right'])
+    edit('earbuds', id, {
+      size: [18, 3.2, 10],
+      pos: [id === 'battery' ? -11 : 11, -17.3, 0],
+    });
+  edit('earbuds-board', 'pcb', { size: [46, 0.6, 20] });
+  edit('earbuds', 'board', { pos: [0, -4.5, -8.6] });
+  edit('earbuds', 'coil', { size: [28, 0.3, 28], pos: [0, -2, -9.3] });
+  edit('earbuds', 'case', {
+    size: [60.6, 31.9, 21.7],
+    pos: [0, -6.65, 0],
+    motion: [0.38, 0.68],
+    description:
+      '上下壳取自同一个圆润盒体曲面，薄壁、平整盒口与连续接缝分别建模。',
+  });
+  edit('earbuds', 'lid', {
+    size: [60.6, 13.1, 21.7],
+    pos: [0, 16.05, 0],
+    delta: [0, 25, -12],
+    motion: [0.38, 0.68],
+    description:
+      '前段绕后侧铰链翻开，再分离上盖；与下壳共用连续外形，保留约 0.2 mm 接缝。',
+  });
+  edit('earbuds', 'hinge', {
+    pos: [0, 9.4, -8.6],
+    size: [20, 2.2, 2.4],
+    motion: [0.38, 0.68],
+  });
+  edit('earbuds', 'tray', {
+    size: [56, 1.2, 18.5],
+    pos: [0, 8.5, 0],
+    motion: [0.28, 0.55],
+  });
+  edit('earbuds', 'left', { motion: [0.16, 0.38], delta: [-14, 32, 2] });
+  edit('earbuds', 'unit', { motion: [0.16, 0.38], delta: [14, 32, 2] });
+  edit('earbuds', 'connector', {
+    pos: [0, -20, 0],
+    size: [8.8, 2.3, 4],
+    rotation: [Math.PI / 2, 0, 0],
+  });
+  edit('earbudunit', 'tip', {
+    pos: [0, 6, -11],
+    rotation: [-Math.PI / 2, 0, 0],
+  });
+  edit('earbudunit', 'driver', {
+    pos: [0, 5, -1.6],
+    rotation: [-Math.PI / 2, 0, 0],
+  });
+  edit('earbudunit', 'battery', {
+    pos: [0, 5, 3.15],
+    rotation: [Math.PI / 2, 0, 0],
+  });
+  edit('earbudunit', 'flex', { pos: [0, 0, 0], size: [1.2, 0.1, 8] });
+  edit('earbudunit', 'contacts', {
+    pos: [2.3, -17.2, 5],
+    size: [3.5, 0.12, 3.8],
+  });
+  edit('earbuds', 'unit', {
+    name: '右耳机总成',
+    pos: [14, 5.4, 0],
+    rotation: [0, Math.PI / 2, 0],
+  });
+  edit('earbudunit', 'processor', { pos: [2.3, -7.5, 5] });
+  edit('earbudunit', 'mic', { pos: [2.3, -10.8, 6], size: [1.2, 0.7, 0.6] });
   get('earbudunit').parts.push({
     ...part(
       'cap',

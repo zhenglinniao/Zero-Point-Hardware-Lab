@@ -235,10 +235,11 @@ await test('descending is reversible: every scale names the concept it belongs t
   assert.equal(byId.hdd, undefined);
 });
 
-await test('every scale uses the same three-stage dissection language', () => {
+await test('all scales retain common dissection stages and the hinged case has an open-lid stop', () => {
   for (const id of levelIds)
     assert.deepEqual(levels[id].phases, [
       ['Assembled', 0],
+      ...(id==='earbuds' ? [['开盖查看',16]] : []),
       ['Dissection', 50],
       ['Inventory', 100],
     ]);
