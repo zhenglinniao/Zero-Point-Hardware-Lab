@@ -28,7 +28,8 @@
     "format": "oxfmt",
     "check": "tsc --noEmit",
     "test": "node --experimental-strip-types --test tests/*.test.ts",
-    "size": "node scripts/check-bundle-size.mjs"
+    "size": "node scripts/check-bundle-size.mjs",
+    "audit:models": "node --experimental-strip-types scripts/audit-models.mjs"
   },
   "dependencies": {
     "@base-ui/react": "1.7.0",

@@ -81,14 +81,14 @@ Manufacturer documents support component roles, architecture or construction. Th
 | camera | Sony α7 IV 相机 | Sony α7 IV 相机 | [Sony · ILCE-7M4 / 7M4K 服务手册分解图（第三方镜像）](https://manuals.plus/m/662ac7b243a51dfb6adfa3f731348687443abee969b90e085dcd0aebbb51fbad.pdf) |
 | camera-front | 前壳与握柄 | Sony α7 IV 相机 | [Sony · ILCE-7M4 / 7M4K 服务手册分解图（第三方镜像）](https://manuals.plus/m/662ac7b243a51dfb6adfa3f731348687443abee969b90e085dcd0aebbb51fbad.pdf) |
 | camera-back | 背部外壳 | Sony α7 IV 相机 | [Sony · ILCE-7M4 / 7M4K 服务手册分解图（第三方镜像）](https://manuals.plus/m/662ac7b243a51dfb6adfa3f731348687443abee969b90e085dcd0aebbb51fbad.pdf) |
-| camera-display | 翻转显示屏总成示意 | Sony α7 IV 相机 | [Sony · ILCE-7M4 / 7M4K 服务手册分解图（第三方镜像）](https://manuals.plus/m/662ac7b243a51dfb6adfa3f731348687443abee969b90e085dcd0aebbb51fbad.pdf) |
+| camera-display | 侧翻显示屏与左侧铰链 | Sony α7 IV 相机 | [Sony · ILCE-7M4 / 7M4K 服务手册分解图（第三方镜像）](https://manuals.plus/m/662ac7b243a51dfb6adfa3f731348687443abee969b90e085dcd0aebbb51fbad.pdf) |
 | camera-board | 图像处理主板 | Sony α7 IV 相机 | [Sony · ILCE-7M4 / 7M4K 服务手册分解图（第三方镜像）](https://manuals.plus/m/662ac7b243a51dfb6adfa3f731348687443abee969b90e085dcd0aebbb51fbad.pdf) |
 | camera-battery | NP-FZ100 电池包 | Sony α7 IV 相机 | [Sony · NP-FZ100 官方尺寸与规格](https://www.sony.co.uk/electronics/interchangeable-lens-cameras-batteries-chargers/np-fz100) |
 | camerasensor | 传感器与防抖组件 | Sony α7 IV 相机 | [Sony · ILCE-7M4 / 7M4K 服务手册分解图（第三方镜像）](https://manuals.plus/m/662ac7b243a51dfb6adfa3f731348687443abee969b90e085dcd0aebbb51fbad.pdf) |
 | camera-shutter | 焦平面快门示意 | Sony α7 IV 相机 | [Sony · ILCE-7M4 / 7M4K 服务手册分解图（第三方镜像）](https://manuals.plus/m/662ac7b243a51dfb6adfa3f731348687443abee969b90e085dcd0aebbb51fbad.pdf) |
 | cameralens | 100 mm 双高斯教学镜头 | Sony α7 IV 相机 | [Optiland · DoubleGauss 六片四组光学处方（MIT）](https://github.com/optiland/optiland/blob/master/optiland/samples/objectives.py) |
 | camera-finder | 电子取景器 | Sony α7 IV 相机 | [Sony · ILCE-7M4 / 7M4K 服务手册分解图（第三方镜像）](https://manuals.plus/m/662ac7b243a51dfb6adfa3f731348687443abee969b90e085dcd0aebbb51fbad.pdf) |
-| camera-dial | 拍摄控制拨轮 | Sony α7 IV 相机 | [Sony · ILCE-7M4 / 7M4K 服务手册分解图（第三方镜像）](https://manuals.plus/m/662ac7b243a51dfb6adfa3f731348687443abee969b90e085dcd0aebbb51fbad.pdf) |
+| camera-dial | 双层拍摄模式与静态/视频拨盘 | Sony α7 IV 相机 | [Sony · ILCE-7M4 / 7M4K 服务手册分解图（第三方镜像）](https://manuals.plus/m/662ac7b243a51dfb6adfa3f731348687443abee969b90e085dcd0aebbb51fbad.pdf) |
 | camera-mount | E 卡口与电气触点 | Sony α7 IV 相机 | [Sony · ILCE-7M4 / 7M4K 服务手册分解图（第三方镜像）](https://manuals.plus/m/662ac7b243a51dfb6adfa3f731348687443abee969b90e085dcd0aebbb51fbad.pdf) |
 | camera-top | 顶部控制壳与热靴 | Sony α7 IV 相机 | [Sony · ILCE-7M4 / 7M4K 服务手册分解图（第三方镜像）](https://manuals.plus/m/662ac7b243a51dfb6adfa3f731348687443abee969b90e085dcd0aebbb51fbad.pdf) |
 | camera-heatplate | 图像主板导热承载板 | Sony α7 IV 相机 | [Sony · ILCE-7M4 / 7M4K 服务手册分解图（第三方镜像）](https://manuals.plus/m/662ac7b243a51dfb6adfa3f731348687443abee969b90e085dcd0aebbb51fbad.pdf) |
@@ -125,13 +125,13 @@ Manufacturer documents support component roles, architecture or construction. Th
 | gamepad-back | 下部外壳 | DualSense 无线控制器 | [Taohid Animation · PS5 Controller 外观网格（CC BY 4.0）](https://sketchfab.com/3d-models/ps5-controller-b7bb9c5102a04cb0b1966c6d02bad7d6) · [iFixit · 初代 DualSense 机构与维修分解资料](https://www.ifixit.com/Device/DualSense) |
 | gamepadboard | 输入与控制电路 | DualSense 无线控制器 | [iFixit · 初代 DualSense 机构与维修分解资料](https://www.ifixit.com/Device/DualSense) |
 | gamepad-battery | 充电电池 | DualSense 无线控制器 | [iFixit · 初代 DualSense 机构与维修分解资料](https://www.ifixit.com/Device/DualSense) |
-| gamepad-leftstick | 左摇杆模块 | DualSense 无线控制器 | [Taohid Animation · PS5 Controller 外观网格（CC BY 4.0）](https://sketchfab.com/3d-models/ps5-controller-b7bb9c5102a04cb0b1966c6d02bad7d6) · [iFixit · 初代 DualSense 机构与维修分解资料](https://www.ifixit.com/Device/DualSense) |
-| gamepad-rightstick | 右摇杆模块 | DualSense 无线控制器 | [Taohid Animation · PS5 Controller 外观网格（CC BY 4.0）](https://sketchfab.com/3d-models/ps5-controller-b7bb9c5102a04cb0b1966c6d02bad7d6) · [iFixit · 初代 DualSense 机构与维修分解资料](https://www.ifixit.com/Device/DualSense) |
+| gamepad-leftstick | 左摇杆模块 | DualSense 无线控制器 | [iFixit · DualSense 双轴电位器、万向架与回中弹簧拆解](https://www.ifixit.com/News/48944/heres-why-ps5-joysticks-drift-and-why-theyll-only-get-worse) · [Taohid Animation · PS5 Controller 外观网格（CC BY 4.0）](https://sketchfab.com/3d-models/ps5-controller-b7bb9c5102a04cb0b1966c6d02bad7d6) |
+| gamepad-rightstick | 右摇杆模块 | DualSense 无线控制器 | [iFixit · DualSense 双轴电位器、万向架与回中弹簧拆解](https://www.ifixit.com/News/48944/heres-why-ps5-joysticks-drift-and-why-theyll-only-get-worse) · [Taohid Animation · PS5 Controller 外观网格（CC BY 4.0）](https://sketchfab.com/3d-models/ps5-controller-b7bb9c5102a04cb0b1966c6d02bad7d6) |
 | gamepad-buttons | 方向键与动作键组 | DualSense 无线控制器 | [Taohid Animation · PS5 Controller 外观网格（CC BY 4.0）](https://sketchfab.com/3d-models/ps5-controller-b7bb9c5102a04cb0b1966c6d02bad7d6) · [iFixit · 初代 DualSense 机构与维修分解资料](https://www.ifixit.com/Device/DualSense) |
 | gamepad-touch | 触控面板 | DualSense 无线控制器 | [Taohid Animation · PS5 Controller 外观网格（CC BY 4.0）](https://sketchfab.com/3d-models/ps5-controller-b7bb9c5102a04cb0b1966c6d02bad7d6) · [iFixit · 初代 DualSense 机构与维修分解资料](https://www.ifixit.com/Device/DualSense) |
-| gamepad-triggers | 左侧自适应扳机机构 | DualSense 无线控制器 | [Taohid Animation · PS5 Controller 外观网格（CC BY 4.0）](https://sketchfab.com/3d-models/ps5-controller-b7bb9c5102a04cb0b1966c6d02bad7d6) · [iFixit · 初代 DualSense 机构与维修分解资料](https://www.ifixit.com/Device/DualSense) |
+| gamepad-triggers | 左侧自适应扳机机构 | DualSense 无线控制器 | [iFixit · DualSense 肩键、自适应扳机与连接膜拆解](https://www.ifixit.com/Teardown/PS5+Controller+Trigger+Teardown/158397) · [Taohid Animation · PS5 Controller 外观网格（CC BY 4.0）](https://sketchfab.com/3d-models/ps5-controller-b7bb9c5102a04cb0b1966c6d02bad7d6) |
 | gamepad-haptics | 左侧线性触觉执行器 | DualSense 无线控制器 | [iFixit · 初代 DualSense 机构与维修分解资料](https://www.ifixit.com/Device/DualSense) |
-| gamepad-right-trigger | 右侧自适应扳机机构 | DualSense 无线控制器 | [iFixit · 初代 DualSense 机构与维修分解资料](https://www.ifixit.com/Device/DualSense) |
+| gamepad-right-trigger | 右侧自适应扳机机构 | DualSense 无线控制器 | [iFixit · DualSense 肩键、自适应扳机与连接膜拆解](https://www.ifixit.com/Teardown/PS5+Controller+Trigger+Teardown/158397) · [Taohid Animation · PS5 Controller 外观网格（CC BY 4.0）](https://sketchfab.com/3d-models/ps5-controller-b7bb9c5102a04cb0b1966c6d02bad7d6) |
 | gamepad-right-haptic | 右侧线性触觉执行器 | DualSense 无线控制器 | [iFixit · 初代 DualSense 机构与维修分解资料](https://www.ifixit.com/Device/DualSense) |
 | gamepad-holder | 电池承载架 | DualSense 无线控制器 | [iFixit · 初代 DualSense 机构与维修分解资料](https://www.ifixit.com/Device/DualSense) |
 | gamepad-speaker | 中央扬声器 | DualSense 无线控制器 | [iFixit · 初代 DualSense 机构与维修分解资料](https://www.ifixit.com/Device/DualSense) |
@@ -147,8 +147,8 @@ Manufacturer documents support component roles, architecture or construction. Th
 | earbuds-lid | 充电盒上盖 | AirPods Pro 2 参考结构 | [52audio · AirPods Pro 2 USB-C 实机拆解（2023）](https://www.52audio.com/archives/178135.html) |
 | earbuds-battery | 充电盒左侧电芯 | AirPods Pro 2 参考结构 | [52audio · AirPods Pro 2 USB-C 实机拆解（2023）](https://www.52audio.com/archives/178135.html) |
 | earbuds-board | 盒内充电管理板 | AirPods Pro 2 参考结构 | [52audio · AirPods Pro 2 USB-C 实机拆解（2023）](https://www.52audio.com/archives/178135.html) |
-| earbuds-left | 左耳机示意 | AirPods Pro 2 参考结构 | [52audio · AirPods Pro 2 USB-C 实机拆解（2023）](https://www.52audio.com/archives/178135.html) |
-| earbudunit | 右耳机内部 | AirPods Pro 2 参考结构 | [52audio · AirPods Pro 2 USB-C 实机拆解（2023）](https://www.52audio.com/archives/178135.html) |
+| earbuds-left | 左耳机总成 | AirPods Pro 2 参考结构 | [52audio · AirPods Pro 2 USB-C 实机拆解（2023）](https://www.52audio.com/archives/178135.html) |
+| earbudunit | 右耳机总成 | AirPods Pro 2 参考结构 | [52audio · AirPods Pro 2 USB-C 实机拆解（2023）](https://www.52audio.com/archives/178135.html) |
 | earbuds-connector | 充电输入接口 | AirPods Pro 2 参考结构 | [52audio · AirPods Pro 2 USB-C 实机拆解（2023）](https://www.52audio.com/archives/178135.html) |
 | earbuds-battery-right | 充电盒右侧电芯 | AirPods Pro 2 参考结构 | [52audio · AirPods Pro 2 USB-C 实机拆解（2023）](https://www.52audio.com/archives/178135.html) |
 | earbuds-tray | 双耳机定位托盘与充电触点 | AirPods Pro 2 参考结构 | [52audio · AirPods Pro 2 USB-C 实机拆解（2023）](https://www.52audio.com/archives/178135.html) |
@@ -221,6 +221,57 @@ Manufacturer documents support component roles, architecture or construction. Th
 | earbudunit-processor-sip | 音频处理 SiP 封装 | 耳柄柔性电路与音频处理 | [52audio · AirPods Pro 2 USB-C 实机拆解（2023）](https://www.52audio.com/archives/178135.html) |
 | earbudunit-processor-sensor | 交互与感知封装 | 耳柄柔性电路与音频处理 | [52audio · AirPods Pro 2 USB-C 实机拆解（2023）](https://www.52audio.com/archives/178135.html) |
 | earbudunit-processor-contacts | 底端供电与测试焊盘 | 耳柄柔性电路与音频处理 | [52audio · AirPods Pro 2 USB-C 实机拆解（2023）](https://www.52audio.com/archives/178135.html) |
+| ps5-fan-housing | 环形风道与前护架 | PS5 双面进气风扇 | [索尼 PlayStation · 2020 原版 PS5 官方拆解](https://blog.playstation.com/2020/10/07/ps5-teardown-an-inside-look-at-our-most-transformative-console-yet/) |
+| ps5-fan-rear | 后护架 | PS5 双面进气风扇 | [索尼 PlayStation · 2020 原版 PS5 官方拆解](https://blog.playstation.com/2020/10/07/ps5-teardown-an-inside-look-at-our-most-transformative-console-yet/) |
+| ps5-fan-rotor | 叶轮与中空轮毂 | PS5 双面进气风扇 | [索尼 PlayStation · 2020 原版 PS5 官方拆解](https://blog.playstation.com/2020/10/07/ps5-teardown-an-inside-look-at-our-most-transformative-console-yet/) |
+| ps5-fan-stator | 固定定子与铜绕组 | PS5 双面进气风扇 | [索尼 PlayStation · 2020 原版 PS5 官方拆解](https://blog.playstation.com/2020/10/07/ps5-teardown-an-inside-look-at-our-most-transformative-console-yet/) · [Noctua · Fan frame, impeller and bearing construction](https://cdn.noctua.at/media/noctua_nf_a12x25_pwm_infosheet_en_web.pdf) · [Noctua · Fan bearing principles and cross-section](https://www.noctua.at/en/expertise/tech/sso-bearing) |
+| ps5-fan-shaft | 轴与两端轴承 | PS5 双面进气风扇 | [索尼 PlayStation · 2020 原版 PS5 官方拆解](https://blog.playstation.com/2020/10/07/ps5-teardown-an-inside-look-at-our-most-transformative-console-yet/) · [Noctua · Fan frame, impeller and bearing construction](https://cdn.noctua.at/media/noctua_nf_a12x25_pwm_infosheet_en_web.pdf) · [Noctua · Fan bearing principles and cross-section](https://www.noctua.at/en/expertise/tech/sso-bearing) |
+| phone-haptic-lid | 金属盖板 | Taptic Engine 线性触觉机构 | [Apple · iPhone 15 官方维修资料目录](https://support.apple.com/en-ca/104900) |
+| phone-haptic-housing | 薄壁承载壳 | Taptic Engine 线性触觉机构 | [Apple · iPhone 15 官方维修资料目录](https://support.apple.com/en-ca/104900) |
+| phone-haptic-mass | 悬置质量块与磁体 | Taptic Engine 线性触觉机构 | [Apple · iPhone 15 官方维修资料目录](https://support.apple.com/en-ca/104900) |
+| phone-haptic-coil | 固定铜绕组 | Taptic Engine 线性触觉机构 | [Apple · iPhone 15 官方维修资料目录](https://support.apple.com/en-ca/104900) |
+| phone-haptic-springs | 两端悬置弹片 | Taptic Engine 线性触觉机构 | [Apple · iPhone 15 官方维修资料目录](https://support.apple.com/en-ca/104900) |
+| phone-haptic-flex | 驱动连接排线 | Taptic Engine 线性触觉机构 | [Apple · iPhone 15 官方维修资料目录](https://support.apple.com/en-ca/104900) |
+| phone-speaker-cover | 声腔上盖与出声口 | 手机底部扬声器 | [Apple · iPhone 15 官方维修资料目录](https://support.apple.com/en-ca/104900) |
+| phone-speaker-chamber | 中空声腔与安装耳 | 手机底部扬声器 | [Apple · iPhone 15 官方维修资料目录](https://support.apple.com/en-ca/104900) |
+| phone-speaker-diaphragm | 椭圆振膜与悬边 | 手机底部扬声器 | [Apple · iPhone 15 官方维修资料目录](https://support.apple.com/en-ca/104900) |
+| phone-speaker-voice-coil | 椭圆音圈 | 手机底部扬声器 | [Apple · iPhone 15 官方维修资料目录](https://support.apple.com/en-ca/104900) |
+| phone-speaker-magnet | 磁体与回磁轭 | 手机底部扬声器 | [Apple · iPhone 15 官方维修资料目录](https://support.apple.com/en-ca/104900) |
+| phone-speaker-contacts | 密封垫与弹性接点 | 手机底部扬声器 | [Apple · iPhone 15 官方维修资料目录](https://support.apple.com/en-ca/104900) |
+| camera-finder-housing | 取景器隆起外壳 | 电子取景器与热靴 | [Sony · ILCE-7M4 / 7M4K 服务手册分解图（第三方镜像）](https://manuals.plus/m/662ac7b243a51dfb6adfa3f731348687443abee969b90e085dcd0aebbb51fbad.pdf) |
+| camera-finder-eyecup | 橡胶眼罩与目镜筒 | 电子取景器与热靴 | [Sony · ILCE-7M4 / 7M4K 服务手册分解图（第三方镜像）](https://manuals.plus/m/662ac7b243a51dfb6adfa3f731348687443abee969b90e085dcd0aebbb51fbad.pdf) |
+| camera-finder-optic | 目镜光学窗口 | 电子取景器与热靴 | [Sony · ILCE-7M4 / 7M4K 服务手册分解图（第三方镜像）](https://manuals.plus/m/662ac7b243a51dfb6adfa3f731348687443abee969b90e085dcd0aebbb51fbad.pdf) |
+| camera-finder-diopter | 屈光度调节轮 | 电子取景器与热靴 | [Sony · ILCE-7M4 / 7M4K 服务手册分解图（第三方镜像）](https://manuals.plus/m/662ac7b243a51dfb6adfa3f731348687443abee969b90e085dcd0aebbb51fbad.pdf) |
+| camera-finder-shoe | 多接口热靴与触点 | 电子取景器与热靴 | [Sony · ILCE-7M4 / 7M4K 服务手册分解图（第三方镜像）](https://manuals.plus/m/662ac7b243a51dfb6adfa3f731348687443abee969b90e085dcd0aebbb51fbad.pdf) |
+| camera-display-frame | 屏幕外框与背板 | 翻转屏总成 | [Sony · ILCE-7M4 / 7M4K 服务手册分解图（第三方镜像）](https://manuals.plus/m/662ac7b243a51dfb6adfa3f731348687443abee969b90e085dcd0aebbb51fbad.pdf) |
+| camera-display-lcd | 显示面板与取景信息 | 翻转屏总成 | [Sony · ILCE-7M4 / 7M4K 服务手册分解图（第三方镜像）](https://manuals.plus/m/662ac7b243a51dfb6adfa3f731348687443abee969b90e085dcd0aebbb51fbad.pdf) |
+| camera-display-hinge | 侧翻转铰链 | 翻转屏总成 | [Sony · ILCE-7M4 / 7M4K 服务手册分解图（第三方镜像）](https://manuals.plus/m/662ac7b243a51dfb6adfa3f731348687443abee969b90e085dcd0aebbb51fbad.pdf) |
+| gamepad-triggers-caps | 肩键与扳机帽 | 左侧自适应扳机 | [Taohid Animation · PS5 Controller 外观网格（CC BY 4.0）](https://sketchfab.com/3d-models/ps5-controller-b7bb9c5102a04cb0b1966c6d02bad7d6) |
+| gamepad-triggers-base | 传动安装座 | 左侧自适应扳机 | [iFixit · DualSense 肩键、自适应扳机与连接膜拆解](https://www.ifixit.com/Teardown/PS5+Controller+Trigger+Teardown/158397) |
+| gamepad-triggers-motor | 微型驱动电机 | 左侧自适应扳机 | [iFixit · DualSense 肩键、自适应扳机与连接膜拆解](https://www.ifixit.com/Teardown/PS5+Controller+Trigger+Teardown/158397) |
+| gamepad-triggers-worm | 输出轴与蜗杆 | 左侧自适应扳机 | [iFixit · DualSense 肩键、自适应扳机与连接膜拆解](https://www.ifixit.com/Teardown/PS5+Controller+Trigger+Teardown/158397) |
+| gamepad-triggers-gear | 减速齿轮与阻力拨臂 | 左侧自适应扳机 | [iFixit · DualSense 肩键、自适应扳机与连接膜拆解](https://www.ifixit.com/Teardown/PS5+Controller+Trigger+Teardown/158397) |
+| gamepad-triggers-spring | 回复扭簧 | 左侧自适应扳机 | [iFixit · DualSense 肩键、自适应扳机与连接膜拆解](https://www.ifixit.com/Teardown/PS5+Controller+Trigger+Teardown/158397) |
+| gamepad-triggers-flex | 反馈机构柔性连接 | 左侧自适应扳机 | [iFixit · DualSense 肩键、自适应扳机与连接膜拆解](https://www.ifixit.com/Teardown/PS5+Controller+Trigger+Teardown/158397) |
+| gamepad-right-trigger-caps | 肩键与扳机帽 | 右侧自适应扳机 | [Taohid Animation · PS5 Controller 外观网格（CC BY 4.0）](https://sketchfab.com/3d-models/ps5-controller-b7bb9c5102a04cb0b1966c6d02bad7d6) |
+| gamepad-right-trigger-base | 传动安装座 | 右侧自适应扳机 | [iFixit · DualSense 肩键、自适应扳机与连接膜拆解](https://www.ifixit.com/Teardown/PS5+Controller+Trigger+Teardown/158397) |
+| gamepad-right-trigger-motor | 微型驱动电机 | 右侧自适应扳机 | [iFixit · DualSense 肩键、自适应扳机与连接膜拆解](https://www.ifixit.com/Teardown/PS5+Controller+Trigger+Teardown/158397) |
+| gamepad-right-trigger-worm | 输出轴与蜗杆 | 右侧自适应扳机 | [iFixit · DualSense 肩键、自适应扳机与连接膜拆解](https://www.ifixit.com/Teardown/PS5+Controller+Trigger+Teardown/158397) |
+| gamepad-right-trigger-gear | 减速齿轮与阻力拨臂 | 右侧自适应扳机 | [iFixit · DualSense 肩键、自适应扳机与连接膜拆解](https://www.ifixit.com/Teardown/PS5+Controller+Trigger+Teardown/158397) |
+| gamepad-right-trigger-spring | 回复扭簧 | 右侧自适应扳机 | [iFixit · DualSense 肩键、自适应扳机与连接膜拆解](https://www.ifixit.com/Teardown/PS5+Controller+Trigger+Teardown/158397) |
+| gamepad-right-trigger-flex | 反馈机构柔性连接 | 右侧自适应扳机 | [iFixit · DualSense 肩键、自适应扳机与连接膜拆解](https://www.ifixit.com/Teardown/PS5+Controller+Trigger+Teardown/158397) |
+| gamepad-leftstick-cap | 摇杆帽与上部轴套 | 左摇杆机构 | [Taohid Animation · PS5 Controller 外观网格（CC BY 4.0）](https://sketchfab.com/3d-models/ps5-controller-b7bb9c5102a04cb0b1966c6d02bad7d6) |
+| gamepad-leftstick-gimbal | 双轴万向架 | 左摇杆机构 | [iFixit · DualSense 双轴电位器、万向架与回中弹簧拆解](https://www.ifixit.com/News/48944/heres-why-ps5-joysticks-drift-and-why-theyll-only-get-worse) |
+| gamepad-leftstick-pot-x | X 轴电位器 | 左摇杆机构 | [iFixit · DualSense 双轴电位器、万向架与回中弹簧拆解](https://www.ifixit.com/News/48944/heres-why-ps5-joysticks-drift-and-why-theyll-only-get-worse) |
+| gamepad-leftstick-pot-y | Y 轴电位器 | 左摇杆机构 | [iFixit · DualSense 双轴电位器、万向架与回中弹簧拆解](https://www.ifixit.com/News/48944/heres-why-ps5-joysticks-drift-and-why-theyll-only-get-worse) |
+| gamepad-leftstick-spring | 中心回复弹簧 | 左摇杆机构 | [iFixit · DualSense 双轴电位器、万向架与回中弹簧拆解](https://www.ifixit.com/News/48944/heres-why-ps5-joysticks-drift-and-why-theyll-only-get-worse) |
+| gamepad-leftstick-switch | 按压开关与引脚 | 左摇杆机构 | [iFixit · DualSense 双轴电位器、万向架与回中弹簧拆解](https://www.ifixit.com/News/48944/heres-why-ps5-joysticks-drift-and-why-theyll-only-get-worse) |
+| gamepad-rightstick-cap | 摇杆帽与上部轴套 | 右摇杆机构 | [Taohid Animation · PS5 Controller 外观网格（CC BY 4.0）](https://sketchfab.com/3d-models/ps5-controller-b7bb9c5102a04cb0b1966c6d02bad7d6) |
+| gamepad-rightstick-gimbal | 双轴万向架 | 右摇杆机构 | [iFixit · DualSense 双轴电位器、万向架与回中弹簧拆解](https://www.ifixit.com/News/48944/heres-why-ps5-joysticks-drift-and-why-theyll-only-get-worse) |
+| gamepad-rightstick-pot-x | X 轴电位器 | 右摇杆机构 | [iFixit · DualSense 双轴电位器、万向架与回中弹簧拆解](https://www.ifixit.com/News/48944/heres-why-ps5-joysticks-drift-and-why-theyll-only-get-worse) |
+| gamepad-rightstick-pot-y | Y 轴电位器 | 右摇杆机构 | [iFixit · DualSense 双轴电位器、万向架与回中弹簧拆解](https://www.ifixit.com/News/48944/heres-why-ps5-joysticks-drift-and-why-theyll-only-get-worse) |
+| gamepad-rightstick-spring | 中心回复弹簧 | 右摇杆机构 | [iFixit · DualSense 双轴电位器、万向架与回中弹簧拆解](https://www.ifixit.com/News/48944/heres-why-ps5-joysticks-drift-and-why-theyll-only-get-worse) |
+| gamepad-rightstick-switch | 按压开关与引脚 | 右摇杆机构 | [iFixit · DualSense 双轴电位器、万向架与回中弹簧拆解](https://www.ifixit.com/News/48944/heres-why-ps5-joysticks-drift-and-why-theyll-only-get-worse) |
 | legion | Lenovo Legion 5 | Lenovo Legion 5 | [Lenovo · Legion 5 15ACH6H platform specifications](https://psref.lenovo.com/syspool/Sys/PDF/Legion/Lenovo_Legion_5_15ACH6H/Lenovo_Legion_5_15ACH6H_Spec.pdf) |
 | macbook | MacBook Pro 14-inch | MacBook Pro 14-inch | [Apple · MacBook Pro 14-inch (2021) specifications](https://support.apple.com/en-us/111902) |
 | legion-cover | Bottom cover | Lenovo Legion 5 | [Lenovo · Legion 5 (15 / 17 inch, generation 6) maintenance manual](https://download.lenovo.com/consumer/mobiles_pub/legion_5_15_17_6_hmm.pdf) |

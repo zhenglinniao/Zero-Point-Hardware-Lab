@@ -75,3 +75,7 @@ node scripts/learning-smoke.mjs
 Sony 官方 ILCE-7M4 规格列出感光面 **35.9 × 23.9 mm**，本轮用这一数值替代上轮的 36 × 24 mm 名义全画幅值；像平面位置与 18 mm 法兰距保持原装配关系。资料：[Sony 规格](https://www.sony.com/electronics/support/e-mount-body-ilce-7-series/ilce-7m4/specifications)。手机主要装配参考 [Apple 内部视图](https://support.apple.com/en-us/104901)，PS5 参考 [Sony 官方拆解](https://blog.playstation.com/2020/10/07/ps5-teardown-an-inside-look-at-our-most-transformative-console-yet/)，手柄参考 [iFixit 主板拆解](https://www.ifixit.com/Guide/DualSense+Motherboard+Replacement/142487)，耳机参考 [52audio 实机拆解](https://www.52audio.com/archives/178135.html)。
 
 新增机构的微小尺寸、线圈匝数、叶片数及机械支承仍为教学重建，不表示从厂商取得完整 CAD。电源内部功能分区和线性反馈分层是解释性机械设计；照片没有证实的器件料号、绕组参数与电气网络没有虚构。
+
+## 全设备层级深化（100 层）
+
+本轮增加九个机构层级、51 个部件说明：PS5 风扇；手机触觉、底部扬声器；相机取景器、翻转屏；左右扳机与左右摇杆。总数更新为 100 层、859 条资料。其余已有层级保留，按功能重新组织菜单。新增子模型全部以原父总成的毫米基准安装，且不替换掉授权外观；细节和未测绘范围见 [几何审查](GEOMETRY-AUDIT.md#全设备观察步骤与机械总成深化)。

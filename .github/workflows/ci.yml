@@ -32,6 +32,9 @@ jobs:
       - name: Test
         run: npm test
 
+      - name: Audit all model geometry
+        run: npm run audit:models
+
       - name: Build
         run: npm run build
 

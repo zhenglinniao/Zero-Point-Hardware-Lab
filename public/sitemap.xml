@@ -92,6 +92,15 @@
   <url><loc>https://zero-point-hardware-lab.vercel.app/?scale=gamepad-right-haptic</loc></url>
   <url><loc>https://zero-point-hardware-lab.vercel.app/?scale=earbuds-board</loc></url>
   <url><loc>https://zero-point-hardware-lab.vercel.app/?scale=earbudunit-processor</loc></url>
+  <url><loc>https://zero-point-hardware-lab.vercel.app/?scale=ps5-fan</loc></url>
+  <url><loc>https://zero-point-hardware-lab.vercel.app/?scale=phone-haptic</loc></url>
+  <url><loc>https://zero-point-hardware-lab.vercel.app/?scale=phone-speaker</loc></url>
+  <url><loc>https://zero-point-hardware-lab.vercel.app/?scale=camera-finder</loc></url>
+  <url><loc>https://zero-point-hardware-lab.vercel.app/?scale=camera-display</loc></url>
+  <url><loc>https://zero-point-hardware-lab.vercel.app/?scale=gamepad-triggers</loc></url>
+  <url><loc>https://zero-point-hardware-lab.vercel.app/?scale=gamepad-right-trigger</loc></url>
+  <url><loc>https://zero-point-hardware-lab.vercel.app/?scale=gamepad-leftstick</loc></url>
+  <url><loc>https://zero-point-hardware-lab.vercel.app/?scale=gamepad-rightstick</loc></url>
   <url><loc>https://zero-point-hardware-lab.vercel.app/?scale=ps5&amp;part=ps5-left-cover</loc></url>
   <url><loc>https://zero-point-hardware-lab.vercel.app/?scale=ps5&amp;part=ps5-right-cover</loc></url>
   <url><loc>https://zero-point-hardware-lab.vercel.app/?scale=ps5&amp;part=ps5-frame</loc></url>
@@ -302,6 +311,57 @@
   <url><loc>https://zero-point-hardware-lab.vercel.app/?scale=earbudunit-processor&amp;part=earbudunit-processor-sip</loc></url>
   <url><loc>https://zero-point-hardware-lab.vercel.app/?scale=earbudunit-processor&amp;part=earbudunit-processor-sensor</loc></url>
   <url><loc>https://zero-point-hardware-lab.vercel.app/?scale=earbudunit-processor&amp;part=earbudunit-processor-contacts</loc></url>
+  <url><loc>https://zero-point-hardware-lab.vercel.app/?scale=ps5-fan&amp;part=ps5-fan-housing</loc></url>
+  <url><loc>https://zero-point-hardware-lab.vercel.app/?scale=ps5-fan&amp;part=ps5-fan-rear</loc></url>
+  <url><loc>https://zero-point-hardware-lab.vercel.app/?scale=ps5-fan&amp;part=ps5-fan-rotor</loc></url>
+  <url><loc>https://zero-point-hardware-lab.vercel.app/?scale=ps5-fan&amp;part=ps5-fan-stator</loc></url>
+  <url><loc>https://zero-point-hardware-lab.vercel.app/?scale=ps5-fan&amp;part=ps5-fan-shaft</loc></url>
+  <url><loc>https://zero-point-hardware-lab.vercel.app/?scale=phone-haptic&amp;part=phone-haptic-lid</loc></url>
+  <url><loc>https://zero-point-hardware-lab.vercel.app/?scale=phone-haptic&amp;part=phone-haptic-housing</loc></url>
+  <url><loc>https://zero-point-hardware-lab.vercel.app/?scale=phone-haptic&amp;part=phone-haptic-mass</loc></url>
+  <url><loc>https://zero-point-hardware-lab.vercel.app/?scale=phone-haptic&amp;part=phone-haptic-coil</loc></url>
+  <url><loc>https://zero-point-hardware-lab.vercel.app/?scale=phone-haptic&amp;part=phone-haptic-springs</loc></url>
+  <url><loc>https://zero-point-hardware-lab.vercel.app/?scale=phone-haptic&amp;part=phone-haptic-flex</loc></url>
+  <url><loc>https://zero-point-hardware-lab.vercel.app/?scale=phone-speaker&amp;part=phone-speaker-cover</loc></url>
+  <url><loc>https://zero-point-hardware-lab.vercel.app/?scale=phone-speaker&amp;part=phone-speaker-chamber</loc></url>
+  <url><loc>https://zero-point-hardware-lab.vercel.app/?scale=phone-speaker&amp;part=phone-speaker-diaphragm</loc></url>
+  <url><loc>https://zero-point-hardware-lab.vercel.app/?scale=phone-speaker&amp;part=phone-speaker-voice-coil</loc></url>
+  <url><loc>https://zero-point-hardware-lab.vercel.app/?scale=phone-speaker&amp;part=phone-speaker-magnet</loc></url>
+  <url><loc>https://zero-point-hardware-lab.vercel.app/?scale=phone-speaker&amp;part=phone-speaker-contacts</loc></url>
+  <url><loc>https://zero-point-hardware-lab.vercel.app/?scale=camera-finder&amp;part=camera-finder-housing</loc></url>
+  <url><loc>https://zero-point-hardware-lab.vercel.app/?scale=camera-finder&amp;part=camera-finder-eyecup</loc></url>
+  <url><loc>https://zero-point-hardware-lab.vercel.app/?scale=camera-finder&amp;part=camera-finder-optic</loc></url>
+  <url><loc>https://zero-point-hardware-lab.vercel.app/?scale=camera-finder&amp;part=camera-finder-diopter</loc></url>
+  <url><loc>https://zero-point-hardware-lab.vercel.app/?scale=camera-finder&amp;part=camera-finder-shoe</loc></url>
+  <url><loc>https://zero-point-hardware-lab.vercel.app/?scale=camera-display&amp;part=camera-display-frame</loc></url>
+  <url><loc>https://zero-point-hardware-lab.vercel.app/?scale=camera-display&amp;part=camera-display-lcd</loc></url>
+  <url><loc>https://zero-point-hardware-lab.vercel.app/?scale=camera-display&amp;part=camera-display-hinge</loc></url>
+  <url><loc>https://zero-point-hardware-lab.vercel.app/?scale=gamepad-triggers&amp;part=gamepad-triggers-caps</loc></url>
+  <url><loc>https://zero-point-hardware-lab.vercel.app/?scale=gamepad-triggers&amp;part=gamepad-triggers-base</loc></url>
+  <url><loc>https://zero-point-hardware-lab.vercel.app/?scale=gamepad-triggers&amp;part=gamepad-triggers-motor</loc></url>
+  <url><loc>https://zero-point-hardware-lab.vercel.app/?scale=gamepad-triggers&amp;part=gamepad-triggers-worm</loc></url>
+  <url><loc>https://zero-point-hardware-lab.vercel.app/?scale=gamepad-triggers&amp;part=gamepad-triggers-gear</loc></url>
+  <url><loc>https://zero-point-hardware-lab.vercel.app/?scale=gamepad-triggers&amp;part=gamepad-triggers-spring</loc></url>
+  <url><loc>https://zero-point-hardware-lab.vercel.app/?scale=gamepad-triggers&amp;part=gamepad-triggers-flex</loc></url>
+  <url><loc>https://zero-point-hardware-lab.vercel.app/?scale=gamepad-right-trigger&amp;part=gamepad-right-trigger-caps</loc></url>
+  <url><loc>https://zero-point-hardware-lab.vercel.app/?scale=gamepad-right-trigger&amp;part=gamepad-right-trigger-base</loc></url>
+  <url><loc>https://zero-point-hardware-lab.vercel.app/?scale=gamepad-right-trigger&amp;part=gamepad-right-trigger-motor</loc></url>
+  <url><loc>https://zero-point-hardware-lab.vercel.app/?scale=gamepad-right-trigger&amp;part=gamepad-right-trigger-worm</loc></url>
+  <url><loc>https://zero-point-hardware-lab.vercel.app/?scale=gamepad-right-trigger&amp;part=gamepad-right-trigger-gear</loc></url>
+  <url><loc>https://zero-point-hardware-lab.vercel.app/?scale=gamepad-right-trigger&amp;part=gamepad-right-trigger-spring</loc></url>
+  <url><loc>https://zero-point-hardware-lab.vercel.app/?scale=gamepad-right-trigger&amp;part=gamepad-right-trigger-flex</loc></url>
+  <url><loc>https://zero-point-hardware-lab.vercel.app/?scale=gamepad-leftstick&amp;part=gamepad-leftstick-cap</loc></url>
+  <url><loc>https://zero-point-hardware-lab.vercel.app/?scale=gamepad-leftstick&amp;part=gamepad-leftstick-gimbal</loc></url>
+  <url><loc>https://zero-point-hardware-lab.vercel.app/?scale=gamepad-leftstick&amp;part=gamepad-leftstick-pot-x</loc></url>
+  <url><loc>https://zero-point-hardware-lab.vercel.app/?scale=gamepad-leftstick&amp;part=gamepad-leftstick-pot-y</loc></url>
+  <url><loc>https://zero-point-hardware-lab.vercel.app/?scale=gamepad-leftstick&amp;part=gamepad-leftstick-spring</loc></url>
+  <url><loc>https://zero-point-hardware-lab.vercel.app/?scale=gamepad-leftstick&amp;part=gamepad-leftstick-switch</loc></url>
+  <url><loc>https://zero-point-hardware-lab.vercel.app/?scale=gamepad-rightstick&amp;part=gamepad-rightstick-cap</loc></url>
+  <url><loc>https://zero-point-hardware-lab.vercel.app/?scale=gamepad-rightstick&amp;part=gamepad-rightstick-gimbal</loc></url>
+  <url><loc>https://zero-point-hardware-lab.vercel.app/?scale=gamepad-rightstick&amp;part=gamepad-rightstick-pot-x</loc></url>
+  <url><loc>https://zero-point-hardware-lab.vercel.app/?scale=gamepad-rightstick&amp;part=gamepad-rightstick-pot-y</loc></url>
+  <url><loc>https://zero-point-hardware-lab.vercel.app/?scale=gamepad-rightstick&amp;part=gamepad-rightstick-spring</loc></url>
+  <url><loc>https://zero-point-hardware-lab.vercel.app/?scale=gamepad-rightstick&amp;part=gamepad-rightstick-switch</loc></url>
   <url><loc>https://zero-point-hardware-lab.vercel.app/?scale=legion&amp;part=legion-cover</loc></url>
   <url><loc>https://zero-point-hardware-lab.vercel.app/?scale=legion&amp;part=legion-deck</loc></url>
   <url><loc>https://zero-point-hardware-lab.vercel.app/?scale=legion&amp;part=legion-trackpad</loc></url>

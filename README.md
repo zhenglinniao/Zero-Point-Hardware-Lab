@@ -10,7 +10,7 @@
 
 ## 可以探索什么
 
-**8 台参考设备 · 91 个探索层级 · 808 条部件资料 · 8 条学习路径 · 24 个互动实验**
+**8 台参考设备 · 100 个探索层级 · 859 条部件资料 · 8 条学习路径 · 24 个互动实验**
 
 | 设备 | 探索内容 | 打开模型 |
 | --- | --- | --- |
@@ -24,6 +24,24 @@
 | AirPods Pro 2 USB-C 参考结构 | 双电芯、充电板、托盘、耳机内部与动圈原理 | [耳机](https://zero-point-hardware-lab.vercel.app/?scale=earbuds) |
 
 这些是帮助理解结构与功能的教学模型，不是精确维修图、完整物料清单或真实性能模拟。具体型号参考与通用原理模型的范围见[设备参考](docs/DIGITAL-DEVICES.md)。
+
+## 全设备分步拆解与机构深化
+
+八台设备均提供六个可点击的观察节点，并按功能分组显示内部层级。新增九个可深入机构、51 条中文部件说明；整机安装的就是同一份子模型，保持毫米比例、安装朝向和分享链接一致。
+
+| 设备 | 总层级 | 本轮重点 |
+| --- | ---: | --- |
+| 台式电脑 | 38 | 保留主板、内存、电源、散热、存储与显卡深层结构；增加六步观察入口 |
+| Legion / MacBook | 各 15 | 复查装配与分层，更新屏幕实验室标识，分别提供观察步骤 |
+| PS5 | 6 | 风扇继续拆护框、弯曲叶轮、铜绕组定子、轴与轴承；收窄、压暗前缘格栅 |
+| iPhone 15 | 6 | Taptic Engine 拆薄壁壳、质量块、绕组与弹片；扬声器拆声腔、振膜、音圈与磁路 |
+| Sony α7 IV | 7 | 取景器拆外壳、眼罩、目镜窗口、调节轮与热靴；翻转屏拆外框、显示面与侧铰链 |
+| DualSense | 8 | 左右扳机拆电机、蜗杆、减速齿轮与回复弹簧；左右摇杆拆万向架、双轴电位器、回复弹簧与按压开关 |
+| AirPods Pro 2 | 5 | 保留先开盖、再取耳机、最后提托盘的顺序；将单耳、发声单元与耳柄电路归入同一分支 |
+
+[风扇内部](https://zero-point-hardware-lab.vercel.app/?scale=ps5-fan&open=50) · [触觉机构](https://zero-point-hardware-lab.vercel.app/?scale=phone-haptic&open=50) · [摇杆内部](https://zero-point-hardware-lab.vercel.app/?scale=gamepad-leftstick&open=50) · [逐项验证与范围](docs/GEOMETRY-AUDIT.md#全设备观察步骤与机械总成深化)
+
+![实际工作台：分组层级与六步观察](docs/screenshots/device-steps-gamepad.png)
 
 ## Sony α7 IV 的外观与装配
 
@@ -162,9 +180,10 @@ npm run check
 npm test
 npm run build
 npm run size
+npm run audit:models
 ```
 
-已通过 **148 项测试**。另提供浏览器验收，覆盖学习流程、进度持久化、新设备拆解、部件交互与移动布局。先运行生产预览，再在另一个终端执行：
+已通过 **154 项测试**。另提供浏览器验收，覆盖学习流程、进度持久化、新设备拆解、部件交互与移动布局。先运行生产预览，再在另一个终端执行：
 
 ```bash
 node scripts/learning-smoke.mjs
