@@ -16,7 +16,11 @@ export const deviceDisassembly: Partial<Record<LevelId, DisassemblyStep[]>> = {
       20,
       '供油进排气与启动组件先离开机体，露出散热缸体和缸盖。',
     ),
-    step('分离缸盖', 35, '沿气缸轴线移开缸盖，观察活塞冠部和两根推杆。'),
+    step(
+      '隐藏铸件剖视',
+      35,
+      '缸盖退出后隐藏一体机体，观察仍保持装配的曲轴、连杆、活塞与推杆；此阶段是剖视，不是把气缸拆下。',
+    ),
     step(
       'Dissection',
       50,
