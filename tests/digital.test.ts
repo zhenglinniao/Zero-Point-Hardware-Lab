@@ -342,3 +342,64 @@ await test('both earphones use the same native assembly and turn their nozzle al
   }
   assert.ok(bounds[0].getSize(new T.Vector3()).distanceTo(bounds[1].getSize(new T.Vector3()))<1e-6);
 });
+
+await test('NP-FZ100 body follows the official dimensions and clears the actual grip mesh',()=>{
+  const model=models.get('camera')!;model.root.updateMatrixWorld(true);
+  let shell:T.Mesh|undefined,cell:T.Mesh|undefined;
+  model.root.traverse(o=>{if(o instanceof T.Mesh&&o.userData.cameraBodyShell)shell=o;if(o instanceof T.Mesh&&o.userData.batteryEnvelope)cell=o;});
+  assert.ok(shell&&cell);const bounds=new T.Box3().setFromObject(cell),size=bounds.getSize(new T.Vector3()).multiplyScalar(15);
+  assert.ok(size.distanceTo(new T.Vector3(22.7,51.7,38.7))<.0001);
+  const probe=new T.Mesh(shell.geometry,new T.MeshBasicMaterial({side:T.DoubleSide}));
+  probe.updateMatrixWorld(true);
+  const direction=new T.Vector3(1,.137,.091).normalize();
+  for(const sample of [bounds,new T.Box3().setFromObject(model.pieces.find(p=>p.concept==='camera-slots')!.object)])
+  for(const x of [sample.min.x,(sample.min.x+sample.max.x)/2,sample.max.x])for(const y of [sample.min.y,(sample.min.y+sample.max.y)/2,sample.max.y])for(const z of [sample.min.z,(sample.min.z+sample.max.z)/2,sample.max.z]){
+    const point=shell.worldToLocal(new T.Vector3(x,y,z));
+    const hits=new T.Raycaster(point,direction,.0001,200).intersectObject(probe);
+    const unique=hits.filter((hit,i)=>i===0||Math.abs(hit.distance-hits[i-1].distance)>.0001);
+    assert.equal(unique.length%2,0,'battery or card slot sample is inside rendered shell material');
+    if(unique.length)assert.ok(unique[0].distance>.15,'battery and slots must retain actual mesh clearance');
+  }
+  (probe.material as T.Material).dispose();
+});
+
+await test('installed camera lens is closed while the standalone lens keeps its inspection cut',()=>{
+  for(const [level,closed] of [['camera',true],['cameralens',false]] as const){
+    let closures=0,cuts=0;
+    models.get(level)!.root.traverse(o=>{if(o.userData.closedSection){closures++;assert.equal(o.visible,closed);}if(o.userData.cutFace){cuts++;assert.equal(o.visible,!closed);}});
+    assert.ok(closures>0&&cuts>0);
+  }
+});
+
+await test('phone magnetic ring clears the logic-board shield and stays beneath the back glass',()=>{
+  const model=models.get('phone')!;model.root.updateMatrixWorld(true);let ring:T.Object3D|undefined;
+  model.root.traverse(o=>{if(o.name==='phone-magnetic-ring')ring=o;});assert.ok(ring);
+  const b=new T.Box3().setFromObject(ring),board=new T.Box3().setFromObject(model.pieces.find(p=>p.concept==='phoneboard')!.object);
+  const back=new T.Box3().setFromObject(model.pieces.find(p=>p.concept==='phone-back')!.object);
+  assert.ok(b.min.y>board.max.y);assert.ok(b.max.y<back.min.y);
+});
+
+await test('case lower shell opens upward and lid opens downward rather than trapping solid ceilings',async()=>{
+  const {chargingCase}=await import('../lib/digital/molded-shells.ts');
+  for(const lid of [false,true]){
+    const material=new T.MeshBasicMaterial({side:T.DoubleSide}),geometry=chargingCase(lid,60.6,lid?7:38,21.7),mesh=new T.Mesh(geometry,material);
+    mesh.updateMatrixWorld(true);
+    const ray=new T.Raycaster(new T.Vector3(0,lid?-20:30,0),new T.Vector3(0,lid?1:-1,0));
+    const hits=ray.intersectObject(mesh);assert.ok(hits.length>0);
+    assert.ok(lid?hits[0].point.y>1:hits[0].point.y< -16,'opening must face the earphone tray');
+    geometry.dispose();material.dispose();
+  }
+});
+
+await test('PS5 cover snap seats follow the actual inner skin instead of floating on a straight line',()=>{
+  const model=models.get('ps5')!;model.root.updateMatrixWorld(true);
+  for(const [id,sign] of [['ps5-left-cover',-1],['ps5-right-cover',1]] as const){
+    const piece=model.pieces.find(p=>p.concept===id)!;let skin:T.Mesh|undefined,owner:T.Object3D|undefined;
+    piece.object.traverse(o=>{if(o instanceof T.Mesh&&o.name==='ps5-cover-inner-skin')skin=o;if(o.userData.coverAnchors)owner=o;});assert.ok(skin&&owner);
+    for(const anchor of owner.userData.coverAnchors){
+      const origin=owner.localToWorld(new T.Vector3(...anchor as [number,number,number]));
+      const hits=new T.Raycaster(origin,new T.Vector3(sign,0,0),.00001,2/40).intersectObject(skin);
+      assert.ok(hits.length>0&&hits[0].distance<1.2/40,'snap base must sit on the deformed inner skin');
+    }
+  }
+});

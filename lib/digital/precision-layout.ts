@@ -613,6 +613,15 @@ export function refinePrecisionAssemblies(definitions: Definition[]) {
   edit('ps5', 'frame', { motion: [0.45, 0.7] });
   edit('camera', 'shutter', { delta: [0, 42, 60] });
   edit('camera', 'heatplate', { delta: [-55, 0, 24] });
+  edit('camera', 'battery', {
+    size: [22.7, 51.7, 38.7],
+    pos: [46, -11, 2],
+    name: 'NP-FZ100 电池包',
+    description:
+      'Sony 官方外形尺寸为 38.7 × 22.7 × 51.7 mm；按握柄中的安装方向转为 22.7 × 51.7 × 38.7 mm。',
+    sources: ['sonyfz100'],
+  });
+  edit('camera', 'slots', { pos: [47.5, 3, -23] });
   edit('camerasensor', 'sensor', {
     size: [35.9, 1, 23.9],
     description:

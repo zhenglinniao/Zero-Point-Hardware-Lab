@@ -1,9 +1,14 @@
 import * as T from 'three';
-import { cameraGrip, earbudShell, chargingCase } from './molded-shells.ts';
+import {
+  cameraFrontShell,
+  earbudShell,
+  chargingCase,
+} from './molded-shells.ts';
 import { decorateBoard } from './board-detail.ts';
 import { gamepadExterior } from './gamepad-asset.ts';
 import { buildLensPart } from './lens-geometry.ts';
 import { precisionGeometry } from './precision-geometry.ts';
+import { ps5CoverPoint } from './ps5-cover.ts';
 import type { ModelTools } from '../hardware.ts';
 import type { Vec3 } from '../layout.ts';
 import type { DigitalLevel, DigitalPart } from './catalogue.ts';
@@ -456,8 +461,8 @@ export function detailedGeometry(
       }
   }
   function trigger() {
-    put(plate(w, 2, d, '#30383c', 3), [0, -h * 0.35, 0]);
-    const motor = disk(4.3, 14, silver);
+    put(plate(w * 0.82, 2, d * 0.68, '#30383c', 3), [0, -h * 0.35, 0]);
+    const motor = disk(4.3, 12, silver);
     motor.rotation.z = Math.PI / 2;
     put(motor, [-w * 0.2, 0, 1]);
     // Helical worm and meshing gear are visible, individually shaped elements.
@@ -482,8 +487,8 @@ export function detailedGeometry(
     tube(
       [
         [-7, 1, -6],
-        [-8, 4, -9],
-        [6, 5, -9],
+        [-8, 4, -7],
+        [6, 5, -7],
         [8, 2, -6],
       ],
       0.5,
@@ -547,26 +552,7 @@ export function detailedGeometry(
     for (let i = 0; i < a.count; i++) {
       const z = a.getX(i),
         y = a.getY(i);
-      const flare =
-        20 * Math.pow(Math.abs(y) / (h / 2), 3) +
-        8 * Math.cos((z / d) * Math.PI);
-      const bulge =
-        id === 'right-cover'
-          ? 11 *
-            Math.exp(-Math.pow((y + 60) / 105, 2) - Math.pow((z - 30) / 95, 2))
-          : 0;
-      const taper = 0.96 + 0.04 * Math.cos((y / h) * Math.PI * 2);
-      const sweep = 12 * Math.sin((y / h) * Math.PI);
-      a.setXYZ(
-        i,
-        (id === 'left-cover' ? -1 : 1) * (flare + bulge),
-        y -
-          Math.sign(y) *
-            20 *
-            Math.pow(Math.abs(y) / (h / 2), 9) *
-            (z / d + 0.5),
-        z * taper + sweep,
-      );
+      a.setXYZ(i, ...ps5CoverPoint(id === 'right-cover', h, d, y, z));
     }
     const reverseFaces = (geometry: T.BufferGeometry) => {
       const index = geometry.getIndex()!;
@@ -586,7 +572,8 @@ export function detailedGeometry(
       vertices.setX(i, vertices.getX(i) + (id === 'left-cover' ? 2.6 : -2.6));
     reverseFaces(inner);
     inner.computeVertexNormals();
-    put(new T.Mesh(inner, mat('#cdd2d1', 0.05, 0.65)));
+    const innerMesh = put(new T.Mesh(inner, mat('#cdd2d1', 0.05, 0.65)));
+    innerMesh.name = 'ps5-cover-inner-skin';
     const edgeIndices: number[] = [];
     const boundary: number[] = [];
     for (let c = 0; c < 29; c++) boundary.push(c);
@@ -615,9 +602,22 @@ export function detailedGeometry(
     edgeGeometry.setIndex(edgeIndices);
     edgeGeometry.computeVertexNormals();
     put(new T.Mesh(edgeGeometry, mat(part.color, 0.05, 0.62)));
-    // Discrete snap hooks follow the inner skin rather than a straight bar.
-    for (let i = 0; i < 6; i++)
-      put(box([4, 6, 3], '#c5ccca'), [-2, (i - 2.5) * 52, d * 0.3]);
+    const inward = id === 'left-cover' ? 1 : -1;
+    const anchors: Vec3[] = [];
+    for (let i = 0; i < 6; i++) {
+      const [x, y, z] = ps5CoverPoint(
+        id === 'right-cover',
+        h,
+        d,
+        (i - 2.5) * 52,
+        d * 0.3,
+      );
+      const anchor: Vec3 = [x + inward * 3.3, y, z];
+      anchors.push(anchor);
+      put(box([1.4, 7, 5], '#c5ccca'), anchor);
+      put(box([5, 1.2, 2], '#c5ccca'), [x + inward * 5.1, y + 2.5, z + 1.4]);
+    }
+    g.userData.coverAnchors = anchors;
   } else if (level === 'ps5' && id === 'frame') {
     // Skeleton in the YZ plane, leaving the cooling and electronics visible.
     for (const x of [-w * 0.46, w * 0.46]) {
@@ -842,15 +842,9 @@ export function detailedGeometry(
     for (const x of [-w * 0.4, w * 0.4])
       screw([x, h / 2 + 0.15, d * 0.3], 0.75);
   } else if (level === 'camera' && id === 'front') {
-    const shape = rounded(109, 78, 8, -9, 0);
-    shape.holes.push(circleHole(-8, 0, 28));
-    const mesh = new T.Mesh(extrusion(shape, 4), mat(ink, 0.12, 0.75));
-    mesh.rotation.x = Math.PI / 2;
-    put(mesh, [0, 0, 17]);
-    put(new T.Mesh(cameraGrip(), mat('#252a2e', 0.06, 0.87)), [46, -3, 5]);
-    // The front assembly wraps around both sides, enclosing the board stack.
-    for (const x of [-62, 62])
-      put(box([3.2, 75, 46], ink, 0.12, 2), [x, -1, -8]);
+    const shell = new T.Mesh(cameraFrontShell(), mat('#252a2e', 0.06, 0.87));
+    shell.userData.cameraBodyShell = true;
+    put(shell);
     const branding = new T.Group();
     text('α 7 IV', [0, 0.15, 0], 20, '#c8cdcb', branding);
     branding.rotation.x = Math.PI / 2;
@@ -865,6 +859,15 @@ export function detailedGeometry(
         post.rotation.x = Math.PI / 2;
         put(post, [x, y, 12]);
       }
+  } else if (level === 'camera' && id === 'battery') {
+    const cell = put(box([w, h, d], '#31383c', 0.08, 1.2));
+    cell.userData.batteryEnvelope = true;
+    for (const x of [-w * 0.22, 0, w * 0.22])
+      put(box([2.1, 0.15, 4], '#ba9e61', 0.65), [x, h / 2 + 0.08, -d * 0.27]);
+    const label = new T.Group();
+    text('NP-FZ100', [0, 0.1, 0], w * 0.83, '#aab1b2', label);
+    label.rotation.x = Math.PI / 2;
+    put(label, [0, 0, d / 2 + 0.03]);
   } else if (level === 'camera' && id === 'back') {
     const shell = plate(w, 3, h, ink, 7, [rectHole(-10, 0, 70, 45, 2)]);
     shell.rotation.x = Math.PI / 2;
@@ -1315,8 +1318,12 @@ export function detailedGeometry(
             ),
           );
         if (level === 'phone') {
-          put(disk(w * 0.52, 0.3, '#c8c9bf', w * 0.47), [0, -0.2, 0]);
-          put(box([9, 0.3, 5], '#b9bcb4'), [0, -0.2, w * 0.64]);
+          const magnets = put(
+            disk(w * 0.52, 0.08, '#c8c9bf', w * 0.47),
+            [0, 0.6, 0],
+          );
+          magnets.name = 'phone-magnetic-ring';
+          put(box([9, 0.08, 5], '#b9bcb4'), [0, 0.6, w * 0.64]);
         }
         break;
       case 'sensor':

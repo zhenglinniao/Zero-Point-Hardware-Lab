@@ -60,6 +60,15 @@ export function buildLensPart(part: DigitalPart, tools: ModelTools) {
     );
     const group = new T.Group();
     group.add(new T.Mesh(geo, material));
+    if (section) {
+      const closure = new T.Mesh(
+        new T.LatheGeometry(profile, 32, 0, Math.PI / 2),
+        material.clone(),
+      );
+      closure.userData.closedSection = true;
+      closure.visible = false;
+      group.add(closure);
+    }
     if (section)
       for (const angle of [Math.PI / 2, Math.PI * 2]) {
         const cap = new T.ShapeGeometry(new T.Shape(profile));
@@ -74,7 +83,9 @@ export function buildLensPart(part: DigitalPart, tools: ModelTools) {
         cap.computeVertexNormals();
         const m = metal('#a9b0af').clone();
         m.side = T.DoubleSide;
-        group.add(new T.Mesh(cap, m));
+        const face = new T.Mesh(cap, m);
+        face.userData.cutFace = true;
+        group.add(face);
       }
     return group;
   };

@@ -25,6 +25,7 @@ export const sources = {
   iphoneinternal: { name: 'Apple · iPhone 15 官方内部视图', url: 'https://support.apple.com/en-ca/104901' },
   iphonerepair: { name: 'Apple · iPhone 15 官方维修资料目录', url: 'https://support.apple.com/en-ca/104900' },
   sonyalpha: { name: 'Sony · α7 IV（ILCE-7M4）官方技术规格', url: 'https://www.sony.com/electronics/support/e-mount-body-ilce-7-series/ilce-7m4/specifications' },
+  sonyfz100: { name: 'Sony · NP-FZ100 官方尺寸与规格', url: 'https://www.sony.co.uk/electronics/interchangeable-lens-cameras-batteries-chargers/np-fz100' },
   sonyoptics: { name: 'Sony · 光圈与景深的光学原理（通用镜头示意依据）', url: 'https://www.sony.co.uk/electronics/what-is-aperture-depth-of-field' },
   dualsenseofficial: { name: '索尼 PlayStation · DualSense 官方功能介绍', url: 'https://www.playstation.com/en-us/accessories/dualsense-wireless-controller/' },
   earbudofficial: { name: 'Apple · AirPods Pro 2 公开功能参考（非本模型内部结构证据）', url: 'https://support.apple.com/en-il/111851' },

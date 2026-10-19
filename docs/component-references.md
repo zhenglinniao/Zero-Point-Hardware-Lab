@@ -83,7 +83,7 @@ Manufacturer documents support component roles, architecture or construction. Th
 | camera-back | 背部外壳 | Sony α7 IV 相机 | [Sony · ILCE-7M4 / 7M4K 服务手册分解图（第三方镜像）](https://manuals.plus/m/662ac7b243a51dfb6adfa3f731348687443abee969b90e085dcd0aebbb51fbad.pdf) |
 | camera-display | 翻转显示屏总成示意 | Sony α7 IV 相机 | [Sony · ILCE-7M4 / 7M4K 服务手册分解图（第三方镜像）](https://manuals.plus/m/662ac7b243a51dfb6adfa3f731348687443abee969b90e085dcd0aebbb51fbad.pdf) |
 | camera-board | 图像处理主板 | Sony α7 IV 相机 | [Sony · ILCE-7M4 / 7M4K 服务手册分解图（第三方镜像）](https://manuals.plus/m/662ac7b243a51dfb6adfa3f731348687443abee969b90e085dcd0aebbb51fbad.pdf) |
-| camera-battery | 可充电电池包 | Sony α7 IV 相机 | [Sony · ILCE-7M4 / 7M4K 服务手册分解图（第三方镜像）](https://manuals.plus/m/662ac7b243a51dfb6adfa3f731348687443abee969b90e085dcd0aebbb51fbad.pdf) |
+| camera-battery | NP-FZ100 电池包 | Sony α7 IV 相机 | [Sony · NP-FZ100 官方尺寸与规格](https://www.sony.co.uk/electronics/interchangeable-lens-cameras-batteries-chargers/np-fz100) |
 | camerasensor | 传感器与防抖组件 | Sony α7 IV 相机 | [Sony · ILCE-7M4 / 7M4K 服务手册分解图（第三方镜像）](https://manuals.plus/m/662ac7b243a51dfb6adfa3f731348687443abee969b90e085dcd0aebbb51fbad.pdf) |
 | camera-shutter | 焦平面快门示意 | Sony α7 IV 相机 | [Sony · ILCE-7M4 / 7M4K 服务手册分解图（第三方镜像）](https://manuals.plus/m/662ac7b243a51dfb6adfa3f731348687443abee969b90e085dcd0aebbb51fbad.pdf) |
 | cameralens | 100 mm 双高斯教学镜头 | Sony α7 IV 相机 | [Optiland · DoubleGauss 六片四组光学处方（MIT）](https://github.com/optiland/optiland/blob/master/optiland/samples/objectives.py) |

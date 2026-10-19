@@ -34,6 +34,11 @@ export function buildDigital(level: DigitalLevel, tools: ModelTools) {
       )
         assembly.rotation.x = Math.PI / 2;
       if (part.rotation) assembly.rotation.set(...part.rotation);
+      if (level === 'camera' && nested === 'cameralens')
+        assembly.traverse((object) => {
+          if (object.userData.closedSection) object.visible = true;
+          if (object.userData.cutFace) object.visible = false;
+        });
       object.add(assembly);
     } else {
       const geometry = detailedGeometry(level, part, definition.unit, tools);

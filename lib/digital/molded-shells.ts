@@ -138,6 +138,29 @@ export function cameraGrip() {
   });
 }
 
+/** Continuous front/body shell, open at the rear. Local origin is the front
+ * assembly origin (installed at world Z +6 mm). Battery clearance uses the
+ * NP-FZ100's 22.7 x 51.7 x 38.7 mm installed orientation. */
+export function cameraFrontField(x: number, y: number, z: number) {
+  const body = roundedBox(x + 10, y, z + 8.25, 54, 40, 25.25, 6);
+  const grip = blend(
+    roundedBox(x - 46, y + 5, z + 3.75, 16.5, 37, 29.75, 8),
+    capsule(x, y, z, 46, -24, 17, 43, 20, 21, 11),
+    4,
+  );
+  const outer = blend(body, grip, 5);
+  const interior = Math.min(
+    roundedBox(x + 10, y, z + 11, 51, 37, 25, 3),
+    roundedBox(x - 46, y + 6, z + 5.75, 12, 33, 29.75, 1.2),
+  );
+  const mount = Math.hypot(x + 8, y) - 27.5;
+  return Math.max(outer, -interior, -mount, y - 35.4, -40.4 - y);
+}
+
+export function cameraFrontShell() {
+  return surface('camera-front-continuous-v2', [68, 44, 39], cameraFrontField);
+}
+
 export function earbudShell(open: boolean, cap = false) {
   return surface(`earbud-${open}-${cap}`, [12, 18, 12], (x, y, z) => {
     // A swollen acoustic head joins a short, flattened stem without a seam of
@@ -159,14 +182,14 @@ export function chargingCase(
   depth: number,
 ) {
   return surface(
-    `case-${lid}-${width}-${height}`,
+    `case-v2-${lid}-${width}-${height}`,
     [width / 2 + 2, height / 2 + 2, depth / 2 + 2],
     (x, y, z) => {
       const r = Math.min(9, height / 2 - 0.3, depth / 2 - 0.3);
       const outer = roundedBox(x, y, z, width / 2, height / 2, depth / 2, r);
       const inner = roundedBox(
         x,
-        y + (lid ? -1.8 : 1.8),
+        y + (lid ? 1.8 : -1.8),
         z,
         width / 2 - 1.5,
         height / 2,

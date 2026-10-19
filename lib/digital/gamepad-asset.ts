@@ -122,8 +122,8 @@ export function gamepadExterior(part: DigitalPart): T.Group | null {
         if (!textures.has(source)) textures.set(source, source.clone());
         material[key] = textures.get(source)!;
       }
-      material.roughness = Math.max(material.roughness, 0.38);
-      material.metalness = Math.min(material.metalness, 0.22);
+      material.roughness = Math.max(material.roughness, 0.6);
+      material.metalness = Math.min(material.metalness, 0.04);
       return material;
     };
     mesh.material = Array.isArray(object.material)
