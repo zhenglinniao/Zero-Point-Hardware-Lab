@@ -153,7 +153,7 @@ export function applyPiecePose(
       scratch.scale.setScalar(pieceScale),
     );
     piece.batch.setMatrixAt(piece.index!, scratch.matrix);
-  } else piece.object.visible = piece.visible;
+  } else piece.object.visible = piece.visible && !(typeof piece.object.userData.sectionAt === 'number' && value >= piece.object.userData.sectionAt && value < .7);
   return pieceScale;
 }
 

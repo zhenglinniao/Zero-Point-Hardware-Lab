@@ -2,6 +2,8 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import * as T from 'three';
 import { installGamepadAsset } from '../lib/digital/gamepad-asset.ts';
+import { preparePowertrainSolids } from '../lib/powertrain/cast-solids.ts';
+await preparePowertrainSolids();
 import { levelIds, systemRoot } from '../lib/levels.ts';
 import { byId } from '../lib/manifest.ts';
 import { buildModel } from '../lib/models.ts';

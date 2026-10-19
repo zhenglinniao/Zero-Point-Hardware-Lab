@@ -12,6 +12,7 @@
  * for that construction alone, and its name says it is an independent review.
  */
 export const sources = {
+  hondaut2parts: {name:'Honda 官方经销商零件目录 · GX160 UT2 配气件（HX2/A 目录仅用于核对共用配气零件，非整机 PTO 布局依据）',url:'https://hondaeast.powerdealer.honda.com/parts/engines/engines/gx/GX160/GX160UT2-HX2_A/Z4M0E0900A/references'},
   leafmotorcad: {name:'Motor-CAD · 2012 LEAF 建模教程（2018，第三方托管的原教程；截面为建模参数）',url:'https://www.selidori.com/tech/00000-04999/1436-c03IY.pdf'},
   hondaut2: {name:'Honda · GX160 UT2 官方维修手册（规格与服务尺寸）',url:'https://www.honda-engines-eu.com/files/files/shop-manual-gx120-160-200-ut2-en.pdf'},
   hondaassembly: {name:'Honda · GX120/160/200 官方发动机装配分解图',url:'https://www.honda-engines-eu.com/files/files/engine-assembly-gx120-200-en.pdf'},
@@ -35,7 +36,7 @@ export const sources = {
   sonyfz100: { name: 'Sony · NP-FZ100 官方尺寸与规格', url: 'https://www.sony.co.uk/electronics/interchangeable-lens-cameras-batteries-chargers/np-fz100' },
   sonyoptics: { name: 'Sony · 光圈与景深的光学原理（通用镜头示意依据）', url: 'https://www.sony.co.uk/electronics/what-is-aperture-depth-of-field' },
   dualsenseofficial: { name: '索尼 PlayStation · DualSense 官方功能介绍', url: 'https://www.playstation.com/en-us/accessories/dualsense-wireless-controller/' },
-  earbudofficial: { name: 'Apple · AirPods Pro 2 公开功能参考（非本模型内部结构证据）', url: 'https://support.apple.com/en-il/111851' },
+  earbudofficial: { name: 'Apple · AirPods Pro 2（USB-C，2023）技术规格', url: 'https://support.apple.com/en-us/111834' },
   dynamicdriver: { name: 'COMSOL · 动圈扬声器的磁路、音圈与振膜原理', url: 'https://doc.comsol.com/6.3/doc/com.comsol.help.models.aco.lumped_loudspeaker_driver/lumped_loudspeaker_driver.html' },
   sodimmkingston: {
     name: 'Kingston · KVR32S22S8/8 DDR4-3200 8 GB SO-DIMM dimensions and organization',

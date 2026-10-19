@@ -253,9 +253,9 @@ export const processorConcepts: Concept[] = [
     level: 'corei9',
     open: 'corei9',
     description:
-      'Twenty four cores of two different sizes on a compute tile, stacked with three more tiles onto a base tile that wires them together.',
+      'Core Ultra 9 285K 采用 Arrow Lake 分块封装：计算、图形和输入输出等功能通过基底连接。24 个核心包括 8 个性能核与 16 个能效核；方块位置是逻辑示意。',
     purpose:
-      'Where AMD repeats one small die, Intel specialises: each tile is made on the process that suits its job, and the base tile underneath carries the connections between them.',
+      '比较分块封装与 AMD 芯粒组织。这是 LGA1851 平台的独立参考方案，不能装入当前台式机的 AM5 插座；公开架构图不能证明内部物理版图。',
     quantity: '1 modeled package',
     specifications: {
       Architecture: 'Arrow Lake · Lion Cove + Skymont',

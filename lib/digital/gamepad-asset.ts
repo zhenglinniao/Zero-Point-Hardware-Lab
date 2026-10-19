@@ -2,6 +2,7 @@ import * as T from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import type { DigitalPart } from './catalogue.ts';
 import type { LevelId } from '../levels.ts';
+import { preparePowertrainSolids } from '../powertrain/cast-solids.ts';
 
 // PS5 Controller by Taohid Animation, CC BY 4.0. See the vendored notice.
 export const gamepadAssetURL = '/models/dualsense/dualsense.glb';
@@ -59,6 +60,7 @@ export async function installGamepadAsset(data: ArrayBuffer, headless = false) {
 }
 
 export async function prepareModelAssets(level: LevelId) {
+  if(level.startsWith('engine')||level.startsWith('ev')) await preparePowertrainSolids();
   if (
     ![
       'gamepad',

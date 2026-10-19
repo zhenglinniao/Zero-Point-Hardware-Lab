@@ -5,7 +5,14 @@ import type {
 } from '../digital/catalogue.ts';
 import type { Category } from '../concept.ts';
 import type { Vec3 } from '../layout.ts';
-import { GX, leafMagnetBars, leafCoils } from './dimensions.ts';
+import {
+  GX,
+  leafMagnetBars,
+  leafCoils,
+  gxCoverBolts,
+  gxPushrodBottomY,
+  gxPushrodTopY,
+} from './dimensions.ts';
 
 export const powertrainAccuracy =
   '公开资料约束的程序化参考重建。GX160 的缸径、行程、活塞/销/曲柄销及气门尺寸和 LEAF 的铁芯包络、48 槽/8 极来自所列原始资料。铸件曲面、端盖、槽形、磁钢截面、绕组端部、管路和紧固件尺寸为重建；不等同原厂 CAD、完整生产 BOM 或维修模型。铜线以可辨识的线束分组表达，不声称复现原厂逐股走线。';
@@ -191,7 +198,7 @@ const blockParts: DigitalPart[] = [
     'barrel',
     '散热缸体',
     'Cooling',
-    [0, 95.5, 0],
+    [0, (55 + GX.deckY) / 2, 0],
     [-125, 80, 0],
     '68 mm 缸孔周围有独立散热鳍片和推杆通道；鳍片不是填满气缸的实心叠块。',
     undefined,
@@ -201,7 +208,7 @@ const blockParts: DigitalPart[] = [
     'liner',
     '铸铁缸套',
     'Mechanical',
-    [0, 95.5, 0],
+    [0, (55 + GX.deckY) / 2, 0],
     [0, 145, 0],
     '内径 68.000 mm，保留活塞行程；外径与长度为装配重建。',
     undefined,
@@ -281,13 +288,13 @@ for (const z of [-35, 35])
       ),
     );
 for (let i = 0; i < 6; i++) {
-  const a = (i * Math.PI) / 3;
+  const [x, y] = gxCoverBolts[i];
   blockParts.push(
     p(
       `cover-bolt-${i + 1}`,
       `侧盖螺栓 ${i + 1}`,
       'Mechanical',
-      [52 * Math.cos(a), 44 * Math.sin(a), 56],
+      [x, y, 56],
       [0, 0, 180 + i * 5],
       '独立侧盖紧固件沿周边布置；孔径和孔数采用本教学铸件布局。',
     ),
@@ -305,7 +312,7 @@ const headParts: DigitalPart[] = [
     'head',
     '带气门孔与推杆孔的气缸盖',
     'Chassis',
-    [-8, 20, 0],
+    [0, 0, 0],
     [-120, 35, 0],
     '缸盖在气缸上方封闭燃烧室，分别建立气门导管孔、推杆孔与螺栓孔；表面曲率为参考重建。',
     undefined,
@@ -325,7 +332,7 @@ const headParts: DigitalPart[] = [
     'cover',
     '摇臂室盖',
     'Chassis',
-    [-15, 79, 0],
+    [-15, 77.5, 0],
     [0, 90, 0],
     '薄壁罩壳覆盖摇臂与气门弹簧，内侧为空腔。',
     undefined,
@@ -335,7 +342,7 @@ const headParts: DigitalPart[] = [
     'cover-gasket',
     '摇臂盖密封圈',
     'Mechanical',
-    [-15, 65, 0],
+    [-15, 64, 0],
     [0, 75, 0],
     '闭合密封圈沿摇臂罩边缘布置。',
     undefined,
@@ -345,7 +352,7 @@ const headParts: DigitalPart[] = [
     'plug',
     '火花塞',
     'Power',
-    [27, 17, 0],
+    [43, 8, 0],
     [70, 25, 0],
     '金属螺纹壳、陶瓷绝缘体、中心电极和接地电极分别建出；位置为示意重建。',
     undefined,
@@ -359,7 +366,7 @@ for (const [i, z] of [-14, 14].entries()) {
       `valve-${i}`,
       `${name}门`,
       'Mechanical',
-      [-8, 12, z],
+      [-8, 15.3, z],
       [0, -58, z * 2],
       `${name}门盘径 ${i ? GX.exhaustDiameter : GX.intakeDiameter} mm；阀杆采用 UT2 服务范围内的尺寸，盘、杆与端部为同一零件。`,
     ),
@@ -393,7 +400,7 @@ for (const [i, z] of [-14, 14].entries()) {
       `rocker-${i}`,
       `${name}门摇臂`,
       'Mechanical',
-      [-27, 65, z],
+      [-26, GX.rockerY, z],
       [-55, 95, z * 3],
       '桥形摇臂跨接推杆与阀杆，支点孔、接触垫与调节螺钉可见。',
     ),
@@ -414,7 +421,7 @@ for (const x of [-39, 39])
         `bolt-${x}-${z}`,
         '气缸盖螺栓',
         'Mechanical',
-        [x, 29, z],
+        [x, 42, z],
         [x, 110, z * 2],
         '独立长螺栓沿缸盖孔道固定缸体；位置与孔道共用坐标。',
       ),
@@ -427,6 +434,7 @@ const engineHead = def(
   headParts,
   15,
 );
+headParts.find((p) => p.id === 'plug')!.rotation = [0, 0, -Math.PI / 2];
 const timingParts: DigitalPart[] = [
   p(
     'crank-gear',
@@ -487,7 +495,7 @@ for (const [i, z] of [-14, 14].entries())
       `pushrod-${i}`,
       `${i ? '排气' : '进气'}推杆`,
       'Mechanical',
-      [-45, 106, z],
+      [-45, (gxPushrodBottomY + gxPushrodTopY) / 2, z],
       [-95, 70, z * 3],
       '球头推杆从挺柱延伸至摇臂，轴线与缸盖的推杆孔共享。',
     ),
@@ -756,7 +764,7 @@ const engine = def(
         'head',
         '气缸盖与 OHV 配气',
         'Mechanical',
-        [0, 137, 0],
+        [0, GX.deckY + GX.headGasket, 0],
         [60, 165, 0],
         '拆开摇臂盖，分别观察进排气门、导管、弹簧、摇臂和火花塞。',
         'engine-head',
@@ -814,7 +822,7 @@ const engineCylinder = def(
   'engine-cylinder',
   'engine',
   '气缸、缸套与散热',
-  '68 mm 贯通缸孔 · 双推杆通道',
+  '一体铸件局部观察 · 铸入缸套 · 双推杆通道',
   engineBlock.parts.filter((p) => cylinderIds.has(p.id)),
   20,
 );
@@ -848,7 +856,7 @@ engine.parts.push(
       'Cooling',
       [0, 0, 0],
       [80, 170, 0],
-      '先沿气缸轴线退出活塞，再分开缸套、散热缸体与推杆通道。',
+      '同一机体铸件的上部观察入口；与曲轴箱同步移动，不表示气缸可以独立拆下。缸套为铸入结构，子层采用剖分观察。',
       'engine-cylinder',
     ),
   ),
@@ -871,12 +879,8 @@ rootPart('head').delta = [
   0,
 ];
 rootPart('head').motion = [8, 24];
-rootPart('cylinder').motion = [25, 40];
-rootPart('cylinder').delta = [
-  Math.sin(GX.inclination) * 180,
-  Math.cos(GX.inclination) * 180,
-  0,
-];
+rootPart('cylinder').motion = [62, 70];
+rootPart('cylinder').delta = [...rootPart('block').delta];
 rootPart('cover').path = [
   { at: 0, offset: [0, 0, 0] },
   { at: 8, offset: [0, 0, 0] },
@@ -889,6 +893,186 @@ rootPart('crank').delta = [0, 0, 270];
 rootPart('timing').motion = [40, 60];
 rootPart('timing').delta = [-130, 0, 170];
 rootPart('block').motion = [62, 70];
+// A complete crank/rod/piston cannot slide sideways through an integral bore.
+// Outer accessories leave first, then the cast body is hidden for inspection.
+for (const id of ['block', 'cylinder', 'crank', 'timing']) {
+  const part = rootPart(id);
+  part.path = [
+    { at: 0, offset: [0, 0, 0] },
+    { at: 70, offset: [0, 0, 0] },
+  ];
+  if (id === 'block' || id === 'cylinder') part.sectionAt = 0.35;
+}
+engine.summary += ' · 外件拆卸后隐藏机体剖视，不将整套曲柄侧向穿过缸壁';
+
+engineCylinder.summary = '剖分观察，不是把铸入缸套作为普通可卸件抽出';
+for (const part of engineCylinder.parts) {
+  part.path = [
+    { at: 0, offset: [0, 0, 0] },
+    { at: 70, offset: [0, 0, 0] },
+  ];
+  part.description +=
+    ' 此件与机体保持固定，使用隐藏功能观察内孔；清单阶段仅作资料排版。';
+}
+for (const part of engineBlock.parts.filter((p) => p.id.startsWith('foot-'))) {
+  part.delta = [...engineBlock.parts.find((p) => p.id === 'case')!.delta];
+  part.description =
+    '机体一体铸造的安装脚区域，与曲轴箱同步展开；并非独立可卸支脚。';
+  const x = part.pos[0],
+    y = -88;
+  part.pos = [
+    x * Math.cos(GX.inclination) - y * Math.sin(GX.inclination),
+    x * Math.sin(GX.inclination) + y * Math.cos(GX.inclination),
+    part.pos[2],
+  ];
+  part.rotation = [0, 0, GX.inclination];
+}
+headParts.push(
+  p(
+    'stem-seal',
+    '进气门杆油封',
+    'Mechanical',
+    [-8, 41, -14],
+    [40, 65, -50],
+    '本田装配图中仅进气侧配置杆密封；弹性唇口围绕阀杆，抱紧箍圈位于外侧。',
+    undefined,
+    dark,
+  ),
+  p(
+    'pushrod-guide',
+    '双推杆导向板',
+    'Mechanical',
+    [-45, 53, 0],
+    [-45, 70, 0],
+    'UT2 零件目录中的推杆导向板，两个孔分别限制进、排气推杆的侧向偏移；采用同一推杆轴线基准。',
+  ),
+  ...[-1, 1].map((side, i) =>
+    p(
+      'dowel-' + i,
+      '缸盖定位套 ' + (i + 1),
+      'Mechanical',
+      [side * 39, 0, side * 32],
+      [side * 60, 30, side * 50],
+      '空心定位套共同约束缸体、缸垫与缸盖，位置使用相同螺栓孔基准。',
+    ),
+  ),
+);
+starter.parts.push(
+  p(
+    'blower',
+    '飞轮风道与导流罩',
+    'Cooling',
+    [0, 0, -15],
+    [0, 0, -310],
+    '冲压薄壁导流罩包围飞轮冷却扇，并沿上部开口把气流导向气缸散热片；与圆形回卷启动器分开。',
+    undefined,
+    '#ad3428',
+  ),
+  ...[-1, 1].map((side, i) =>
+    p(
+      'pawl-' + i,
+      '启动接合棘爪 ' + (i + 1),
+      'Mechanical',
+      [side * 18, 0, -39],
+      [side * 45, 25, -195],
+      '棘爪安装在卷盘侧面，拉动时接合启动杯，回卷时脱开；采用静态观察姿态。',
+    ),
+  ),
+);
+engine.parts.find((p) => p.id === 'starter')!.pos = [0, 0, -68];
+// Induction interfaces share the head's installed datum (the ports run along Z).
+const headPortX =
+  -8 * Math.cos(tilt) - (GX.deckY + GX.headGasket + 11) * Math.sin(tilt);
+const headPortY =
+  -8 * Math.sin(tilt) + (GX.deckY + GX.headGasket + 11) * Math.cos(tilt);
+engine.parts.find((p) => p.id === 'induction')!.pos = [-65, 158, 0];
+const intakeX = headPortX + 65,
+  intakeY = headPortY - 158;
+for (const part of induction.parts) {
+  if (part.id === 'cap') part.pos = [-27, 65, -15];
+  if (part.id === 'carb' || part.id === 'throttle')
+    part.pos = [intakeX, intakeY, -68];
+  if (part.id === 'filter') part.pos = [intakeX, intakeY, -104];
+  if (part.id === 'filter-cover') part.pos = [intakeX, intakeY, -110];
+  if (part.id === 'intake') part.pos = [intakeX, intakeY, -54];
+  if (part.id === 'muffler') part.pos = [intakeX, intakeY, 86];
+  if (part.id === 'heatshield') part.pos = [intakeX + 31, intakeY, 86];
+  if (part.id === 'fuel-line') part.pos = [intakeX - 92, intakeY + 29, -6];
+}
+induction.parts.push(
+  p(
+    'tank-bracket',
+    '油箱安装托架',
+    'Chassis',
+    [-20, -61, 0],
+    [-40, 60, 0],
+    '折弯托架把燃油箱安装耳连接至机体上部；安装孔与支承台共用基准，尺寸为照片参考重建。',
+    undefined,
+    alloy,
+  ),
+  p(
+    'filter-base',
+    '空滤承托底座',
+    'Fluid',
+    [intakeX, intakeY, -87],
+    [0, 0, -85],
+    '带中心气孔的承托底座与化油器喉管共轴，封闭滤芯内外侧的空气通路。',
+    undefined,
+    dark,
+  ),
+  p(
+    'insulator',
+    '化油器隔热垫座',
+    'Fluid',
+    [intakeX, intakeY, -50],
+    [0, 0, -55],
+    '隔热垫座位于化油器和缸盖之间，中心孔与进气道对齐，独立孔供安装长螺柱穿过。',
+    undefined,
+    dark,
+  ),
+  p(
+    'intake-gasket',
+    '进气密封垫',
+    'Fluid',
+    [intakeX, intakeY, -45],
+    [0, 0, -38],
+    '薄片密封垫位于隔热座与缸盖之间，贯通气孔和两只紧固孔沿同一基准。',
+    undefined,
+    '#70664d',
+  ),
+  ...[-15, 15].map((x, i) =>
+    p(
+      'mount-stud-' + i,
+      '空滤与化油器贯穿螺柱 ' + (i + 1),
+      'Mechanical',
+      [intakeX + x, intakeY, -68],
+      [x * 3, 30, -105],
+      '长螺柱共同定位缸盖接口、隔热座、化油器与空滤底座，拆卸先解除端部螺母。',
+    ),
+  ),
+);
+// Explicit construction sequence, not an unrestrained radial explosion.
+for (const part of headParts) {
+  if (part.id === 'head')
+    part.path = [
+      { at: 0, offset: [0, 0, 0] },
+      { at: 70, offset: [0, 0, 0] },
+    ];
+  else if (part.id.startsWith('valve-'))
+    part.path = [
+      { at: 0, offset: [0, 0, 0] },
+      { at: 18, offset: [0, 0, 0] },
+      { at: 60, offset: [0, -100, 0] },
+      { at: 70, offset: [0, -100, 0] },
+    ];
+  else if (part.id === 'cover') part.motion = [0, 10];
+  else if (
+    part.id.startsWith('spring') ||
+    part.id.startsWith('retainer') ||
+    part.id === 'rotator'
+  )
+    part.motion = [5, 18];
+}
 
 const statorParts: DigitalPart[] = [
   p(
@@ -1125,7 +1309,7 @@ const housingParts: DigitalPart[] = [
     'inlet',
     '冷却液入口接管',
     'Cooling',
-    [0, 112, -55],
+    [0, 120, -55],
     [0, 70, -35],
     '中空入口接管连通外层水道，不进入定子铜线区域。',
     undefined,
@@ -1135,7 +1319,7 @@ const housingParts: DigitalPart[] = [
     'outlet',
     '冷却液出口接管',
     'Cooling',
-    [0, 112, 55],
+    [0, 120, 55],
     [0, 70, 35],
     '出口与入口位于水套不同轴向位置；管口与流道以贯通孔表示。',
     undefined,
@@ -1178,7 +1362,7 @@ const terminalParts: DigitalPart[] = [
     'cover',
     '接线盒盖',
     'Chassis',
-    [0, 14, 0],
+    [0, 20, 0],
     [0, 55, 0],
     '有壁厚的盒盖保护三相连接；橙色用于识别电驱系统高压接口。',
     undefined,
@@ -1298,6 +1482,23 @@ const motor = def(
   40,
 );
 const bellParts = housing.parts.filter((p) => p.id.startsWith('bell-'));
+motor.parts.find((p) => p.id === 'terminal')!.pos = [0, 108, 118];
+motor.parts.find((p) => p.id === 'terminal')!.rotation = [Math.PI / 2, 0, 0];
+motor.parts.find((p) => p.id === 'terminal')!.motion = [0, 15];
+motor.parts.push(
+  ...[0, 1, 2].map((i) =>
+    p(
+      'phase-lead-' + i,
+      ['U', 'V', 'W'][i] + ' 相绝缘引出段',
+      'Power',
+      [0, 0, 0],
+      [0, 120, 175],
+      '三相引出段从前端绕组区域经端盖绝缘套进入接线座，不穿过封闭的冷却液腔；相带／支路连接是教学等效而非原厂逐股测绘。',
+      undefined,
+      copper,
+    ),
+  ),
+);
 housing.parts = housing.parts.filter(
   (p) => !p.id.startsWith('bell-') && !p.id.startsWith('bolt-'),
 );
@@ -1309,7 +1510,11 @@ for (const b of bellParts) {
   });
 }
 for (const b of housingParts.filter((p) => p.id.startsWith('bolt-')))
-  motor.parts.push({ ...b, id: 'housing-' + b.id });
+  motor.parts.push({
+    ...b,
+    pos: [b.pos[0], b.pos[1], 103],
+    id: 'housing-' + b.id,
+  });
 motor.parts.find((p) => p.id === 'housing')!.path = [
   { at: 0, offset: [0, 0, 0] },
   { at: 23, offset: [0, 0, 0] },
@@ -1350,6 +1555,38 @@ motor.specs = {
   边界: '只展示电机；逆变器、减速器和整车电池不属于本模型',
   重建范围: '槽形、磁钢截面、轴承规格、端部绕线与铸件',
 };
+
+stator.summary =
+  '槽内装配与线束连接 · 导体／衬纸轴向退出示意；绕组端部采用观察剖分';
+for (const part of stator.parts) {
+  if (part.id === 'core')
+    part.path = [
+      { at: 0, offset: [0, 0, 0] },
+      { at: 70, offset: [0, 0, 0] },
+    ];
+  else if (part.id.startsWith('endturn-')) {
+    part.path = [
+      { at: 0, offset: [0, 0, 0] },
+      { at: 70, offset: [0, 0, 0] },
+    ];
+    part.description +=
+      ' 端部保持不动，表示不可作为刚体径向抽出的绕组；隐藏铁芯可查看线束路径。';
+  } else {
+    const sign = part.id.startsWith('liner-') ? -1 : 1;
+    part.path = [
+      { at: 0, offset: [0, 0, 0] },
+      { at: 8, offset: [0, 0, 0] },
+      { at: 55, offset: [0, 0, sign * 205] },
+      {
+        at: 70,
+        offset: [part.delta[0] * 0.4, part.delta[1] * 0.4, sign * 205],
+      },
+    ];
+    part.description +=
+      ' 轴向退出是制造剖分示意；真实浸漆绕组不能这样无损拆出。';
+  }
+}
+
 export const powertrainDefinitions: Definition[] = [
   engine,
   engineBlock,
@@ -1389,5 +1626,7 @@ for (const d of powertrainDefinitions)
     if (d.id === 'ev-rotor') part.sources = ['leafdimensions', 'leafmotorcad'];
     if (d.id === 'ev-stator' && part.id !== 'core')
       part.sources = ['leafdimensions', 'leafmotorcad'];
+    if (d.id === 'engine-head')
+      part.sources = ['hondaassembly', 'hondaut2parts'];
   }
-engine.camera = { direction: [-1.1, 0.8, -1.5], padding: 1.1 };
+engine.camera = { direction: [1.2, 0.75, -1.7], padding: 1.1 };

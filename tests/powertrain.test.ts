@@ -14,6 +14,11 @@ import {
   LEAF,
   radialAirGap,
   pistonPinHeight,
+  gxRingAngles,
+  gxCoverBolts,
+  leafWirePoint,
+  gxPushrodTopY,
+  gxPushrodBottomY,
 } from '../lib/powertrain/dimensions.ts';
 import { powertrainDefinitions } from '../lib/powertrain/catalogue.ts';
 import {
@@ -281,4 +286,162 @@ await test('engine chamber and cylinder clear their installed rotating and slidi
       surface('engine-timing', `pushrod-${i}`),
       'pushrod crosses barrel or cooling fins',
     );
+});
+
+await test('review regressions: valves and stator slot parts clear their surrounding solids throughout sampled extraction', () => {
+  const scratch = new ModelStageScratch();
+  const pairs: [DigitalLevel, string, string][] = [
+    ['engine-head', 'head', 'valve-0'],
+    ['engine-head', 'head', 'valve-1'],
+    ...[1, 13, 25, 37].flatMap((i) =>
+      ['conductor', 'liner', 'endturn'].map(
+        (prefix) =>
+          [
+            'ev-stator',
+            'core',
+            prefix + '-' + (prefix === 'endturn' ? Math.floor(i / 2) + 1 : i),
+          ] as [DigitalLevel, string, string],
+      ),
+    ),
+  ];
+  for (const [level, left, right] of pairs) {
+    const a = surface(level, left),
+      b = surface(level, right),
+      tree = new MeshBVH(a);
+    (b as T.BufferGeometry & { boundsTree: MeshBVH }).boundsTree = new MeshBVH(
+      b,
+    );
+    const model = models.get(level)!,
+      pa = model.pieces.find((p) => p.concept === level + '-' + left)!,
+      pb = model.pieces.find((p) => p.concept === level + '-' + right)!;
+    for (let percent = 0; percent <= 70; percent += 2) {
+      applyPiecePose(pa, level, percent / 100, scratch);
+      applyPiecePose(pb, level, percent / 100, scratch);
+      const d = pb.object.position
+        .clone()
+        .sub(pb.base)
+        .sub(pa.object.position.clone().sub(pa.base))
+        .multiplyScalar(digitalDefinitions.find((x) => x.id === level)!.unit);
+      assert.equal(
+        tree.intersectsGeometry(
+          b,
+          new T.Matrix4().makeTranslation(d.x, d.y, d.z),
+        ),
+        false,
+        `${level}/${left}/${right} at ${percent}%`,
+      );
+    }
+    applyPiecePose(pa, level, 0, scratch);
+    applyPiecePose(pb, level, 0, scratch);
+    a.dispose();
+    b.dispose();
+  }
+});
+
+await test('GX deck, oil rail gaps and registered cover holes follow the shared assembly datums', () => {
+  const piston = surface('engine-piston', 'piston');
+  piston.computeBoundingBox();
+  assert.ok(
+    Math.abs(
+      GX.deckY - (piston.boundingBox!.max.y + GX.pinY) - GX.deckClearance,
+    ) < 1e-5,
+  );
+  piston.dispose();
+  assert.ok(
+    ((gxRingAngles.oilLower - gxRingAngles.oilUpper) * GX.pistonDiameter) / 2 >=
+      10,
+  );
+  const cover = powertrainDefinitions.find((d) => d.id === 'engine-cover')!;
+  for (let i = 0; i < gxCoverBolts.length; i++)
+    assert.deepEqual(
+      cover.parts.find((p) => p.id === `cover-bolt-${i + 1}`)!.pos.slice(0, 2),
+      gxCoverBolts[i],
+    );
+});
+
+await test('integral short block uses section viewing instead of dragging the piston through the barrel', () => {
+  const model = models.get('engine')!,
+    scratch = new ModelStageScratch();
+  for (const id of [
+    'engine-block',
+    'engine-cylinder',
+    'engine-crank',
+    'engine-timing',
+  ]) {
+    const part = model.pieces.find((p) => p.concept === id)!;
+    applyPiecePose(part, 'engine', 0.45, scratch);
+    assert.ok(part.object.position.distanceTo(part.base) < 1e-9);
+    if (id === 'engine-block' || id === 'engine-cylinder')
+      assert.equal(part.object.visible, false);
+    applyPiecePose(part, 'engine', 0, scratch);
+    assert.equal(part.object.visible, true);
+  }
+});
+
+await test('coolant ports penetrate the outer wall and retain the isolated inner liner', () => {
+  const jacket = models
+    .get('ev-housing')!
+    .pieces.find((p) => p.concept === 'ev-housing-jacket')!;
+  models.get('ev-housing')!.root.updateMatrixWorld(true);
+  const ray = new T.Raycaster();
+  for (const z of [-55, 55]) {
+    ray.set(new T.Vector3(0, 135 / 30, z / 30), new T.Vector3(0, -1, 0));
+    const hits = ray.intersectObject(jacket.object, true);
+    assert.ok(hits.length > 0);
+    assert.ok(
+      hits[0].point.y < 0,
+      'port is blocked by the positive-Y jacket wall',
+    );
+  }
+  const shell = models
+    .get('ev-housing')!
+    .pieces.find((p) => p.concept === 'ev-housing-shell')!;
+  ray.set(new T.Vector3(0, 107 / 30, -55 / 30), new T.Vector3(0, -1, 0));
+  assert.ok(
+    ray.intersectObject(shell.object, true)[0].point.y > 100 / 30,
+    'coolant would leak into the stator bore',
+  );
+});
+
+await test('winding endpoints reuse the same physical slot coordinates as the straight copper strands', () => {
+  for (const coil of powertrainDefinitions
+    .find((d) => d.id === 'ev-stator')!
+    .parts.filter((p) => p.id.startsWith('conductor-'))) {
+    const slot = Number(coil.id.split('-')[1]) - 1;
+    for (const hand of [0, 10, 19])
+      for (const turn of [0, 5]) {
+        const a = leafWirePoint(slot, hand, turn, -LEAF.statorStack / 2),
+          b = leafWirePoint(slot, hand, turn, LEAF.statorStack / 2);
+        assert.equal(a[0], b[0]);
+        assert.equal(a[1], b[1]);
+        assert.equal(b[2] - a[2], LEAF.statorStack);
+      }
+  }
+});
+
+await test('pushrod ball ends meet the tappet and rocker contact datums in the installed head', () => {
+  for (const i of [0, 1]) {
+    const rod = surface('engine-timing', `pushrod-${i}`),
+      tappet = surface('engine-timing', `tappet-${i}`),
+      rocker = surface('engine-head', `rocker-${i}`);
+    rod.computeBoundingBox();
+    tappet.computeBoundingBox();
+    rocker.computeBoundingBox();
+    assert.ok(Math.abs(rod.boundingBox!.min.y - (gxPushrodBottomY - 3)) < 1e-4);
+    assert.ok(
+      Math.abs(rod.boundingBox!.min.y - tappet.boundingBox!.max.y) < 1e-4,
+      'lower ball end floats above the tappet',
+    );
+    assert.ok(Math.abs(rod.boundingBox!.max.y - (gxPushrodTopY + 3)) < 1e-4);
+    assert.ok(
+      Math.abs(
+        rod.boundingBox!.max.y -
+          (rocker.boundingBox!.min.y + GX.deckY + GX.headGasket),
+      ) < 1e-4,
+      'upper ball end misses the installed rocker',
+    );
+    rod.dispose();
+    tappet.dispose();
+    rocker.dispose();
+  }
 });

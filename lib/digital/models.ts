@@ -11,6 +11,7 @@ export function buildDigital(level: DigitalLevel, tools: ModelTools) {
     value.map((v) => v / definition.unit) as Vec3;
   for (const part of definition.parts) {
     const object = new T.Group();
+    if(part.sectionAt !== undefined) object.userData.sectionAt = part.sectionAt;
     if (level === 'earbuds' && part.id === 'lid')
       object.userData.hinge = {
         pivot: [0, 9.4 / definition.unit, -8.6 / definition.unit],

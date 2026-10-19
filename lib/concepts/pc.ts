@@ -19,19 +19,21 @@ export const pcConcepts: Concept[] = [
     level: 'pc',
     open: 'pc',
     description:
-      'A complete machine: the parts that compute, remember, store and stay cool, held in one frame.',
+      'ATX 台式电脑参考装配：主板连接处理器、内存、存储和显卡，电源负责供电，散热与机箱共同组织空气流动。模块可以逐层进入查看。',
     purpose:
-      'Turns wall power and stored instructions into work: running programs, rendering images and training models.',
+      '理解各子系统怎样协作。这里包含不同平台和容量的比较入口，不是一份已经验证可直接采购的整机配置；Intel LGA1851 处理器不能安装到 AM5 主板。',
     quantity: '1 reference machine',
     specifications: {
       'Form factor': 'ATX mid tower',
       Board: '305 × 244 mm ATX',
       Expansion: 'PCI Express 5.0',
       Storage: 'NVMe · SATA',
+      参考配置说明:
+        'RTX 5090 的 ASUS 推荐电源为 1000W；850W / 750W 模型用于电源结构对比，选型需结合实际整机。',
     },
     representationType: 'physical',
     physicalAccuracy: standard,
-    sources: ['chassis'],
+    sources: ['chassis', 'tuf5090', 'corei9', 'ryzen'],
     searchTerms: ['computer', 'machine', 'tower', 'build', 'system'],
   }),
 

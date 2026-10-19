@@ -235,14 +235,34 @@ await test('descending is reversible: every scale names the concept it belongs t
   assert.equal(byId.hdd, undefined);
 });
 
-await test('all scales retain common dissection stages and the hinged case has an open-lid stop', () => {
-  for (const id of levelIds)
-    assert.deepEqual(levels[id].phases, [
+await test('physical stages distinguish detachable assemblies, fixed castings and manufacturing demonstrations', () => {
+  const specialized = {
+    engine: [
       ['Assembled', 0],
-      ...(id==='earbuds' ? [['开盖查看',16]] : []),
-      ['Dissection', 50],
+      ['外件拆卸', 25],
+      ['隐藏铸件剖视', 45],
       ['Inventory', 100],
-    ]);
+    ],
+    'engine-cylinder': [
+      ['铸件局部', 0],
+      ['Inventory', 100],
+    ],
+    'ev-stator': [
+      ['Assembled', 0],
+      ['轴向分解示意', 50],
+      ['Inventory', 100],
+    ],
+  };
+  for (const id of levelIds)
+    assert.deepEqual(
+      levels[id].phases,
+      specialized[id as keyof typeof specialized] ?? [
+        ['Assembled', 0],
+        ...(id === 'earbuds' ? [['开盖查看', 16]] : []),
+        ['Dissection', 50],
+        ['Inventory', 100],
+      ],
+    );
 });
 
 await test('branching does not strand the viewer: back always reaches the machine', () => {

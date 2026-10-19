@@ -2,7 +2,17 @@ import * as T from 'three';
 import type { DigitalLevel, DigitalPart } from '../digital/catalogue.ts';
 import type { ModelTools } from '../hardware.ts';
 import type { Vec3 } from '../layout.ts';
-import { GX, LEAF, leafMagnetBars, leafCoils } from './dimensions.ts';
+import {
+  GX,
+  LEAF,
+  leafMagnetBars,
+  leafCoils,
+  gxRingAngles,
+  leafWirePoint,
+  gxPushrodBottomY,
+  gxPushrodTopY,
+} from './dimensions.ts';
+import { castSolid } from './cast-solids.ts';
 
 /** All geometry here is millimetres. Installed assemblies reuse these exact solids. */
 export function powertrainGeometry(
@@ -22,6 +32,11 @@ export function powertrainGeometry(
     tools.material(color, metal, rough);
   const mesh = (geo: T.BufferGeometry, color = part.color, metal = 0.58) =>
     new T.Mesh(geo, material(color, metal));
+  const cast = (
+    name: Parameters<typeof castSolid>[0],
+    metal = 0.48,
+    rough = 0.68,
+  ) => new T.Mesh(castSolid(name), material(part.color, metal, rough));
   const put = (
     o: T.Object3D,
     pos: Vec3 = [0, 0, 0],
@@ -269,28 +284,6 @@ export function powertrainGeometry(
     s.holes.push(path);
     return extrude(s, depth);
   };
-  const scallopedPlate = (
-    r: number,
-    inner: number,
-    d: number,
-    n = 8,
-    color = part.color,
-  ) => {
-    const s = new T.Shape();
-    for (let i = 0; i <= 128; i++) {
-      const a = (i * Math.PI) / 64,
-        rr = r + 2 * Math.cos(n * a);
-      if (i === 0) s.moveTo(rr, 0);
-      else s.lineTo(rr * Math.cos(a), rr * Math.sin(a));
-    }
-    s.closePath();
-    s.holes.push(circle(inner));
-    for (let i = 0; i < n; i++) {
-      const a = ((i + 0.5) * Math.PI * 2) / n;
-      s.holes.push(circle(3.5, (r - 7) * Math.cos(a), (r - 7) * Math.sin(a)));
-    }
-    return extrude(s, d, color);
-  };
   const endNumber = () => Number(id.match(/(\d+)$/)?.[1] ?? 0);
   if (
     level === 'engine-block' ||
@@ -298,42 +291,33 @@ export function powertrainGeometry(
     level === 'engine-cover'
   ) {
     if (id === 'case') {
-      // Rear bulkhead + four walls leave the crank chamber empty.
-      const back = roundedOutline(180, 110, 23);
-      back.holes.push(circle(26.1));
-      put(extrude(back, 5), [0, 0, -45]);
-      put(outlinedWall(180, 110, 23, 5, 86));
-      // The deck leaves a real central bore, not a solid ceiling through the piston.
-      put(
-        plate(170, 86, 5, [
-          { x: 0, y: 0, r: 38 },
-          { x: -45, y: -14, r: 4 },
-          { x: -45, y: 14, r: 4 },
-        ]),
-        [0, 52.5, 0],
-        [Math.PI / 2, 0, 0],
-      );
-      for (const x of [-49, 49]) box([5, 83, 8], [x, -5, -37]);
-      put(ring(29, 26.1, 9), [0, 0, -47]);
+      put(cast('gx-case'));
+      // Cast witness ribs tie the main bearing boss into the rear bulkhead.
+      for (const a of [0.3, 1.1, 2.1, 2.9, 3.8, 5.1]) {
+        const rib = box([44, 3, 4], [43 * Math.cos(a), 38 * Math.sin(a), -49]);
+        rib.rotation.z = a;
+      }
     } else if (id === 'barrel') {
-      axisRing(40, 36.1, 81);
-      for (let i = 0; i < 12; i++)
+      const length = GX.deckY - 55;
+      axisRing(40, 36.1, length);
+      for (let i = 0; i < 12; i++) {
+        const y = -length / 2 + 1 + (i * (length - 2)) / 11;
+        const w = 106 - (8 * Math.abs(i - 5.5)) / 5.5;
         put(
-          plate(110, 90, 1.8, [
-            { x: 0, y: 0, r: 40.2 },
+          plate(w, 88, 1.6, [
+            { x: 0, y: 0, r: 40 },
             { x: -45, y: -14, r: 3.8 },
             { x: -45, y: 14, r: 3.8 },
             ...[-39, 39].flatMap((x) =>
               [-32, 32].map((y) => ({ x, y, r: 4.6 })),
             ),
           ]),
-          [0, -39 + i * 7, 0],
+          [0, y, 0],
           [Math.PI / 2, 0, 0],
         );
-      for (const z of [-14, 14]) {
-        axisRing(5.2, 3.8, 81, [-45, 0, z]);
       }
-    } else if (id === 'liner') axisRing(36, 34, 81);
+      for (const z of [-14, 14]) axisRing(5.2, 3.8, length, [-45, 0, z]);
+    } else if (id === 'liner') axisRing(36, 34, GX.deckY - 55);
     else if (id.startsWith('bearing')) {
       put(ring(26, 21.5, 15));
       put(ring(17, 12.5, 15));
@@ -346,24 +330,14 @@ export function powertrainGeometry(
         ]);
       }
     } else if (id === 'cover') {
-      put(
-        plate(180, 110, 7, [
-          { x: 0, y: 0, r: 26.1 },
-          ...Array.from({ length: 6 }, (_, i) => ({
-            x: 52 * Math.cos((i * Math.PI) / 3),
-            y: 44 * Math.sin((i * Math.PI) / 3),
-            r: 3.3,
-          })),
-        ]),
-      );
-      put(ring(29, 20.6, 8), [0, 0, 8]);
-      for (let i = 0; i < 8; i++) {
-        const a = (i * Math.PI) / 4;
-        const rib = box([26, 4, 5], [40 * Math.cos(a), 40 * Math.sin(a), 6]);
+      put(cast('gx-cover'));
+      for (let i = 0; i < 7; i++) {
+        const a = (i * Math.PI) / 3.5;
+        const rib = box([27, 3, 5], [42 * Math.cos(a), 34 * Math.sin(a), 6]);
         rib.rotation.z = a;
       }
     } else if (id === 'gasket') {
-      put(outlinedWall(180, 110, 23, 5, 0.6));
+      put(cast('gx-gasket', 0, 0.9));
     } else if (id.startsWith('seal')) {
       put(ring(20.5, 12.5, 6));
       put(ring(15, 12.5, 2, iron), [0, 0, 0.2]);
@@ -373,6 +347,7 @@ export function powertrainGeometry(
         [0, 0, 0],
         [Math.PI / 2, 0, 0],
       );
+      for (const z of [-7, 7]) box([8, 38, 3], [0, 19, z]);
     } else if (id === 'dipstick') {
       put(cylinder(9, 8), [0, 0, 0], [Math.PI / 2, 0, 0]);
       box([2, 2, 48], [0, -6, -22], steel, 0.2);
@@ -490,7 +465,14 @@ export function powertrainGeometry(
     } else {
       const h = id.startsWith('oil') ? 0.22 : 0.94,
         r = 33.999,
-        start = id === 'top-ring' ? 0.5 : id === 'second-ring' ? 2.6 : 4.7;
+        start =
+          id === 'top-ring'
+            ? gxRingAngles.top
+            : id === 'second-ring'
+              ? gxRingAngles.second
+              : id === 'oil-upper'
+                ? gxRingAngles.oilUpper
+                : gxRingAngles.oilLower;
       const geo = new T.LatheGeometry(
         [
           [32.9, -h / 2],
@@ -506,28 +488,60 @@ export function powertrainGeometry(
       put(mesh(geo));
     }
   } else if (level === 'engine-head') {
-    const valveHoles = [
-      { x: 0, y: -14, r: 4.51 },
-      { x: 0, y: 14, r: 4.51 },
-      { x: -37, y: -14, r: 3.8 },
-      { x: -37, y: 14, r: 3.8 },
-      ...[-39, 39].flatMap((x) =>
-        [-32, 32].map((z) => ({ x: x + 8, y: z, r: 4.5 })),
-      ),
-    ];
     if (id === 'head') {
-      put(plate(112, 87, 36, valveHoles), [0, 0, 0], [Math.PI / 2, 0, 0]);
-      for (let i = 0; i < 6; i++)
-        put(
-          plate(116, 91, 1.4, valveHoles),
-          [0, -17 + i * 6.8, 0],
-          [Math.PI / 2, 0, 0],
-        );
-      box([104, 27, 2], [-7, 31.5, -38]);
-      box([104, 27, 2], [-7, 31.5, 38]);
-      box([2, 27, 74], [-58, 31.5, 0]);
-      box([2, 27, 74], [44, 31.5, 0]);
-    } else if (id === 'gasket')
+      put(cast('gx-head'));
+      for (let i = 0; i < 6; i++) {
+        // The fin plates share all ports/fastener bores with the cast body.
+        const holes = [
+          { x: 8, y: 0, r: i < 1 ? GX.chamberRadius : 5 },
+          ...[-14, 14].map((z) => ({ x: 0, y: z, r: i < 2 ? 13 : 4.6 })),
+          ...[-14, 14].map((z) => ({ x: -37, y: z, r: 4 })),
+          ...[-39, 39].flatMap((x) =>
+            [-32, 32].map((z) => ({ x: x + 8, y: z, r: 4.6 })),
+          ),
+        ];
+        if (i >= 2)
+          put(
+            plate(113, 88, 1.2, holes),
+            [-8, 12 + i * 5.2, 0],
+            [Math.PI / 2, 0, 0],
+          );
+      }
+      // Rocker chamber has an open top and a machined sealing rim.
+      const rim = outlinedWall(99, 74, 9, 2.5, 23);
+      put(rim, [-15, 53, 0], [Math.PI / 2, 0, 0]);
+    } else if (id === 'stem-seal') {
+      put(
+        profile(
+          [
+            [5.2, -2.5],
+            [5.2, 2.5],
+            [2.78, 2.5],
+            [2.78, -0.4],
+            [4.55, -0.4],
+            [4.55, -2.5],
+            [5.2, -2.5],
+          ],
+          black,
+        ),
+      );
+      axisRing(5.5, 4.5, 1.2, [0, 2, 0], steel);
+    } else if (id === 'pushrod-guide') {
+      put(
+        plate(
+          20,
+          42,
+          1.2,
+          [-14, 14].map((z) => ({ x: 0, y: z, r: 3.4 })),
+        ),
+        [0, 0, 0],
+        [Math.PI / 2, 0, 0],
+      );
+    } else if (id === 'rotator') {
+      axisRing(5.4, 2.78, 3);
+      axisRing(6.4, 4.9, 0.7, [0, -1, 0], iron);
+    } else if (id.startsWith('dowel')) axisRing(4, 2.8, 12);
+    else if (id === 'gasket')
       put(
         plate(100, 86, 0.8, [
           { x: 0, y: 0, r: 34.2 },
@@ -541,9 +555,8 @@ export function powertrainGeometry(
         [Math.PI / 2, 0, 0],
       );
     else if (id === 'cover') {
-      const shell = rectangularShell(104, 78, 27, 2);
-      put(shell, [0, 0, 0], [Math.PI / 2, 0, 0]);
-      for (let i = 0; i < 5; i++) box([75, 1.2, 2], [0, 13, i * 10 - 20]);
+      put(cast('gx-rocker-cover', 0.7, 0.3), [0, 0, 0], [Math.PI / 2, 0, 0]);
+      tools.label(g, 'OHV', [0, 15.7, 0], 40, '#535b60');
     } else if (id === 'cover-gasket') {
       const pts = roundedOutline(101, 75, 6)
         .getPoints(32)
@@ -567,14 +580,16 @@ export function powertrainGeometry(
       );
     } else if (id.startsWith('guide')) axisRing(4.5, GX.valveGuideBore / 2, 25);
     else if (id.startsWith('spring')) spring(6.3, 22, 7, 0.8, iron);
-    else if (id.startsWith('retainer')) axisRing(9, 2.9, 2.4);
-    else if (id.startsWith('rocker')) {
+    else if (id.startsWith('retainer')) {
+      axisRing(9, 2.9, 2.4);
+      axisRing(9.5, 7.8, 1, [0, -1, 0]);
+    } else if (id.startsWith('rocker')) {
       put(
         plate(45, 8, 6, [{ x: 0, y: 0, r: 3.2 }]),
         [0, 0, 0],
         [Math.PI / 2, 0, 0],
       );
-      for (const x of [-18, 18]) axisRing(4, 1.5, 3, [x, -3, 0]);
+      for (const x of [-18, 18]) axisRing(4, 0, 3, [x, -3, 0]);
     } else if (id.startsWith('pivot')) {
       put(cylinder(3, 22));
       put(mesh(new T.CylinderGeometry(5.5, 5.5, 4, 6)), [0, 6, 0]);
@@ -634,26 +649,19 @@ export function powertrainGeometry(
       put(cylinder(7, 3), [0, -12, 0]);
       put(cylinder(3.5, 23));
     } else {
-      put(cylinder(2.4, 112.64));
-      for (const y of [-56.32, 56.32])
+      const half = (gxPushrodTopY - gxPushrodBottomY) / 2;
+      put(cylinder(2.4, half * 2));
+      for (const y of [-half, half])
         put(mesh(new T.SphereGeometry(3, 16, 12)), [0, y, 0]);
     }
   } else if (level === 'engine-induction') {
     if (id === 'tank') {
-      put(outlinedWall(115, 57, 12, 2.5, 85));
-      for (const z of [-43.75, 43.75])
-        put(extrude(roundedOutline(115, 57, 12), 2.5), [0, 0, z]);
-      for (const z of [-41, 41]) {
-        const points = roundedOutline(115.3, 57.3, 12)
-          .getPoints(48)
-          .map((v) => [v.x, v.y, z] as Vec3);
-        tube(points, 0.35, steel, true, 128);
-      }
-      put(ring(13, 10, 7), [18, 29, 0], [Math.PI / 2, 0, 0]);
-      for (const x of [-49, 49])
+      put(cast('gx-tank', 0.05, 0.34), [0, 0, 0]);
+      put(ring(13, 11, 7), [-27, 61, -15], [Math.PI / 2, 0, 0]);
+      for (const x of [-60, 15])
         put(
           plate(16, 20, 3, [{ x: 0, y: 0, r: 3.5 }]),
-          [x, -31, 0],
+          [x, -58, 0],
           [Math.PI / 2, 0, 0],
         );
     } else if (id === 'cap') {
@@ -676,20 +684,68 @@ export function powertrainGeometry(
     } else if (id === 'throttle') {
       put(ring(8.8, 0, 1.2));
       put(ring(1.7, 0, 36), [0, 0, 0], [0, Math.PI / 2, 0]);
+    } else if (id === 'tank-bracket') {
+      put(
+        plate(103, 18, 3, [
+          { x: -37, y: 0, r: 3.5 },
+          { x: 37, y: 0, r: 3.5 },
+        ]),
+        [0, 0, 0],
+        [Math.PI / 2, 0, 0],
+      );
+      for (const x of [-37, 37]) {
+        box([15, 34, 3], [x, -17, 8], iron);
+        box([15, 3, 25], [x, -33, 20], iron);
+      }
+    } else if (id === 'filter-base' || id === 'insulator') {
+      put(
+        plate(
+          id === 'filter-base' ? 61 : 35,
+          id === 'filter-base' ? 64 : 32,
+          5,
+          [
+            { x: 0, y: 0, r: 10 },
+            { x: -15, y: 0, r: 3 },
+            { x: 15, y: 0, r: 3 },
+          ],
+        ),
+      );
+      if (id === 'filter-base') put(ring(11, 9.5, 8), [0, 0, 0]);
+    } else if (id === 'intake-gasket') {
+      put(
+        plate(
+          34,
+          31,
+          0.7,
+          [
+            { x: 0, y: 0, r: 9 },
+            { x: -15, y: 0, r: 3 },
+            { x: 15, y: 0, r: 3 },
+          ],
+          '#716452',
+        ),
+      );
+    } else if (id.startsWith('mount-stud')) {
+      put(ring(2.8, 0, 75), [0, 0, 0]);
+      put(
+        mesh(new T.CylinderGeometry(5, 5, 4, 6)),
+        [0, 0, -35],
+        [Math.PI / 2, 0, 0],
+      );
     } else if (id === 'fuel-line') {
       tube(
         [
           [0, 0, 0],
-          [-8, -8, 0],
-          [-15, -18, 8],
-          [-20, -32, 20],
+          [28, -15, -5],
+          [61, -27, -30],
+          [92, -29, -62],
         ],
         2.3,
         black,
       );
       for (const p of [
         [0, 0, 0],
-        [-20, -32, 20],
+        [92, -29, -62],
       ] as Vec3[])
         put(ring(3, 1.6, 4, steel), p, [Math.PI / 2, 0, 0]);
     } else if (id === 'filter') {
@@ -707,16 +763,16 @@ export function powertrainGeometry(
       }
       put(ring(14, 12, 20, iron));
     } else if (id === 'filter-cover') {
-      put(rectangularShell(67, 72, 26, 2));
-      for (let i = 0; i < 6; i++) box([43, 2, 1.5], [0, i * 7 - 17, 14], iron);
+      put(cast('gx-filter-cover', 0.02, 0.65));
+      for (let i = 0; i < 6; i++) box([43, 2, 1.5], [0, i * 7 - 17, -22], iron);
     } else if (id === 'intake') {
       // Annular cross-sections along a bent centreline, with actual open ends.
       const curve = new T.CatmullRomCurve3(
         [
           [0, 0, 0],
-          [0, 0, 15],
-          [12, 0, 25],
-          [25, 0, 25],
+          [0, 0, 6],
+          [0, 0, 12],
+          [0, 0, 18],
         ].map((v) => new T.Vector3(...v)),
       );
       const outer = new T.TubeGeometry(curve, 48, 10.5, 32, false),
@@ -757,7 +813,11 @@ export function powertrainGeometry(
       put(extrude(s, 1.2), [0, 0, 0], [0, Math.PI / 2, 0]);
     }
   } else if (level === 'engine-starter') {
-    if (id === 'flywheel') {
+    if (id === 'blower') {
+      put(cast('gx-blower', 0.08, 0.42));
+    } else if (id === 'pawl-0' || id === 'pawl-1') {
+      put(plate(16, 7, 3, [{ x: -4, y: 0, r: 1.8 }]), [0, 0, 0]);
+    } else if (id === 'flywheel') {
       put(ring(72, 12.6, 30));
       for (let i = 0; i < 8; i++) {
         const a = (i * Math.PI) / 4;
@@ -817,33 +877,15 @@ export function powertrainGeometry(
       tube(pts, 1.6, '#c5baa1', false, 200);
       put(plate(36, 17, 12, [{ x: 0, y: 0, r: 3 }], black), [-77, 65, 0]);
     } else if (id === 'housing') {
-      put(ring(79, 74, 30), [0, 0, 14]);
-      const s = new T.Shape();
-      s.absarc(0, 0, 79, 0, Math.PI * 2, false);
-      s.holes.push(circle(11));
-      for (let i = 0; i < 24; i++) {
-        const a = (i * Math.PI) / 12;
-        const h = new T.Path();
-        const pts = [
-          [23, -0.035],
-          [65, -0.035],
-          [65, 0.035],
-          [23, 0.035],
-        ];
-        pts.forEach(([r, t], j) => {
-          const x = r * Math.cos(a + t),
-            y = r * Math.sin(a + t);
-          if (j === 0) h.moveTo(x, y);
-          else h.lineTo(x, y);
-        });
-        h.closePath();
-        s.holes.push(h);
-      }
-      put(extrude(s, 2.5), [0, 0, -2]);
+      put(cast('gx-recoil-cover', 0.12, 0.36));
       for (let i = 0; i < 3; i++) {
         const a = (i * Math.PI * 2) / 3;
-        put(ring(7, 3.3, 4), [82 * Math.cos(a), 82 * Math.sin(a), 10]);
+        put(ring(7, 3.3, 4), [76 * Math.cos(a), 76 * Math.sin(a), 12]);
       }
+      const badge = new T.Group();
+      badge.rotation.x = -Math.PI / 2;
+      tools.label(badge, 'GX160', [0, 8.5, 0], 42, '#eee8de');
+      g.add(badge);
     } else bolt(6, 7);
   } else if (level === 'ev-stator') {
     const step = (2 * Math.PI) / 48;
@@ -884,24 +926,72 @@ export function powertrainGeometry(
         a = start * step,
         b = a + 5 * step,
         layer = i % 6;
-      for (const s of [-1, 1])
-        for (let strand = 0; strand < 3; strand++) {
-          const r = 77.5 + strand * 1.6,
-            z0 = s * 75.7,
-            z1 = s * (85 + layer * 2.7);
-          const pts: Vec3[] = [[r * Math.cos(a), r * Math.sin(a), z0]];
-          for (let j = 0; j <= 24; j++) {
-            const t = j / 24,
-              aa = a + (b - a) * t;
-            pts.push([
-              r * Math.cos(aa),
-              r * Math.sin(aa),
-              z1 + s * 5 * Math.sin(t * Math.PI),
-            ]);
+      for (const side of [-1, 1])
+        for (let hand = 0; hand < 20; hand++)
+          for (let turn = 0; turn < 6; turn++) {
+            const z0 = (side * LEAF.statorStack) / 2;
+            if (side > 0 && turn === 5) continue;
+            const first = leafWirePoint(
+              start,
+              hand,
+              side > 0 ? turn + 1 : turn,
+              z0,
+            );
+            // Opposite end joins successive turns; the last end remains an
+            // accessible coil lead. Electrical phase grouping is representative.
+            const last = leafWirePoint(leafCoils[i].to, hand, turn, z0);
+            const z1 = side * (83.5 + layer * 1.7 + turn * 0.6);
+            const pts: Vec3[] = [first, [first[0], first[1], z0 + side * 3]];
+            for (let j = 0; j <= 12; j++) {
+              const t = j / 12,
+                aa = a + (b - a) * t;
+              const r = 74 + hand * 0.7 + (turn - 2.5) * 0.12;
+              pts.push([
+                r * Math.cos(aa),
+                r * Math.sin(aa),
+                z1 + side * 3 * Math.sin(t * Math.PI),
+              ]);
+            }
+            pts.push([last[0], last[1], z0 + side * 3], last);
+            const curve = new T.CatmullRomCurve3(
+              pts.map((p) => new T.Vector3(...p)),
+            );
+            put(mesh(new T.TubeGeometry(curve, 24, 0.39, 5, false), copper));
           }
-          pts.push([r * Math.cos(b), r * Math.sin(b), z0]);
-          tube(pts, 0.57, copper, false, 64);
+      for (let hand = 0; hand < 20; hand++)
+        for (const [slot, turn] of [
+          [start, 0],
+          [leafCoils[i].to, 5],
+        ]) {
+          const first = leafWirePoint(slot, hand, turn, LEAF.statorStack / 2);
+          tube(
+            [
+              first,
+              [first[0], first[1], 80],
+              [first[0] * 1.025, first[1] * 1.025, 86],
+            ],
+            0.39,
+            copper,
+            false,
+            8,
+          );
         }
+      // Insulating tie wraps are separate from the copper, as in the teardown.
+      for (const side of [-1, 1]) {
+        const aa = (a + b) / 2,
+          z = side * (87 + layer * 1.7);
+        const pts: Vec3[] = [];
+        for (let j = 0; j <= 32; j++) {
+          const angle = (j * Math.PI) / 16,
+            r = 81 + 8 * Math.cos(angle);
+          pts.push([
+            r * Math.cos(aa),
+            r * Math.sin(aa),
+            z + 2.4 * Math.sin(angle),
+          ]);
+        }
+        tube(pts, 0.5, '#e6dbbc', true, 32);
+      }
     } else {
       const i = endNumber() - 1,
         a = i * step;
@@ -915,15 +1005,7 @@ export function powertrainGeometry(
           ),
           m = new T.Matrix4();
         for (let j = 0; j < 120; j++) {
-          const row = Math.floor(j / 6),
-            col = j % 6,
-            r = 74 + row * 0.7,
-            t = (col - 2.5) * 0.84 + (row % 2 ? 0.21 : -0.21);
-          m.makeTranslation(
-            r * Math.cos(a) - t * Math.sin(a),
-            r * Math.sin(a) + t * Math.cos(a),
-            0,
-          );
+          m.makeTranslation(...leafWirePoint(i, Math.floor(j / 6), j % 6, 0));
           wires.setMatrixAt(j, m);
         }
         wires.instanceMatrix.needsUpdate = true;
@@ -1084,31 +1166,26 @@ export function powertrainGeometry(
     else put(ring(40.2, 23.6, 0.55, black));
   } else if (level === 'ev-housing') {
     if (id === 'shell') {
-      put(ring(102, 99.12, 184));
-      for (let i = 0; i < 10; i++)
-        put(ring(108, 102, 2.3), [0, 0, -82 + i * 18]);
+      put(cast('leaf-sleeve'));
+      for (let i = 0; i < 9; i++) {
+        // Alternating bypass windows connect the annular jacket chambers.
+        const shape = new T.Shape();
+        const a = (i % 2) * Math.PI + 0.23;
+        shape.absarc(0, 0, 108.15, a, a + Math.PI * 2 - 0.46, false);
+        shape.absarc(0, 0, 102.01, a + Math.PI * 2 - 0.46, a, true);
+        shape.closePath();
+        put(extrude(shape, 2), [0, 0, -80 + i * 20]);
+      }
     } else if (id === 'jacket') {
-      put(ring(111, 108.3, 184));
-      for (const s of [-1, 1])
-        put(scallopedPlate(125, 99.12, 5), [0, 0, s * 94]);
+      put(cast('leaf-jacket'));
       for (let i = 0; i < 12; i++) {
+        if (i === 3) continue; // Keep the radial coolant ports free of cast ribs.
         const a = (i * Math.PI) / 6;
-        const rib = box(
-          [5, 3, 160],
-          [112 * Math.cos(a), 112 * Math.sin(a), 0],
-          part.color,
-          0.3,
-        );
+        const rib = box([5, 3, 158], [112 * Math.cos(a), 112 * Math.sin(a), 0]);
         rib.rotation.z = a;
       }
     } else if (id.startsWith('bell')) {
-      put(scallopedPlate(125, 42.1, 8));
-      put(ring(48, 42.1, 18), [0, 0, 0]);
-      for (let i = 0; i < 8; i++) {
-        const a = (i * Math.PI) / 4;
-        const rib = box([53, 4, 9], [77 * Math.cos(a), 77 * Math.sin(a), 0]);
-        rib.rotation.z = a;
-      }
+      put(mesh(castSolid('leaf-bell')));
     } else if (id.startsWith('oring'))
       put(mesh(new T.TorusGeometry(105.6, 1.6, 10, 128), black));
     else if (id === 'inlet' || id === 'outlet') {
@@ -1117,17 +1194,7 @@ export function powertrainGeometry(
     } else bolt(3, 245);
   } else if (level === 'ev-terminal') {
     if (id === 'base') {
-      put(
-        plate(
-          78,
-          30,
-          18,
-          [-20, 0, 20].map((x) => ({ x, y: 0, r: 4.4 })),
-          part.color,
-        ),
-        [0, 0, 0],
-        [Math.PI / 2, 0, 0],
-      );
+      put(cast('leaf-terminal-shell', 0, 0.62));
       for (const x of [-30, -10, 10, 30]) box([2, 17, 27], [x, 12, 0]);
     } else if (id === 'cover') {
       put(rectangularShell(84, 36, 19, 2), [0, 0, 0], [Math.PI / 2, 0, 0]);
@@ -1144,15 +1211,26 @@ export function powertrainGeometry(
       g.rotation.x = -Math.PI / 2;
     }
   } else if (level === 'evmotor') {
-    if (id.startsWith('housing-bolt')) bolt(3, 245);
+    if (id.startsWith('phase-lead-')) {
+      const i = endNumber(),
+        slot = [12, 10, 8][i];
+      const start = leafWirePoint(slot, 10, 0, 86),
+        x = (i - 1) * 20;
+      tube(
+        [start, [start[0], start[1], 94 + i * 2], [x, 91, 97], [x, 91, 104]],
+        2.4,
+        ['#b98d46', '#a45e43', '#be9255'][i],
+        false,
+        32,
+      );
+      put(ring(4.4, 2.5, 7, black), [x, 91, 101]);
+    } else if (id.startsWith('housing-bolt')) bolt(3, 212);
     else if (id.startsWith('endbell')) {
-      put(scallopedPlate(125, 42.1, 8));
-      put(ring(48, 42.1, 18));
-      for (let i = 0; i < 8; i++) {
-        const a = (i * Math.PI) / 4;
-        const rib = box([53, 4, 9], [77 * Math.cos(a), 77 * Math.sin(a), 0]);
-        rib.rotation.z = a;
-      }
+      const bell = mesh(
+        castSolid(id.endsWith('1') ? 'leaf-bell-front' : 'leaf-bell'),
+      );
+      if (id.endsWith('0')) bell.rotation.y = Math.PI;
+      put(bell);
     } else if (id === 'resolver-stator') {
       put(ring(40, 26, 12, iron));
       for (let i = 0; i < 12; i++) {

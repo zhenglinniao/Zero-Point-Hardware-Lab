@@ -17,13 +17,23 @@ export const GX = {
   // Reconstructed dimensions, not OEM measurements:
   rodLength: 70,
   pinY: 92.5,
-  deckY: 136,
+  // Piston crown at TDC: pinY + pistonPinOffset + 20 = 124.5.
+  // Reconstructed deck clearance and chamber, not factory measured values.
+  deckY: 125.2,
+  deckClearance: 0.7,
+  headGasket: 0.8,
+  chamberRadius: 30,
+  chamberDepth: 5.3,
+  rockerY: 68.8,
+  tappetTopY: 38.5,
   pistonHeight: 44,
   pistonPinOffset: 12,
   crankTeeth: 20,
   camTeeth: 40,
   gearModule: 1.5,
 } as const;
+export const gxPushrodBottomY = GX.tappetTopY + 3;
+export const gxPushrodTopY = GX.deckY + GX.headGasket + GX.rockerY - 4.5 - 3;
 export const LEAF = {
   statorOD: 198.12,
   statorBore: 130.96,
@@ -37,14 +47,25 @@ export const LEAF = {
   // Reconstruction: individual slot, magnet, jacket and bearing profiles.
   slotOuterRadius: 89,
   slotInnerRadius: 69,
-  slotHalfAngle: 0.023,
-  magnetRadius: 51,
-  magnetWidth: 29,
-  magnetThickness: 4.8,
   bearingInner: 22.225,
   bearingOuter: 42,
   bearingWidth: 18,
 } as const;
+export const gxRingAngles = {
+  top: 0.5,
+  second: 0.5 + (2 * Math.PI) / 3,
+  oilUpper: 0.5 + (4 * Math.PI) / 3 - 0.2,
+  oilLower: 0.5 + (4 * Math.PI) / 3 + 0.2,
+} as const;
+/** Shared reconstructed cover flange datums, outside the crank/cam chamber. */
+export const gxCoverBolts: readonly (readonly [number, number])[] = [
+  [-86, -25],
+  [-72, 38],
+  [-20, 52],
+  [65, 30],
+  [74, -18],
+  [44, -53],
+];
 export const radialAirGap = (LEAF.statorBore - LEAF.rotorOD) / 2;
 export function pistonPinHeight(angle: number) {
   const r = GX.stroke / 2;
@@ -89,3 +110,20 @@ export const leafCoils = Array.from({ length: 24 }, (_, i) => {
     polarity: (from / 2) % 2 ? -1 : 1,
   };
 });
+
+/** Same slot coordinate for the straight strands and both winding ends. */
+export function leafWirePoint(
+  slot: number,
+  parallel: number,
+  turn: number,
+  z: number,
+): [number, number, number] {
+  const a = (slot * Math.PI) / 24,
+    r = 74 + parallel * 0.7;
+  const t = (turn - 2.5) * 0.84 + (parallel % 2 ? 0.21 : -0.21);
+  return [
+    r * Math.cos(a) - t * Math.sin(a),
+    r * Math.sin(a) + t * Math.cos(a),
+    z,
+  ];
+}
