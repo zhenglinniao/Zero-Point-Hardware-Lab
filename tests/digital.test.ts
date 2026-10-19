@@ -8,6 +8,7 @@ import { levelPath, systemRoot, systemRoots } from '../lib/levels.ts';
 import { chineseIntro } from '../lib/zh.ts';
 import { devices } from '../lib/devices.ts';
 import { applyPiecePose, disposeModelResources, ModelStageScratch, posedModelBounds, prepareModelInventory } from '../lib/model-stage.ts';
+import { controllerShell, controllerFascia } from '../lib/digital/molded-shells.ts';
 
 const oldDocument = globalThis.document;
 globalThis.document = { createElement: () => ({ width:0, height:0, getContext: () => new Proxy({}, { get: (_,key) => key==='createImageData' ? (w:number,h:number)=>({ data:new Uint8ClampedArray(w*h*4) }) : ()=>{} }) }) } as unknown as Document;
@@ -176,4 +177,46 @@ await test('switching models releases both board traces and mesh resources witho
   [geometry,meshMaterial,traceMaterial].forEach((resource,index)=>resource.addEventListener('dispose',()=>{disposed[index]++;}));
   disposeModelResources({root,pieces:[]});
   assert.deepEqual(disposed,[1,1,1]);
+});
+
+await test('controller mouldings have a real cavity, pierced controls and a continuous centre fascia',()=>{
+  const material=new T.MeshBasicMaterial({side:T.DoubleSide});
+  const shell=new T.Mesh(controllerShell(true),material);
+  const fascia=new T.Mesh(controllerFascia(),material);
+  const ray=new T.Raycaster();
+  const hits=(mesh:T.Mesh,x:number,z:number)=>{
+    mesh.updateMatrixWorld(true);
+    ray.set(new T.Vector3(x,50,z),new T.Vector3(0,-1,0));
+    return ray.intersectObject(mesh,false);
+  };
+  const wall=hits(shell,55,20);
+  assert.ok(wall.length>=2,'outer and inner walls must both exist');
+  const thickness=wall[0].point.y-wall[1].point.y;
+  assert.ok(thickness>1 && thickness<4,`wall thickness ${thickness}`);
+  for(const x of [-28,28]) assert.equal(hits(shell,x,12).length,0,'thumbstick bores cannot contain a cap');
+  for(const z of [-5,0,10,20,25,30]) {
+    const face=hits(fascia,0,z);
+    assert.ok(face.length>0,`missing centre panel at ${z}`);
+    assert.ok(face[0].point.y>8,'centre panel must enclose the battery, not fold into its cavity');
+  }
+  shell.geometry.dispose();fascia.geometry.dispose();material.dispose();
+});
+
+await test('board details remain attached to their selectable PCB and batches have finite transforms',()=>{
+  for(const level of ['ps5board','phoneboard','gamepadboard'] as DigitalLevel[]) {
+    const model=models.get(level)!;
+    const pcb=model.pieces.find(piece=>piece.concept===`${level}-pcb`)!;
+    let bodies=0;
+    pcb.object.traverse(object=>{
+      if(!(object instanceof T.InstancedMesh) || object.userData.detailKind!=='passive-bodies')return;
+      bodies+=object.count;
+      const matrix=new T.Matrix4();
+      for(let i=0;i<object.count;i++){
+        object.getMatrixAt(i,matrix);
+        assert.ok(matrix.elements.every(Number.isFinite));
+        assert.ok(Math.abs(matrix.elements[13])>0,'devices belong on a board face');
+      }
+    });
+    assert.ok(bodies>40,`${level} must contain actual support geometry`);
+  }
 });

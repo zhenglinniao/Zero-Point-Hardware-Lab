@@ -230,7 +230,7 @@ export function refineDigitalDefinitions(definitions: Definition[]) {
   });
   edit('phone', 'back', {
     pos: [0, 3.4, 0],
-    delta: [170, 28, -30],
+    delta: [100, 28, -20],
     size: [70, 0.8, 146],
     opensFirst: true,
   });
@@ -487,15 +487,15 @@ export function refineDigitalDefinitions(definitions: Definition[]) {
   get('gamepad').specs!['模型范围'] =
     '初代 DualSense 拆解参考；后续硬件修订可能不同';
   edit('gamepad', 'top', {
-    size: [155, 6, 93],
-    pos: [0, 18, 0],
+    size: [160, 22, 100],
+    pos: [0, 0, 0],
     delta: [0, 45, 0],
     description:
       '连续曲线握柄壳具有摇杆、十字键、动作键与触控板开孔，以及内侧加强筋。',
   });
   edit('gamepad', 'back', {
-    size: [150, 5, 90],
-    pos: [0, -18, 0],
+    size: [160, 24, 100],
+    pos: [0, 0, 0],
     delta: [0, -45, 0],
     color: '#cfd6d4',
   });
@@ -511,10 +511,10 @@ export function refineDigitalDefinitions(definitions: Definition[]) {
   });
   edit('gamepad', 'leftstick', { size: [22, 21, 22], pos: [-28, 14, 12] });
   edit('gamepad', 'rightstick', { size: [22, 21, 22], pos: [28, 14, 12] });
-  edit('gamepad', 'buttons', { size: [126, 7, 28], pos: [0, 22, -18] });
+  edit('gamepad', 'buttons', { size: [126, 7, 28], pos: [0, 17.5, -18] });
   edit('gamepad', 'touch', {
     size: [52, 3, 28],
-    pos: [0, 26, -22],
+    pos: [0, 17.8, -22],
     color: '#e5e8e9',
   });
   edit('gamepad', 'triggers', {

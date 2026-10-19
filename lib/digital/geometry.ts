@@ -1,4 +1,12 @@
 import * as T from 'three';
+import {
+  controllerShell,
+  controllerFascia,
+  cameraGrip,
+  earbudShell,
+  chargingCase,
+} from './molded-shells.ts';
+import { decorateBoard } from './board-detail.ts';
 import type { ModelTools } from '../hardware.ts';
 import type { Vec3 } from '../layout.ts';
 import type { DigitalLevel, DigitalPart } from './catalogue.ts';
@@ -274,6 +282,7 @@ export function detailedGeometry(
         ),
       ),
     );
+    decorateBoard(g, shape, width, depth, height, level, part, tools);
     // Geometric surface traces remain separate from modelled electrical claims.
     const vertices: number[] = [];
     for (let i = 0; i < 26; i++) {
@@ -317,23 +326,6 @@ export function detailedGeometry(
           ),
           [width * x, height / 2 + 0.06, depth * z],
         );
-    // Dense deterministic passive banks on free edge lanes, not a random scatter.
-    for (let i = 0; i < 40; i++) {
-      const x = (i % 2 ? 1 : -1) * width * 0.42,
-        z = (Math.floor(i / 2) / 19 - 0.5) * depth * 0.65;
-      const size: Vec3 = [
-        Math.max(0.35, width * 0.022),
-        0.35,
-        Math.max(0.45, depth * 0.012),
-      ];
-      put(box(size, i % 3 ? '#bba97d' : '#414b49'), [x, height / 2 + 0.2, z]);
-      for (const sign of [-1, 1])
-        put(box([size[0] * 0.22, 0.38, size[2]], silver, 0.6), [
-          x + sign * size[0] * 0.4,
-          height / 2 + 0.2,
-          z,
-        ]);
-    }
     if (vertical) g.rotation.x = Math.PI / 2;
   }
   function battery() {
@@ -393,6 +385,9 @@ export function detailedGeometry(
         metalness: 0.48,
         roughness: 0.13,
         clearcoat: 1,
+        transparent: true,
+        opacity: 0.58,
+        depthWrite: false,
       }),
     );
     glass.scale.y = 0.12;
@@ -417,77 +412,51 @@ export function detailedGeometry(
     }
   }
   function shellController(top: boolean) {
-    const shape = new T.Shape();
-    shape.moveTo(-67, -41);
-    shape.bezierCurveTo(-82, -28, -80, 15, -69, 40);
-    shape.bezierCurveTo(-60, 60, -44, 50, -33, 23);
-    shape.quadraticCurveTo(0, 30, 33, 23);
-    shape.bezierCurveTo(44, 50, 60, 60, 69, 40);
-    shape.bezierCurveTo(80, 15, 82, -28, 67, -41);
-    shape.quadraticCurveTo(0, -52, -67, -41);
-    shape.closePath();
-    if (top) {
-      shape.holes.push(
-        circleHole(-28, 12, 10),
-        circleHole(28, 12, 10),
-        rectHole(0, -22, 53, 29, 5),
-      );
-      for (const side of [-1, 1])
-        for (let i = 0; i < 4; i++) {
-          const a = (i * Math.PI) / 2;
-          shape.holes.push(
-            circleHole(
-              side * 46 + Math.sin(a) * 7.5,
-              -18 + Math.cos(a) * 7.5,
-              4.1,
-            ),
-          );
-        }
-    } else {
-      for (const x of [-52, 52])
-        for (const z of [-25, 27]) shape.holes.push(circleHole(x, z, 1.1));
-    }
-    const shellGeometry = extrusion(shape, h, 1.3);
-    const vertices = shellGeometry.getAttribute('position');
-    for (let i = 0; i < vertices.count; i++) {
-      const x = vertices.getX(i),
-        z = vertices.getZ(i);
-      const bulge = Math.max(0, 3 * (1 - (x / 82) ** 2) * (1 - (z / 62) ** 2));
-      vertices.setY(i, vertices.getY(i) + (top ? bulge : -bulge));
-    }
-    shellGeometry.computeVertexNormals();
-    put(new T.Mesh(shellGeometry, mat(part.color, 0.08, 0.64)));
-    if (!top) {
-      const wall = shape.clone();
-      wall.holes = [];
-      wall.holes.push(
-        new T.Path(
-          shape.getPoints(32).map((p) => new T.Vector2(p.x * 0.94, p.y * 0.92)),
+    put(
+      new T.Mesh(
+        controllerShell(top),
+        mat(part.color, 0.02, top ? 0.48 : 0.66),
+      ),
+    );
+    if (top)
+      put(
+        new T.Mesh(
+          controllerFascia(),
+          new T.MeshStandardMaterial({
+            color: '#171b21',
+            metalness: 0,
+            roughness: 0.82,
+          }),
         ),
       );
-      put(
-        new T.Mesh(extrusion(wall, 36), mat(part.color, 0.08, 0.6)),
-        [0, 18, 0],
-      );
-    }
     for (const x of [-52, 52])
       for (const z of [-25, 27]) {
-        put(disk(2.3, 5, '#c4c9c9', 1), [x, top ? -4 : 4, z]);
-        screw([x, top ? -6.7 : 6.7, z], 1.2);
+        put(disk(2.7, 7, '#d2d6d3', 1.1), [x, top ? 4 : -7, z]);
+        for (const sign of [-1, 1])
+          put(box([8, 1, 1.1], '#cbd1cf'), [x + sign * 4, top ? 7 : -11, z]);
       }
-    for (const sign of [-1, 1])
-      for (let i = 0; i < 4; i++)
-        put(box([1.2, 3, 13], '#adb5b5'), [
-          sign * (49 + i * 3),
-          top ? -3 : 3,
-          23 + i * 2,
-        ]);
+    for (const side of [-1, 1])
+      for (let i = 0; i < 5; i++) {
+        const rib = box([1.2, 5.5, 10], '#ced4d0', 0.02, 0.3);
+        rib.rotation.y = side * -0.25;
+        put(rib, [side * (55 + i * 1.6), top ? 6 : -10, 10 + i * 5]);
+      }
     if (top) {
-      const trim = plate(82, 0.7, 29, '#20272c', 12, [
-        circleHole(-28, 0, 10),
-        circleHole(28, 0, 10),
-      ]);
-      put(trim, [0, h / 2 + 0.1, 12]);
+      for (const side of [-1, 1])
+        tube(
+          [
+            [side * 27.5, 15.5, -34],
+            [side * 28, 17.4, -22],
+            [side * 25, 17.6, -9],
+          ],
+          0.45,
+          '#5b91b8',
+        );
+      for (let row = 0; row < 3; row++)
+        for (let col = 0; col < 9; col++)
+          put(disk(0.5, 0.16, ink), [(col - 4) * 1.6, 17.7, -3 + row * 1.7]);
+      put(disk(3.2, 0.9, '#252a30'), [0, 17.8, 20]);
+      text('PS', [0, 18.3, 20], 4, '#a2a7aa');
     }
   }
   function trigger() {
@@ -536,30 +505,36 @@ export function detailedGeometry(
       screw([x, -h * 0.35 + 1.4, d * 0.35], 0.8);
   }
   function budShell(parent = g, shell = true) {
-    const shape = new T.Shape();
-    shape.absellipse(0, 0, 8.1, 8.8, 0, Math.PI * 2, false, 0);
-    if (shell) {
-      const hole = new T.Path();
-      hole.absellipse(0, 0, 6.8, 7.5, 0, Math.PI * 2, true, 0);
-      shape.holes.push(hole);
-    }
-    const body = new T.Mesh(extrusion(shape, 8, 1), mat('#e9edeb', 0.08, 0.3));
-    body.rotation.x = 0.35;
-    put(body, [0, 6, 0], parent);
-    put(plate(5.5, 18, 5.8, '#e9edeb', 2.4), [2, -4, 5], parent);
-    const vent = plate(5, 0.3, 2.5, '#151d20', 1);
-    vent.rotation.x = 0.5;
-    put(vent, [-5, 11, -3], parent);
-    put(plate(3, 0.2, 5, '#20292a', 1), [4, 6, 5], parent);
-    for (const x of [1, 3])
-      put(box([0.65, 0.3, 3], copper, 0.6), [x, -13.1, 5], parent);
-    if (!shell) {
-      const cap = new T.Mesh(
-        new T.SphereGeometry(8, 32, 20),
-        mat('#e9edeb', 0.08, 0.3),
+    put(
+      new T.Mesh(earbudShell(shell), mat('#edf0ed', 0.02, 0.22)),
+      [0, 0, 0],
+      parent,
+    );
+    const vent = new T.Mesh(
+      new T.SphereGeometry(1, 24, 12),
+      mat('#151c20', 0.1, 0.85),
+    );
+    vent.scale.set(2.5, 0.3, 1.5);
+    vent.rotation.z = 0.4;
+    put(vent, [-5, 10.4, -2], parent);
+    for (let i = 0; i < 7; i++)
+      put(
+        box([0.15, 0.1, 1.7], '#657071'),
+        [-6.4 + i * 0.45, 10.6, -2],
+        parent,
       );
-      cap.scale.set(1, 0.7, 1.05);
-      put(cap, [0, 7, -1], parent);
+    const sensor = new T.Mesh(
+      new T.SphereGeometry(1, 20, 12),
+      mat('#0f1720', 0.15, 0.22),
+    );
+    sensor.scale.set(0.4, 1.6, 1.1);
+    put(sensor, [7.5, 4, 1], parent);
+    put(plate(1.1, 0.25, 7, '#9ca5a5', 0.5), [2, -5, 7.7], parent);
+    for (const x of [1, 3])
+      put(box([0.65, 0.3, 2.6], copper, 0.6), [x, -13.1, 5], parent);
+    if (!shell) {
+      put(disk(4.4, 3.5, '#e3e8e4', 2.6), [0, 12, -4], parent);
+      put(disk(5.4, 2.5, '#dbe1db', 2.5), [0, 13.7, -4], parent);
     }
   }
 
@@ -574,19 +549,19 @@ export function detailedGeometry(
       const z = a.getX(i),
         y = a.getY(i);
       const flare =
-        5 * Math.pow(Math.abs(y) / (h / 2), 2) +
-        3 * Math.sin((z / d) * Math.PI);
+        20 * Math.pow(Math.abs(y) / (h / 2), 3) +
+        8 * Math.cos((z / d) * Math.PI);
       const bulge =
         id === 'right-cover'
           ? 11 *
             Math.exp(-Math.pow((y + 60) / 105, 2) - Math.pow((z - 30) / 95, 2))
           : 0;
-      const taper = 0.98 + 0.04 * Math.cos((y / h) * Math.PI);
-      const sweep = d * 0.018 * Math.sin((y / h) * Math.PI);
+      const taper = 0.91 + 0.09 * Math.cos((y / h) * Math.PI * 2);
+      const sweep = 12 * Math.sin((y / h) * Math.PI);
       a.setXYZ(
         i,
         (id === 'left-cover' ? -1 : 1) * (flare + bulge),
-        y,
+        y - 20 * Math.pow(Math.abs(y) / (h / 2), 9) * (z / d + 0.5),
         z * taper + sweep,
       );
     }
@@ -628,8 +603,7 @@ export function detailedGeometry(
     edgeGeometry.setIndex(edgeIndices);
     edgeGeometry.computeVertexNormals();
     put(new T.Mesh(edgeGeometry, mat(part.color, 0.05, 0.62)));
-    const edge = box([2, h * 0.95, 2], part.color);
-    put(edge, [1, 0, -d * 0.48]);
+    // Discrete snap hooks follow the inner skin rather than a straight bar.
     for (let i = 0; i < 6; i++)
       put(box([4, 6, 3], '#c5ccca'), [-2, (i - 2.5) * 52, d * 0.3]);
   } else if (level === 'ps5' && id === 'frame') {
@@ -646,12 +620,25 @@ export function detailedGeometry(
     for (const x of [-w * 0.48, w * 0.48])
       for (let i = 0; i < 38; i++)
         put(box([4, 3, 11], ink), [x, (i - 18.5) * 8.1, -d * 0.48]);
-    const front = plate(w, 3, h, ink, 12, [
+    const front = plate(w * 0.74, 3, h, '#11171d', 12, [
       rectHole(29, 20, 3, 130, 1),
       rectHole(-27, -87, 10, 16, 2),
       rectHole(-27, -60, 6, 12, 2),
     ]);
     front.rotation.x = Math.PI / 2;
+    const frontPositions = front.geometry.getAttribute('position');
+    for (let i = 0; i < frontPositions.count; i++) {
+      const y = frontPositions.getZ(i);
+      frontPositions.setX(
+        i,
+        frontPositions.getX(i) * (0.92 - 0.1 * Math.sin((y / h) * Math.PI)),
+      );
+      frontPositions.setY(
+        i,
+        frontPositions.getY(i) + 8 * Math.cos((y / h) * Math.PI),
+      );
+    }
+    front.geometry.computeVertexNormals();
     put(front, [0, 0, d / 2]);
     const vents: T.Path[] = [];
     for (let i = 0; i < 37; i++)
@@ -662,9 +649,13 @@ export function detailedGeometry(
     const roofVents: T.Path[] = [];
     for (let i = 0; i < 22; i++)
       roofVents.push(rectHole(0, (i - 10.5) * 9, w * 0.7, 2.5, 0.8));
-    put(plate(w, 3, d, ink, 7, roofVents), [0, h / 2 + 1.5, 0]);
+    put(plate(w * 0.76, 3, d, '#12191f', 7, roofVents), [0, h / 2 + 1.5, 0]);
     for (const x of [-w * 0.44, w * 0.44])
       put(box([1.1, 80, 1], '#416e9b'), [x, 110, d / 2 + 1.6]);
+    put(disk(80, 8, '#171d23', 15), [0, -h / 2 - 8, 0]);
+    for (const x of [-31, 31])
+      for (let i = 0; i < 22; i++)
+        put(box([5, 2, 13], '#12191f'), [x, 75 + i * 4.5, d / 2 - 4]);
   } else if (level === 'ps5' && id === 'fan') {
     const rotor = new T.Group();
     put(disk(60, 45, '#20262b', 54), [0, 0, 0], rotor);
@@ -813,10 +804,18 @@ export function detailedGeometry(
     const mesh = new T.Mesh(extrusion(shape, 4), mat(ink, 0.12, 0.75));
     mesh.rotation.x = Math.PI / 2;
     put(mesh, [0, 0, 17]);
-    put(
-      plate(29, 76, 37, '#252a2e', 8, [rectHole(0, 0, 22, 29, 5)]),
-      [46, -3, 5],
-    );
+    put(new T.Mesh(cameraGrip(), mat('#252a2e', 0.06, 0.87)), [46, -3, 5]);
+    // The front assembly wraps around both sides, enclosing the board stack.
+    for (const x of [-62, 62])
+      put(box([3.2, 75, 46], ink, 0.12, 2), [x, -1, -8]);
+    const branding = new T.Group();
+    text('α 7 IV', [0, 0.15, 0], 20, '#c8cdcb', branding);
+    branding.rotation.x = Math.PI / 2;
+    put(branding, [23, 28, 19.3]);
+    for (const y of [-23, -13, -3]) {
+      const door = box([1.1, 7, 17], '#282e33', 0.05, 1);
+      put(door, [-64, y, -8]);
+    }
     for (const x of [-53, 28])
       for (const y of [-31, 31]) {
         const post = disk(2.1, 10, silver, 0.8);
@@ -862,6 +861,10 @@ export function detailedGeometry(
     });
     housing.translate(0, 0, -d / 2);
     put(new T.Mesh(housing, mat(ink, 0.12, 0.8)));
+    const logo = new T.Group();
+    text('SONY', [0, 0.1, 0], 21, '#cbd1cd', logo);
+    logo.rotation.x = Math.PI / 2;
+    put(logo, [0, 0, d / 2 + 1.2]);
     put(plate(21, 2, 18, silver, 1), [0, h / 2 + 1.5, 0]);
     for (const x of [-8, 8]) put(box([2, 2, 18], ink), [x, h / 2 + 2, 0]);
     const eyecup = plate(32, 4, 23, '#11171c', 5, [rectHole(0, 0, 23, 15, 2)]);
@@ -883,6 +886,20 @@ export function detailedGeometry(
     put(plate(w, h, d, ink, 6, [rectHole(-8, -4, 31, 25, 3)]));
     put(disk(5, 2, silver), [48, h / 2 + 4, 14]);
     for (const x of [-60, 60]) put(disk(3, 2, silver, 1.7), [x, h / 2, 0]);
+    for (const [x, z, r] of [
+      [47, -12, 7.5],
+      [24, -13, 6],
+    ] as const) {
+      put(disk(r, 2.2, '#242c31'), [x, h / 2 + 1.2, z]);
+      for (let i = 0; i < 32; i++) {
+        const a = (i * Math.PI) / 16;
+        put(box([0.45, 1.8, 0.45], '#697174'), [
+          x + Math.sin(a) * r,
+          h / 2 + 1.2,
+          z + Math.cos(a) * r,
+        ]);
+      }
+    }
   } else if (level === 'camera' && id === 'dial') {
     put(disk(w / 2, h, ink));
     for (let i = 0; i < 48; i++) {
@@ -945,12 +962,13 @@ export function detailedGeometry(
       text(['△', '○', '×', '□'][i], [x, 2.6, z], 5, '#717f83');
     }
   } else if (level === 'earbuds' && id === 'case') {
-    put(plate(w, h, d, '#e6eae7', 10, [rectHole(0, 0, w - 3, d - 3, 8)]));
-    put(plate(w - 2, 1.4, d - 2, '#e6eae7', 9), [0, -h / 2 + 0.7, 0]);
+    put(new T.Mesh(chargingCase(false, w, h, d), mat('#edf0eb', 0.02, 0.24)));
+    const port = plate(9, 0.4, 3, '#20292b', 1.4);
+    port.rotation.x = Math.PI / 2;
+    put(port, [0, -h / 2 + 3, d / 2 - 0.15]);
     put(disk(0.7, 0.2, '#8d9b6c'), [0, 0, d / 2 + 0.1]);
   } else if (level === 'earbuds' && id === 'lid') {
-    put(plate(w, h, d, '#e8edeb', 10, [rectHole(0, 0, w - 4, d - 4, 7)]));
-    put(plate(w - 1, 1.5, d - 1, '#eef0ed', 9), [0, h / 2 - 0.6, 0]);
+    put(new T.Mesh(chargingCase(true, w, h, d), mat('#edf0eb', 0.02, 0.24)));
     put(
       plate(w - 7, 1, d - 5, '#f7f8f2', 7, [
         circleHole(-14, 0, 7),
@@ -1280,9 +1298,15 @@ export function detailedGeometry(
         }
         break;
       case 'stick': {
-        put(box([w * 0.8, h * 0.4, d * 0.8], silver), [0, -h * 0.25, 0]);
+        const dome = new T.Mesh(
+          new T.SphereGeometry(w * 0.45, 40, 24),
+          mat('#1b2227', 0, 0.8),
+        );
+        dome.scale.y = 0.48;
+        put(dome, [0, -1, 0]);
+        put(box([w * 0.8, h * 0.4, d * 0.8], silver), [0, -h * 0.45, 0]);
         for (const x of [-w * 0.42, w * 0.42])
-          put(box([3, h * 0.45, d * 0.68], '#4a8362'), [x, -h * 0.2, 0]);
+          put(box([3, h * 0.45, d * 0.68], '#4a8362'), [x, -h * 0.4, 0]);
         put(disk(2.5, h * 0.5, ink), [0, h * 0.05, 0]);
         put(disk(w * 0.43, h * 0.16, ink, w * 0.32), [0, h * 0.43, 0]);
         put(disk(w * 0.32, 0.6, '#242c30'), [0, h * 0.49, 0]);
@@ -1319,7 +1343,7 @@ export function detailedGeometry(
             for (const z of [-d * 0.36, d * 0.36])
               screw([x, h / 2 + 0.2, z], 0.8);
     }
-  g.userData.detailRevision = 2;
+  g.userData.detailRevision = 3;
   const native = new T.Group();
   native.scale.setScalar(1 / unit);
   native.add(g);
