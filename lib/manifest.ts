@@ -1,4 +1,7 @@
 import { notebookConcepts } from './concepts/notebooks.ts';
+import { digitalConcepts } from './digital/catalogue.ts';
+import { conceptNameZh, categoryZh } from './zh.ts';
+import { devices } from './devices.ts';
 import { coolerConcepts } from './concepts/cooler.ts';
 import { liquidConcepts } from './concepts/liquid.ts';
 import { processorConcepts } from './concepts/processors.ts';
@@ -18,6 +21,7 @@ import {
   levelNames,
   levelPath,
   levels,
+  systemRoot,
   type LevelId,
 } from './levels.ts';
 import { sources } from './sources.ts';
@@ -42,6 +46,7 @@ export type Level = LevelId;
  * inside it, then the graphics card branch.
  */
 export const manifest: Concept[] = [
+  ...digitalConcepts,
   ...notebookConcepts,
   ...pcConcepts,
   ...motherboardConcepts,
@@ -90,7 +95,7 @@ export function searchConcepts(query: string) {
     .filter((t) => t !== 'all');
   return manifest.filter((c) =>
     terms.every((t) =>
-      [c.name, c.shortName, ...c.searchTerms]
+      [c.name, c.shortName, conceptNameZh(c), categoryZh[c.category], ...devices.filter((device)=>device.level===systemRoot(c.level)).map((device)=>`${device.name} ${device.model} ${device.family}`), ...c.searchTerms]
         .join(' ')
         .toLowerCase()
         .includes(t),

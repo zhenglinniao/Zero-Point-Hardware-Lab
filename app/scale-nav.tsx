@@ -2,6 +2,10 @@
 import {
   BatteryCharging,
   Box,
+  Camera,
+  Gamepad2,
+  Headphones,
+  Smartphone,
   ChevronDown,
   ChevronRight,
   CircuitBoard,
@@ -28,9 +32,15 @@ import {
   submenuRoot,
   type LevelId,
 } from '@/lib/levels';
+import { branchZh, scaleNameZh } from '@/lib/zh';
 
 /** One icon per scale, so the branch you are on is recognisable at a glance. */
 const levelIcon: Record<LevelId, typeof Box> = {
+  ps5: Gamepad2, ps5board: CircuitBoard, ps5cooling: Fan,
+  phone: Smartphone, phoneboard: CircuitBoard, phonecamera: Camera,
+  camera: Camera, camerasensor: Microscope, cameralens: Camera,
+  gamepad: Gamepad2, gamepadboard: CircuitBoard,
+  earbuds: Headphones, earbudunit: Headphones, earbuddriver: Microscope,
   legion: Laptop,
   legionboard: CircuitBoard,
   legioncpu: Cpu,
@@ -135,7 +145,7 @@ export default function ScaleNav({
         <X size={17} />
       </button>
       <div className="section-heading rail-top-heading">
-        <span>SYSTEM</span>
+        <span>选择设备</span>
       </div>
       <nav className="system-picker" aria-label="Choose a system">
         {systemRoots.map((root) => {
@@ -151,18 +161,10 @@ export default function ScaleNav({
                 <i className="system-picker-dot" />
               </span>
               <strong>
-                {root === 'pc'
-                  ? 'Desktop PC'
-                  : root === 'legion'
-                    ? 'Laptops'
-                    : 'Mac'}
+                {scaleNameZh(root,levels[root].name)}
               </strong>
               <small>
-                {root === 'pc'
-                  ? 'ATX desktop'
-                  : root === 'legion'
-                    ? 'Legion 5'
-                    : 'MacBook Pro'}
+                {levels[root].summary.includes(' · ') ? levels[root].summary.split(' · ')[0] : root === 'pc' ? 'ATX 整机' : '可逐层拆解'}
               </small>
             </button>
           );
@@ -171,15 +173,15 @@ export default function ScaleNav({
       <button className="compare-button" onClick={onCompare}>
         <GitCompareArrows size={16} />
         <span>
-          <strong>Compare components</strong>
-          <small>Side-by-side 3D &amp; specs</small>
+          <strong>同类硬件对比</strong>
+          <small>双视图 3D 与原始规格</small>
         </span>
         <ChevronRight size={14} />
       </button>
       <div className="section-heading scale-heading">
-        <span>EXPLORE BY SCALE</span>
+        <span>逐层探索</span>
         <span className="section-badge">
-          {systemBranches.reduce((sum, b) => sum + b.levels.length, 1)} scales
+          {systemBranches.reduce((sum, b) => sum + b.levels.length, 1)} 层级
         </span>
       </div>
       <nav className="scale-navigation" aria-label="Exploration scale">
@@ -194,8 +196,8 @@ export default function ScaleNav({
           <span>01</span>
           <RootIcon size={17} />
           <div>
-            {levels[rootLevel].name}
-            <small>{levels[rootLevel].summary}</small>
+            {scaleNameZh(rootLevel,levels[rootLevel].name)}
+            <small>{/[\u3400-\u9fff]/.test(levels[rootLevel].summary) ? levels[rootLevel].summary : '从整机开始，进入各个子系统'}</small>
           </div>
           <ChevronRight size={14} />
         </button>
@@ -214,11 +216,9 @@ export default function ScaleNav({
               >
                 <i />
                 <div>
-                  {levels[id].name}
+                  {scaleNameZh(id,levels[id].name)}
                   <small>
-                    {levels[id].detailed
-                      ? levels[id].summary
-                      : levels[id].summary + ' · placeholder'}
+                    {/[\u3400-\u9fff]/.test(levels[id].summary) ? levels[id].summary : levels[id].kind === 'logical' ? '逻辑架构与功能关系' : '组件结构与拆解示意'}
                   </small>
                 </div>
               </button>
@@ -238,13 +238,9 @@ export default function ScaleNav({
                   <span>{String(index + 2).padStart(2, '0')}</span>
                   <Icon size={18} />
                   <div>
-                    {label}
+                    {branchZh[label] ?? label}
                     <small>
-                      {submenus.length > 0
-                        ? `${submenus.length} ${label === 'GPU' ? 'cards' : label === 'Memory' ? 'generations' : 'models'} · ${scales.length} scales`
-                        : label === 'Power supply'
-                          ? `${scales.length} models`
-                          : `${scales.length} ${scales.length === 1 ? 'scale' : 'scales'} inside`}
+                      {submenus.length > 0 ? `${submenus.length} 类 · ${scales.length} 个层级` : `${scales.length} 个内部层级`}
                     </small>
                   </div>
                   <ChevronDown size={15} />

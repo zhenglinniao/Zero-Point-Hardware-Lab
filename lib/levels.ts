@@ -1,4 +1,5 @@
 import { notebookLevels, type NotebookLevel } from './notebook-levels.ts';
+import { digitalLevels, digitalRoots, type DigitalLevel } from './digital/catalogue.ts';
 /**
  * The exploration tree.
  *
@@ -9,6 +10,7 @@ import { notebookLevels, type NotebookLevel } from './notebook-levels.ts';
  * read from it.
  */
 export type LevelId =
+  | DigitalLevel
   | NotebookLevel
   | 'pc'
   | 'motherboard'
@@ -646,6 +648,7 @@ export const levels: Record<LevelId, LevelDef> = {
     detailed: true,
   },
   ...notebookLevels,
+  ...digitalLevels,
 };
 
 export const levelIds = Object.keys(levels) as LevelId[];
@@ -723,7 +726,7 @@ export function systemRoot(id: LevelId): LevelId {
   return levelPath(id)[0];
 }
 
-export const systemRoots: LevelId[] = ['pc', 'legion', 'macbook'];
+export const systemRoots: LevelId[] = ['pc', 'legion', 'macbook', ...digitalRoots];
 
 export function branches(system: LevelId = rootLevel): Branch[] {
   const grouped = new Map<string, LevelId[]>();

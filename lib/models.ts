@@ -1,4 +1,6 @@
 import { buildNotebook } from './notebooks.ts';
+import { buildDigital } from './digital/models.ts';
+import { digitalLevels, type DigitalLevel } from './digital/catalogue.ts';
 import { notebookLevels, type NotebookLevel } from './notebook-levels.ts';
 import { resourceTexture, siliconColor } from './silicon-texture.ts';
 import { buildAirflow } from './airflow.ts';
@@ -105,6 +107,7 @@ const notebookBuilders = Object.fromEntries(
   ]),
 ) as Record<NotebookLevel, (tools: ModelTools, root: T.Group) => void>;
 const builders: Record<LevelId, (tools: ModelTools, root: T.Group) => void> = {
+  ...Object.fromEntries(Object.keys(digitalLevels).map((id) => [id, (tools: ModelTools) => buildDigital(id as DigitalLevel, tools)])) as unknown as Record<DigitalLevel, (tools: ModelTools, root: T.Group) => void>,
   ...notebookBuilders,
   pc: buildMachine,
   motherboard: buildMotherboard,
