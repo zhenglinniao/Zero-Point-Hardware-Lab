@@ -3,6 +3,8 @@ import { useState } from 'react';
 import type { ExplorerState, Selection } from '@/lib/explorer-state';
 import type { PartLabel } from '@/lib/inventory-labels';
 import { useViewerEngine } from './use-viewer-engine';
+import { byId } from '@/lib/manifest';
+import { conceptNameZh, nameZh } from '@/lib/zh';
 type Props = {
   state: ExplorerState;
   /** Nothing has been drawn yet. */
@@ -39,7 +41,7 @@ export default function Viewer({
       labels: setLabels,
       error: reportError,
     }),
-    'The 3D viewer could not load. Reload to try again.',
+    '三维模型暂时无法加载，请刷新后重试。',
   );
   return (
     <>
@@ -64,7 +66,7 @@ export default function Viewer({
                   }
                   aria-pressed={state.selection?.concept === label.concept}
                 >
-                  {label.name}
+                  {byId[label.concept] ? conceptNameZh(byId[label.concept]) : nameZh(label.name)}
                 </button>
               </li>
             ))}
@@ -76,7 +78,7 @@ export default function Viewer({
           rather than being drawn underneath it. */}
       {loading && !error && (
         <div className="empty-scene loading">
-          <h3>Loading components for you…</h3>
+          <h3>正在生成部件模型…</h3>
         </div>
       )}
       {!ready && !error && (
@@ -85,7 +87,7 @@ export default function Viewer({
       {error && (
         <div className="viewer-status error" role="alert">
           {error}
-          <button onClick={() => location.reload()}>Reload viewer</button>
+          <button onClick={() => location.reload()}>重新加载</button>
         </div>
       )}
       {hover && (
@@ -97,11 +99,11 @@ export default function Viewer({
             top: Math.max(10, Math.min(hover.y - 60, window.innerHeight - 80)),
           }}
         >
-          {hover.name}
+          {nameZh(hover.name)}
           <span>
             {hover.opens
-              ? 'Left-click to open · right-click to inspect'
-              : 'Click to inspect'}
+              ? '左键进入 · 右键查看介绍'
+              : '点击查看介绍'}
           </span>
         </div>
       )}

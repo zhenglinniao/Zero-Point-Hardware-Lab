@@ -2,6 +2,7 @@
 import { Pause, Play, RotateCcw } from 'lucide-react';
 import { Slider } from '@/components/ui/slider';
 import { levels, type LevelId } from '@/lib/levels';
+import { phaseZh } from '@/lib/zh';
 
 type Props = {
   level: LevelId;
@@ -49,12 +50,12 @@ export default function Disassembly({
           }
         >
           {playing ? <Pause size={23} /> : <Play size={23} />}
-          <span>{playing ? 'Pause' : 'Auto'}</span>
+          <span>{playing ? '暂停' : '自动'}</span>
         </button>
         <div className="disassembly-label">
           <div>
             <strong>{title ?? (logical ? 'Expand' : 'Disassemble')}</strong>
-            <span>DRAG OR PLAY</span>
+            <span>拖动或自动播放</span>
           </div>
         </div>
       </div>
@@ -63,10 +64,11 @@ export default function Disassembly({
           {phases.map(([name, value]) => (
             <button
               key={name}
+              data-phase={name}
               className={Math.abs(explode - Number(value)) < 13 ? 'active' : ''}
               onClick={() => onSetExplode(Number(value))}
             >
-              {name}
+              {phaseZh[name] ?? name}
             </button>
           ))}
         </div>
@@ -92,7 +94,7 @@ export default function Disassembly({
           onClick={onReset}
         >
           <RotateCcw size={18} />
-          <span>Reset</span>
+          <span>重置</span>
         </button>
       </div>
     </section>

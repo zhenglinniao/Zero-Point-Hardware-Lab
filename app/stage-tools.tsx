@@ -16,9 +16,10 @@ import {
 } from '@/lib/airflow-policy';
 import type { ExplorerState } from '@/lib/explorer-state';
 import type { LevelId } from '@/lib/levels';
+import { conceptNameZh } from '@/lib/zh';
 
 const views = ['perspective', 'top', 'front', 'back'] as const;
-const viewLabels = ['3D', 'TOP', 'FRONT', 'BACK'];
+const viewLabels = ['三维', '俯视', '正面', '背面'];
 
 type Props = {
   view: ExplorerState['view'];
@@ -133,8 +134,8 @@ export default function StageTools({
           onClick={onToggleAirflow}
         >
           <Wind size={15} />
-          <span>Airflow</span>
-          <small>{showingAirflow ? 'On' : 'Off'}</small>
+          <span>气流</span>
+          <small>{showingAirflow ? '开' : '关'}</small>
         </button>
       )}
       {hiddenComponents.length > 0 && (
@@ -147,28 +148,27 @@ export default function StageTools({
           >
             <EyeOff size={15} />
             <span>
-              {hiddenComponents.length} hidden component
-              {hiddenComponents.length === 1 ? '' : 's'}
+              {hiddenComponents.length} 个部件已隐藏
             </span>
             <ChevronDown size={14} />
           </button>
           {hiddenMenuOpen && (
             <div className="hidden-components-menu" id="hidden-components-menu">
               <div className="hidden-menu-heading">
-                <strong>Hidden on this scale</strong>
-                <button onClick={onClearHidden}>Show all</button>
+                <strong>当前层级的隐藏部件</strong>
+                <button onClick={onClearHidden}>全部恢复</button>
               </div>
               <ul>
                 {hiddenComponents.map((component) => (
                   <li key={component.id}>
                     <i style={{ background: colors[component.category] }} />
-                    <span>{component.shortName}</span>
+                    <span>{conceptNameZh(component)}</span>
                     <button
                       aria-label={`Show ${component.name}`}
                       onClick={() => onUnhide(component.id)}
                     >
                       <Eye size={14} />
-                      Show
+                      显示
                     </button>
                   </li>
                 ))}

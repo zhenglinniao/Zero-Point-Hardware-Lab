@@ -53,9 +53,9 @@ export default function PerformanceTip({ ready }: { ready: boolean }) {
       <Zap size={19} aria-hidden="true" />
       <div>
         <output>
-          <strong>Smoother 3D exploration</strong>
+          <strong>让三维探索更流畅</strong>
           <span className="tip-copy">
-            Try enabling browser hardware acceleration for smoother rendering.
+            尝试开启浏览器图形加速，改善模型渲染速度。
           </span>
         </output>
         <a
@@ -63,7 +63,7 @@ export default function PerformanceTip({ ready }: { ready: boolean }) {
           target="_blank"
           rel="noreferrer"
         >
-          How to enable it <ArrowUpRight size={13} />
+          查看设置说明 <ArrowUpRight size={13} />
         </a>
       </div>
       <button

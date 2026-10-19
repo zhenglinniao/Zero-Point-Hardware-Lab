@@ -5,6 +5,7 @@ import {
   type ComparisonViewState,
 } from '@/lib/comparison-state';
 import { useViewerEngine } from './use-viewer-engine';
+import { nameZh } from '@/lib/zh';
 
 type Props = {
   state: ComparisonViewState;
@@ -31,7 +32,7 @@ export default function ComparisonViewer({ state, onCount }: Props) {
       hover: (name, x, y) => setHover(name ? { name, x, y } : null),
       error: reportError,
     }),
-    'The comparison viewer could not load. Reload to try again.',
+    '对比模型暂时无法加载，请刷新后重试。',
   );
 
   return (
@@ -52,12 +53,12 @@ export default function ComparisonViewer({ state, onCount }: Props) {
         />
       </div>
       {!ready && !error && (
-        <output className="comparison-loading">Loading both models…</output>
+        <output className="comparison-loading">正在生成两侧模型…</output>
       )}
       {error && (
         <div className="comparison-error" role="alert">
           {error}
-          <button onClick={() => location.reload()}>Reload viewer</button>
+          <button onClick={() => location.reload()}>重新加载</button>
         </div>
       )}
       {hover && (
@@ -69,8 +70,8 @@ export default function ComparisonViewer({ state, onCount }: Props) {
             top: Math.max(10, Math.min(hover.y - 48, window.innerHeight - 70)),
           }}
         >
-          {hover.name}
-          <span>Compared part</span>
+          {nameZh(hover.name)}
+          <span>对比部件</span>
         </div>
       )}
     </>

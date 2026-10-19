@@ -72,9 +72,8 @@ const categoryIntro: Record<Category,[string,string]> = {
 };
 export function chineseIntro(c: Concept): { description: string; purpose: string } {
   if (/[\u3400-\u9fff]/.test(c.description) && /[\u3400-\u9fff]/.test(c.purpose)) return { description: c.description, purpose: c.purpose };
-  const text = `${c.id} ${c.name}`;
   const preferred = /connector|socket|slot|header|cable|contact|port\b/i.test(c.name) ? profiles.find(([match]) => match.source.startsWith('connector')) : /screw|bracket|hinge|mount|frame/i.test(c.name) ? profiles.find(([match]) => match.source.startsWith('screw')) : undefined;
-  const profile = preferred ?? profiles.find(([match]) => match.test(text));
+  const profile = preferred ?? profiles.find(([match]) => match.test(c.id) || match.test(c.name));
   const [description,purpose] = profile ? [profile[1],profile[2]] : categoryIntro[c.category];
   return { description, purpose };
 }
@@ -88,3 +87,4 @@ export function quantityZh(value: string): string {
 }
 const labels: Record<string,string> = { Architecture:'架构', GPU:'GPU 型号', Memory:'内存 / 显存', 'Graphics power':'显卡功率', 'Total board power':'整卡功率', 'Exterior reference':'外观参考', Dimensions:'尺寸', Interface:'接口', Capacity:'容量', Model:'参考型号', Processor:'处理器', Graphics:'图形', Storage:'存储', Display:'显示屏', Battery:'电池', Format:'形态', Output:'输出', Efficiency:'效率', Cabling:'线缆方式', Cores:'核心 / 线程', Clocks:'频率', Cache:'缓存', Process:'制程', Socket:'插座', Power:'功率 / 供电', 'Default TDP':'默认 TDP', Type:'类型', Function:'功能', Role:'作用', Reference:'参考', Count:'数量', Organization:'组织方式', Voltage:'电压', Speed:'速度', Width:'宽度', Height:'高度', Length:'长度', Material:'材料', Location:'位置', 'Data rate':'数据速率', 'Bus width':'总线宽度', 'Memory type':'内存类型', 'Memory capacity':'内存容量', Frequency:'频率', Resolution:'分辨率', 'Native resolution':'原生分辨率', 'Refresh rate':'刷新率', Generation:'代际', Standard:'标准', Technology:'技术', 'Reference model':'参考型号', 'Board size':'电路板尺寸', Channels:'通道', Banks:'存储体', Rows:'行数', Columns:'列数', 'Addressing':'寻址', 'Installed':'安装情况', Cooling:'散热', Purpose:'用途', 'Learning role':'学习作用', 'Accuracy':'精度范围', 'Scope':'示意范围' };
 export function specLabelZh(key:string) { return labels[key] ?? (/[\u3400-\u9fff]/.test(key) ? key : nameZh(key)); }
+export const comparisonGroupZh: Record<string,string> = { gpu:'显卡', psu:'电源', cpu:'处理器', memory:'内存', notebook:'笔记本电脑' };

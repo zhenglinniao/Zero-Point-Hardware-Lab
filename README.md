@@ -1,11 +1,25 @@
 # 零点硬件实验室
 
-一个以「观察 → 拆解 → 理解」为核心的中文硬件学习应用。首页、原创矢量结构示意、三条课程、九个实验、知识检查与学习记录由 zln 设计实现；底层程序化 3D 模型、渲染器和英文部件资料复用 [PC Anatomy](https://github.com/Yoosseph/pc-anatomy)，保留 MIT 许可及 Yoseph 署名。
+一个以「观察 → 拆解 → 理解」为核心的中文硬件学习应用。首页、原创矢量结构示意、八条课程、二十四个实验、知识检查与学习记录由 zln 设计实现
 
-![原创学习台的实际浏览器截图](docs/screenshots/learning-home.png)
 
-![引导实验工作台的实际浏览器截图](docs/screenshots/learning-lab.png)
+## 数码设备库
 
+首页可按电脑、游戏、移动、影像和音频分类筛选，共 8 台参考设备。新增的 5 类设备都能装配、分层拆解、查看零件清单、选择部件和进入子层级。
+
+| 新增设备 | 直接打开 | 深入层级 |
+| --- | --- | --- |
+| PlayStation 5 | /?scale=ps5 | 主板、散热系统 |
+| iPhone 15 参考结构 | /?scale=phone | 逻辑板、双摄模组 |
+| Sony α7 IV 参考结构 | /?scale=camera | 传感器与防抖、通用镜头原理 |
+| 双摇杆手柄 | /?scale=gamepad | 输入与控制电路 |
+| 无线耳机原理样机 | /?scale=earbuds | 耳机内部、动圈单元 |
+
+新增课程链接为 `/?lesson=console`、`mobile`、`imaging`、`interaction`、`audio`（均通过 lesson 参数）。每条路径含 3 个实验，与原有课程共同构成 8 条路径、24 个实验。
+
+部件面板默认展示**中文功能导读**，原有电脑资料保留英文原文与原始规格，方便核对。新数码设备描述直接使用中文编写；中文搜索也支持「手机」「相机」「电池」等设备或部件词。运行时无需翻译接口或 API 密钥。
+
+这些模型解释结构与功能，不是精确维修图、完整物料清单或性能模拟器。具体参考与局限见 [数码设备参考](docs/DIGITAL-DEVICES.md)。
 ## 启动
 
 需要 Node.js 22.13 或更新版本，在项目目录运行：
@@ -27,9 +41,9 @@ npm run dev
 - **学习记录**：保存在当前浏览器，支持复习、继续未完成实验、确认后重置。存储损坏时安全恢复，存储禁用时提示仅暂存当前页面。
 - **响应式工作台**：独立滚动的任务面板、始终可见的下一步按钮、手机任务抽屉。
 
-课程链接：`/?lesson=inside`、`/?lesson=graphics`、`/?lesson=memory`。刷新恢复到该路径第一个未完成的实验。打开 `/?scale=sm` 等原有模型链接会进入自由拆解；原有 68 层级、593 条部件资料及对比功能保留。
+课程链接：`/?lesson=inside`、`/?lesson=graphics`、`/?lesson=memory`。刷新恢复到该路径第一个未完成的实验。打开 `/?scale=sm` 等原有模型链接会进入自由拆解；原有电脑内容与对比功能保留，现合计 82 个探索层级、699 条部件资料。
 
-3D 模型与原项目相同，并非从零自建；原创工作集中在产品界面、交互流程与教学组织。更详细的版权和技术资料见 [LICENSE](LICENSE)、[SOURCES.md](SOURCES.md)、[原始 README](docs/UPSTREAM_README.md)。
+电脑模型与渲染器复用原项目；PS5、手机、相机、手柄与耳机的教学几何、部件目录和课程由本项目新增。型号、原理样机与精度范围见 [数码设备参考](docs/DIGITAL-DEVICES.md)。更详细的版权和技术资料见 [LICENSE](LICENSE)、[SOURCES.md](SOURCES.md)、[原始 README](docs/UPSTREAM_README.md)。
 
 ## 验证
 
@@ -39,6 +53,7 @@ npm test
 npm run build
 npm run size
 node scripts/learning-smoke.mjs
+node --experimental-strip-types scripts/digital-smoke.mjs
 ```
 
 浏览器脚本默认连接 http://127.0.0.1:4173/ ，运行前执行 `npm start`。默认使用 Windows Edge；其他环境通过 BROWSER_EXECUTABLE 指定浏览器，NOTEBOOK_BASE_URL 指定地址。截图写入被忽略的 output/playwright/learning/。验证范围见 [验证记录](docs/VALIDATION.md)。

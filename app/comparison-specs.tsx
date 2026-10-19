@@ -13,6 +13,7 @@ import {
   type ComparisonGroupId,
   type ComparisonLevel,
 } from '@/lib/comparison-state';
+import { nameZh, specLabelZh } from '@/lib/zh';
 
 type Props = {
   group: ComparisonGroupId;
@@ -46,10 +47,9 @@ export default function ComparisonSpecs({
       >
         <div className="comparison-specs-heading">
           <div>
-            <SheetTitle>Specification comparison</SheetTitle>
+            <SheetTitle>原始规格对比</SheetTitle>
             <SheetDescription>
-              Published {definition.shortLabel} catalogue values, shown without
-              ranking either model.
+              展示 {definition.shortLabel} 的公开目录数据，不据此对设备做性能排名。
             </SheetDescription>
           </div>
           <button
@@ -63,9 +63,9 @@ export default function ComparisonSpecs({
         <table className="comparison-specs-grid">
           <thead>
             <tr className="spec-row spec-head">
-              <th scope="col">Specification</th>
-              <th scope="col">{leftItem.shortName}</th>
-              <th scope="col">{rightItem.shortName}</th>
+              <th scope="col">规格</th>
+              <th scope="col">{nameZh(leftItem.shortName)}</th>
+              <th scope="col">{nameZh(rightItem.shortName)}</th>
             </tr>
           </thead>
           <tbody>
@@ -78,7 +78,7 @@ export default function ComparisonSpecs({
                   data-different={different || undefined}
                   key={leftSpec.id}
                 >
-                  <th scope="row">{leftSpec.label}</th>
+                  <th scope="row">{specLabelZh(leftSpec.label)}</th>
                   <td>{leftSpec.value}</td>
                   <td>{rightSpec.value}</td>
                 </tr>
@@ -87,8 +87,7 @@ export default function ComparisonSpecs({
           </tbody>
         </table>
         <p className="comparison-specs-note">
-          Sources and modeling accuracy remain available with each model in the
-          explorer.
+          各模型的资料来源和示意范围仍可在实验台的部件介绍中核对。
         </p>
       </SheetContent>
     </Sheet>

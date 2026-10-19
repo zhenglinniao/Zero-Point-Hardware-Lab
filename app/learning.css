@@ -195,3 +195,58 @@
   .lesson-steps button { min-height: 44px; } .coach-content { padding-inline: 22px; } .knowledge-check button { font-size: 11px; min-height: 48px; }
 }
 @media (max-height: 600px) and (orientation: landscape) { .lab-header { height: 56px; } .zln-lab .stage-heading { top: 65px; } .zln-lab .viewport { top: 118px; bottom: 99px; } .zln-lab .stage-tools { bottom: 110px; } .zln-lab .disassembly { bottom: 10px; height: 75px; } .zln-lab .explorer.mobile-open { top: 64px; } }
+
+/* Multi-device library and readable Chinese inspection cards. */
+.device-section { margin: 10px 0 42px; }
+.device-scope { color: #989b8b; font-size: 10px; }
+.device-filters { display: flex; gap: 7px; margin: 0 0 18px; overflow-x: auto; padding: 2px 0 5px; }
+.device-filters button { min-height: 35px; flex: none; padding: 8px 17px; font-size: 11px; color: #849078; border: 1px solid #dddfd0; border-radius: 20px; }
+.device-filters button[aria-selected='true'] { color: #fff7e9; background: #41543a; border-color: #41543a; }
+.device-grid { display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: 15px; }
+.device-card { text-align: left; padding: 17px; background: #fffefa; border: 1px solid #dddfd1; border-radius: 9px; display: flex; flex-direction: column; min-width: 0; }
+.device-card:hover { border-color: #d79c78; }
+.device-art { display: flex; align-items: center; justify-content: space-between; background: #eef0e5; color: #748768; border-radius: 6px; padding: 16px; margin-bottom: 17px; min-height: 84px; }
+.device-art > span { font-size: 9px; writing-mode: vertical-rl; letter-spacing: 2px; }
+.device-art-游戏 { background: #e7ebf2; color: #73869e; }
+.device-art-移动 { background: #f5eadd; color: #b38b5e; }
+.device-art-影像 { background: #ebe5f1; color: #8c78a1; }
+.device-art-音频 { background: #e4eeeb; color: #5e8a80; }
+.device-card > strong { color: #3d4c35; font-size: 16px; font-weight: 600; }
+.device-model { color: #9b917d; font-size: 9px; margin-top: 6px; }
+.device-note { color: #919883; font-size: 10px; line-height: 1.8; margin: 12px 0 17px; }
+.device-launch { display: flex; align-items: center; justify-content: space-between; font-size: 10px; color: #ac724d; margin-top: auto; padding-top: 12px; border-top: 1px solid #e9e8db; }
+.course-card.blue .course-icon { color: #6e87a2; background: #e8edf4; }
+.zln-lab .system-picker { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 6px; margin: 0 12px; padding: 6px; }
+.zln-lab .system-picker button { min-width: 0; min-height: 68px; }
+.zln-lab .system-picker strong { font-size: 10px; white-space: normal; line-height: 1.5; }
+.zln-lab .system-picker small { font-size: 8px; white-space: normal; line-height: 1.5; }
+.detail-panel[data-slot='sheet-content'] { background: #fcfbf6; color: #5c6a50; border-color: #d7ddc8; }
+.detail-panel [data-slot='sheet-title'] { color: #374c32; font-size: 26px; }
+.detail-panel [data-slot='sheet-description'], .detail-panel .purpose p { color: #68745e; font-size: 13px; line-height: 1.95; }
+.detail-panel .purpose { border-left-color: #c58b5e; }
+.detail-panel .purpose h3, .detail-panel .source-links h3 { color: #8d795a; }
+.detail-panel .quantity, .detail-panel dl > div { border-color: #dfe3d4; }
+.detail-panel dt { color: #929b83; }
+.detail-panel dd, .detail-panel .parent-link button { color: #506345; }
+.detail-panel .detail-actions button { color: #738260; }
+.detail-panel .accuracy, .detail-panel .source-links p { color: #949a87; font-size: 11px; line-height: 1.9; }
+.detail-panel .source-links a { color: #788b5e; }
+.detail-panel .original-description { font-size: 11px; line-height: 1.8; color: #929a83; padding: 13px 0; border-top: 1px solid #e0e3d4; }
+.detail-panel .original-description summary { cursor: pointer; color: #a47850; }
+.detail-panel .original-description h4 { font-size: 12px; font-weight: 500; }
+.detail-panel .open-component { color: #fff5e6; background: #647d4c; border-color: #647d4c; }
+@media (max-width: 1150px) { .device-grid { grid-template-columns: repeat(3,minmax(0,1fr)); } }
+@media (max-width: 600px) { .device-grid { grid-template-columns: repeat(2,minmax(0,1fr)); gap: 11px; } .device-card { padding: 12px; } .device-card > strong { font-size: 14px; } .device-art { padding: 12px; } .device-art svg { width: 34px; } .device-scope { display: none; } .device-section { margin-bottom: 33px; } .device-note { font-size: 9px; } }
+.zln-lab .category-visibility { color: #6c795d; }
+.zln-lab .section-heading { color: #8a947b; padding-inline: 12px; }
+.zln-lab .section-heading button { color: #8c9a77; }
+.zln-lab .section-badge { background: #eef0e4; border-color: #d1d9bf; color: #718358; }
+.zln-lab .explore-section { border-bottom-color: #e1e4d5; }
+.zln-lab .system-picker button[aria-pressed='true'] { background: #f1e3d1; border-color: #c8ae8b; color: #8f6540; box-shadow: none; }
+.zln-lab .scale-navigation > button.active { background: #f5eadb; color: #8c6240; box-shadow: inset 2.5px 0 0 #d88c58,inset 0 0 0 1px #e5d4bc; }
+.zln-lab .scale-navigation > button small, .zln-lab .branch-head small { color: #929a83; }
+.zln-lab .category-visibility:hover, .zln-lab .category-expand:hover { background: #eeeedd; color: #5a7046; }
+.zln-lab .sublayers button { color: #84916f; }
+.zln-lab .stage-counter strong { color: #7f8d65; }
+.zln-lab .breadcrumbs button { color: #8d987a; }
+.lab-route-loading { height: 100dvh; display: grid; place-items: center; background: #f4f2ed; color: #74805f; font-size: 14px; }

@@ -2,6 +2,7 @@
 import { ArrowLeft, ChevronRight, MousePointerClick, X } from 'lucide-react';
 import type { Concept } from '@/lib/manifest';
 import { levelPath, levels, type LevelId } from '@/lib/levels';
+import { conceptNameZh, scaleNameZh } from '@/lib/zh';
 
 type Props = {
   level: LevelId;
@@ -20,8 +21,8 @@ type Props = {
 function hintCopy() {
   return typeof matchMedia !== 'undefined' &&
     matchMedia('(pointer: coarse)').matches
-    ? 'Tap a part to see what it is and take it apart, or press Auto.'
-    : 'Click a part to open it, right-click to inspect it, or press Auto.';
+    ? '点按部件查看资料，再选择继续拆解；也可点击自动播放。'
+    : '左键进入部件，右键查看中文导读；也可点击自动播放。';
 }
 
 export default function StageHeading({
@@ -41,15 +42,15 @@ export default function StageHeading({
       <div>
         <h1>
           {explode === 100
-            ? 'Component inventory'
+            ? '零件清单'
             : explode > 0
               ? logical
-                ? 'Resources, separated'
-                : 'Coming apart'
-              : scale.title}
+                ? '逻辑资源分解'
+                : '分层拆解'
+              : scaleNameZh(level,scale.name)}
         </h1>
         <div className="stage-meta">
-          <p className="eyebrow">{scale.caption}</p>
+          <p className="eyebrow">{scale.kind === 'logical' ? '逻辑架构示意' : '硬件结构示意'}</p>
           <nav className="breadcrumbs" aria-label="Component hierarchy">
             {path.length > 1 && (
               <button
@@ -66,14 +67,14 @@ export default function StageHeading({
                   aria-current={id === level ? 'page' : undefined}
                   onClick={() => onNavigate(id)}
                 >
-                  {levels[id].name}
+                  {scaleNameZh(id,levels[id].name)}
                 </button>
               </span>
             ))}
             {selected && selected.shortName !== scale.name && (
               <span>
                 <ChevronRight size={12} />
-                <span className="crumb-selected">{selected.shortName}</span>
+                <span className="crumb-selected">{conceptNameZh(selected)}</span>
               </span>
             )}
           </nav>
@@ -95,7 +96,7 @@ export default function StageHeading({
           aria-label={`${count} visible parts`}
         >
           <strong>{count}</strong>
-          <span>visible parts</span>
+          <span>个可见部件</span>
         </output>
       )}
     </section>

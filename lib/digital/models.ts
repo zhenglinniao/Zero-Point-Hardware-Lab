@@ -25,6 +25,11 @@ export function buildDigital(level: DigitalLevel, tools: ModelTools) {
     const shape = new T.Shape(); shape.moveTo(x+r,y); shape.lineTo(x+w-r,y); shape.quadraticCurveTo(x+w,y,x+w,y+r); shape.lineTo(x+w,y+h-r); shape.quadraticCurveTo(x+w,y+h,x+w-r,y+h); shape.lineTo(x+r,y+h); shape.quadraticCurveTo(x,y+h,x,y+h-r); shape.lineTo(x,y+r); shape.quadraticCurveTo(x,y,x+r,y);
     return shape;
   };
+  const plate = (size: Vec3,color:string,radius:number) => {
+    const geometry=new T.ExtrudeGeometry(roundedShape(size[0],size[2],radius),{depth:mm(size[1]),bevelEnabled:false,curveSegments:24});
+    geometry.rotateX(-Math.PI/2); geometry.translate(0,-mm(size[1])/2,0);
+    return new T.Mesh(geometry,tools.material(color,.2,.45));
+  };
   function buildPart(part: DigitalPart): T.Object3D {
     const [w,h,d] = part.size;
     const color = part.color;
@@ -49,7 +54,7 @@ export function buildDigital(level: DigitalLevel, tools: ModelTools) {
         return group;
       }
       case 'screen': {
-        const body = block(part.size, '#10181d', .25); place(group,body);
+        const body = level==='phone' ? plate(part.size,'#10181d',8) : block(part.size, '#10181d', .25); place(group,body);
         const face = new T.Mesh(new T.PlaneGeometry(mm(w*.94),mm(d*.95)), new T.MeshBasicMaterial({ color, side: T.DoubleSide })); face.rotation.x=-Math.PI/2; place(group,face,[0,h/2+.08,0]);
         for(let i=0;i<4;i++) place(group,block([w*(.55+i*.07),.05,d*.035], ['#4a6e7a','#67959b','#7eaaa4','#a2bdab'][i],0),[0,h/2+.12,d*(.1+i*.09)]);
         if(level === 'phone') place(group,block([w*.27,.12,d*.035], '#070b10', .1), [0,h/2+.18,-d*.42]);
@@ -67,7 +72,13 @@ export function buildDigital(level: DigitalLevel, tools: ModelTools) {
         const hole = new T.Path(roundedShape(w-thickness*2,d-thickness*2,Math.min(w,d)*.08).getPoints());
         shape.holes.push(hole);
         const geometry = new T.ExtrudeGeometry(shape,{depth:mm(h),bevelEnabled:false,curveSegments:16}); geometry.rotateX(-Math.PI/2); geometry.translate(0,-mm(h/2),0);
-        return new T.Mesh(geometry,tools.material(color,.6,.52));
+        const frame=new T.Mesh(geometry,tools.material(color,.6,.52));
+        if(level==='earbuds' && part.id==='case') {
+          group.add(frame);
+          place(group,plate([w-1,2,d-1],color,Math.min(w,d)*.1),[0,-h/2+1,0]);
+          return group;
+        }
+        return frame;
       }
       case 'ring': return cylinder(Math.min(w,d)/2,h,color,.55,Math.min(w,d)*.37);
       case 'lens': {
@@ -90,7 +101,7 @@ export function buildDigital(level: DigitalLevel, tools: ModelTools) {
         return group;
       }
       case 'diaphragm': {
-        const mesh = new T.Mesh(new T.SphereGeometry(mm(w*.48),40,16,0,Math.PI*2,0,Math.PI/2),tools.material(color,.55,.3)); mesh.scale.y=.12; return mesh;
+        const mesh = new T.Mesh(new T.SphereGeometry(mm(w*.48),40,16,0,Math.PI*2,0,Math.PI/2),tools.material(color,.55,.3)); mesh.scale.y=.12; group.add(mesh); return group;
       }
       case 'fins': {
         for(let i=0;i<28;i++) place(group,block([Math.max(.4,w/70),h,d],color,.85),[(i/27-.5)*w,0,0]);
@@ -140,18 +151,22 @@ export function buildDigital(level: DigitalLevel, tools: ModelTools) {
         place(group,block([w*.33,h*.7,w*.36],color,.12),[w*.16,-h*.22,d*.13]);
         place(group,cylinder(w*.18,1,'#36454b',.25),[0,h*.61,-d*.07]); return group;
       }
-      default: return block(part.size,color,.35);
+      default: return level==='phone' && part.id==='back' ? plate(part.size,color,8) : block(part.size,color,.35);
     }
   }
   for(const part of definition.parts) {
     let object: T.Object3D;
     if(part.open) {
-      object=tools.assembly(part.open);
+      const assembly=tools.assembly(part.open);
       const child=digitalDefinitions.find((entry)=>entry.id===part.open)!;
-      object.scale.setScalar(child.unit/definition.unit);
-      if(level === 'ps5' && (part.open === 'ps5board' || part.open === 'ps5cooling')) object.quaternion.setFromRotationMatrix(new T.Matrix4().makeBasis(new T.Vector3(0,0,1),new T.Vector3(1,0,0),new T.Vector3(0,1,0)));
-      if(level === 'camera' && (part.open==='camerasensor' || part.open==='cameralens')) object.rotation.x=Math.PI/2;
-      if(level==='phone' && part.open==='phonecamera') object.rotation.x=Math.PI;
+      assembly.scale.setScalar(child.unit/definition.unit);
+      if(level === 'ps5' && (part.open === 'ps5board' || part.open === 'ps5cooling')) assembly.quaternion.setFromRotationMatrix(new T.Matrix4().makeBasis(new T.Vector3(0,0,1),new T.Vector3(1,0,0),new T.Vector3(0,1,0)));
+      if(level === 'camera' && (part.open==='camerasensor' || part.open==='cameralens')) assembly.rotation.x=Math.PI/2;
+      if(level==='phone' && part.open==='phonecamera') assembly.rotation.x=Math.PI;
+      // The stage owns the selectable root's scale and quaternion during posing.
+      // Keep physical conversion inside an identity wrapper, so runtime animation
+      // cannot reset the native assembly size or installed orientation.
+      const wrapper=new T.Group(); wrapper.add(assembly); object=wrapper;
     } else {
       object=buildPart(part);
       if(level==='camera' && (part.shape==='screen' || part.shape==='shutter')) object.rotation.x=Math.PI/2;

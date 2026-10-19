@@ -17,39 +17,32 @@ export default function AboutDialog({ open, onOpenChange }: Props) {
       <DialogContent className="about-dialog">
         <DialogTitle>零点硬件实验室 · 来源与创作</DialogTitle>
         <DialogDescription>
-          中文课程首页、原创矢量示意、九个互动实验、知识检查与本地学习记录由 zln 设计实现。
-          底层 3D 几何、渲染器及英文部件资料复用 PC Anatomy（Yoseph），遵循 MIT 许可。
+          中文学习界面、数码设备模型、八条课程、二十四个互动实验与学习记录由 zln 设计实现。
+          电脑模型、渲染器及原始部件资料基于 PC Anatomy（Yoseph），遵循 MIT 许可。
         </DialogDescription>
         <p>
-          Start with an assembled ATX tower, take it apart, and keep going: into
-          the motherboard, into the graphics card, and down through the GB202
-          processor to a single streaming multiprocessor. Every scale is a
-          branch you can descend or step back out of.
+          从电脑、游戏主机、手机、相机、手柄或耳机开始，逐层拆开部件，结合中文功能导读与引用来源理解它们的分工。
+          电脑的原始英文资料可在部件面板中展开核对；中文导读是功能概述，不是逐句翻译。
         </p>
-        <h3>Two kinds of model.</h3>
+        <h3>模型与精度范围</h3>
         <p>
-          <strong>Hardware</strong> is original, approximate mechanical
-          geometry. The ATX board outline, the expansion-slot pitch and the rear
-          I/O aperture follow the published form factor. The RTX 5090, Ryzen 9
-          9950X and Core Ultra 9 285K are named subjects; everything else is a
-          representative example of its component family, not a bill of
-          materials for a particular build.
+          <strong>实体结构</strong>依据公开外形、技术规格、内部视图与构造原理制作。
+          PS5 对应 2020 原版光驱版，手机参考 iPhone 15 标准版，相机参考 α7 IV 机身功能；镜头、手柄内部与无线耳机属于明确标注的通用教学结构。
+          内部位置、组件数量和紧固细节经过简化，不是精确维修模型。
         </p>
         <p>
-          <strong>Silicon</strong> shows documented logical architecture. Exact
-          transistor-level placement is not publicly available. A full GB202 has
-          192 SMs; the RTX 5090 enables 170. GPC interiors show a representative
-          full cluster, not an invented map of disabled units.
+          <strong>逻辑架构</strong>用于解释计算资源和数据路径。
+          方块面积与位置不表示真实的晶体管制造布局；模型没有模拟电路、磁场、光学或声学性能。
         </p>
-        <h3>Research & credits</h3>
+        <h3>资料、来源与署名</h3>
         <a className="about-source" href={GUIDE_ZH}>
-          中文操作指南 · 本地复刻说明 <ArrowUpRight size={15} />
+          中文操作指南 <ArrowUpRight size={15} />
         </a>
         <a className="about-source" href={GUIDE_ACCELERATION}>
-          Browser hardware acceleration setup <ArrowUpRight size={15} />
+          浏览器图形加速设置（英文参考） <ArrowUpRight size={15} />
         </a>
         <a className="about-source" href={GUIDE}>
-          PC components: an illustrated beginner’s guide
+          原项目英文硬件指南
           <ArrowUpRight size={15} />
         </a>
         {Object.entries(sources)
@@ -72,7 +65,7 @@ export default function AboutDialog({ open, onOpenChange }: Props) {
           target="_blank"
           rel="noreferrer"
         >
-          Interaction inspiration · Human Atlas
+          原项目交互灵感 · Human Atlas
           <ArrowUpRight size={15} />
         </a>
         <a
@@ -81,12 +74,11 @@ export default function AboutDialog({ open, onOpenChange }: Props) {
           target="_blank"
           rel="noreferrer"
         >
-          PC Anatomy source code
+          PC Anatomy 原始源码与 MIT 许可
           <ArrowUpRight size={15} />
         </a>
         <p className="about-foot">
-          No affiliation with NVIDIA, AMD or Intel. No third-party model assets.
-          Research reviewed September 2026.
+          与所提及的设备厂商无隶属或背书关系。新数码模型依据公开资料自行编写几何；资料参考日期为 2026 年 10 月。
         </p>
       </DialogContent>
     </Dialog>

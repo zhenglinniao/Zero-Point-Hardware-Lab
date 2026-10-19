@@ -37,7 +37,7 @@ try {
   await click(page.getByRole('button').filter({ hasText: '追踪一个比特' }));
   await ready('dimm');
   assert.equal(await page.locator('.knowledge-check button:disabled').count(), 3);
-  await click(page.getByRole('button', { name: 'Dissection', exact: true }));
+  await click(page.locator('[data-phase="Dissection"]'));
   await page.locator('.observe-task.is-done').waitFor({ timeout: 60000 });
   await answer(0);
   assert.equal(await page.locator('.answer-feedback.correct').count(), 0);
@@ -50,7 +50,7 @@ try {
   await page.reload();
   await ready('dram');
   assert.equal(await page.locator('.lesson-coach').count(), 1, 'refresh should retain course mode and resume the incomplete step');
-  await click(page.getByRole('button', { name: 'Inventory', exact: true }));
+  await click(page.locator('[data-phase="Inventory"]'));
   await page.locator('.observe-task.is-done').waitFor({ timeout: 60000 });
   await answer(0);
   await click(page.getByRole('button', { name: '下一个实验' }));

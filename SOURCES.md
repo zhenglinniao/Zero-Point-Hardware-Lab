@@ -342,3 +342,7 @@ LCD with a mini-LED backlight; the diagram does not imply an OLED panel.
 The new sources are indexed in docs/component-references.md. Lenovo PSREF and the generation-6 Legion maintenance manual identify the 15ACH6H configuration and service assemblies. The selected 80 Wh battery and 165 Hz FHD display are options, not universal specifications for every SKU. Apple specifications and the 2021 MacBook Pro 14-inch repair manual identify the M1 Pro notebook and its assemblies. Apple’s M1 Pro architecture overview supports its CPU/GPU and unified-memory organization. NVIDIA’s Ampere tuning guide supports functional SM concepts. Arm CPU principles and Apple’s Metal programming guide support generic execution diagrams, not undocumented vendor microarchitecture. Existing DRAM, flash, NVMe, power and cooling sources support general operating principles.
 
 The two outer footprints share one physical scale for comparison. Interior positions, package and fastener populations, battery pouches and keyboard artwork are illustrative. Onboard Mac flash is not a removable M.2 SSD, unified memory is not a SO-DIMM, and notebook CPU/GPU packages are soldered. The generic DRAM views do not assert a Mac memory die topology. Issue #33 tracks these first models; #31 remains open for further M-series models.
+
+## 数码设备扩展（2026-10-19）
+
+PS5、iPhone 15 参考结构、Sony α7 IV 参考机身、通用游戏手柄与无线耳机已纳入本地目录。公开参数、功能依据与教学示意范围逐项记录在 [数码设备参考](docs/DIGITAL-DEVICES.md)。厂商页面不作为每个内部几何坐标、包封数量或零件供应商的证明。动圈、镜头和控制器内部结构明确按原理样机处理，不能冒充精确商业产品复刻。

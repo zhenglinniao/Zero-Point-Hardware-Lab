@@ -1,4 +1,5 @@
 import type { LevelId } from './levels.ts';
+import { digitalLessons } from './digital-learning.ts';
 
 export type LessonStep = {
   id: string;
@@ -48,6 +49,7 @@ export const lessons: Lesson[] = [
       { id: 'memory-cell', level: 'cell', title: '一个比特的栖身处', intro: '最后来到 DRAM 存储单元的逻辑示意。观察晶体管与电容，以及读取、写入所需的连接。', observe: '点选电容和晶体管，结合资料卡理解存储单元。', minimumOpen: 0, question: '这里为什么要区分“电容”和“晶体管”？', options: ['它们都是机箱紧固件', '它们都负责散热', '它们在保存电荷与控制访问中分工不同'], answer: 2, explanation: '典型 DRAM 单元用电容保存电荷，用晶体管控制访问。这里展示的是原理示意，不能据此推断真实晶体管布局。' },
     ],
   },
+  ...digitalLessons,
 ];
 
 export type LearningProgress = string[];

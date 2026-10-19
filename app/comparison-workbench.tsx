@@ -20,6 +20,7 @@ import {
   type ComparisonViewState,
 } from '@/lib/comparison-state';
 import { isPhysical } from '@/lib/levels';
+import { comparisonGroupZh, nameZh } from '@/lib/zh';
 import ComparisonViewer from './comparison-viewer';
 import ComparisonSpecs from './comparison-specs';
 import Disassembly from './disassembly';
@@ -95,7 +96,7 @@ export default function ComparisonWorkbench({ onExit }: Props) {
         >
           {comparisonLevels(state.group).map((option) => (
             <option key={option} value={option} disabled={option === other}>
-              {items[option]!.shortName}
+              {nameZh(items[option]!.shortName)}
             </option>
           ))}
         </select>
@@ -117,8 +118,8 @@ export default function ComparisonWorkbench({ onExit }: Props) {
         <div className="comparison-brand">
           <Cpu size={19} />
           <div>
-            <strong>Component comparison</strong>
-            <span>{group.label}</span>
+            <strong>同类硬件对比</strong>
+            <span>{comparisonGroupZh[state.group] ?? group.label}</span>
           </div>
         </div>
         <div className="comparison-top-actions">
@@ -130,11 +131,11 @@ export default function ComparisonWorkbench({ onExit }: Props) {
             }
           >
             <BarChart3 size={16} />
-            Specs
+            规格
           </button>
           <button className="comparison-exit" onClick={onExit}>
             <ChevronLeft size={17} />
-            Back to explorer
+            返回实验台
           </button>
         </div>
       </header>
@@ -148,7 +149,7 @@ export default function ComparisonWorkbench({ onExit }: Props) {
               aria-pressed={state.group === groupId}
               onClick={() => chooseGroup(groupId)}
             >
-              {comparisonGroups[groupId].label}
+              {comparisonGroupZh[groupId] ?? comparisonGroups[groupId].label}
             </button>
           ))}
         </fieldset>
@@ -160,7 +161,7 @@ export default function ComparisonWorkbench({ onExit }: Props) {
             aria-label="Swap comparison sides"
           >
             <ArrowLeftRight size={18} />
-            <span>Swap sides</span>
+            <span>交换左右</span>
           </button>
           {selector('right')}
         </div>
@@ -176,7 +177,7 @@ export default function ComparisonWorkbench({ onExit }: Props) {
               setState((current) => setComparisonActiveSide(current, side))
             }
           >
-            {side === 'left' ? 'A · Left' : 'B · Right'}
+            {side === 'left' ? 'A · 左侧' : 'B · 右侧'}
           </button>
         ))}
       </fieldset>
@@ -201,7 +202,7 @@ export default function ComparisonWorkbench({ onExit }: Props) {
       </div>
       {count !== null && (
         <div className="comparison-count" aria-hidden="true">
-          <strong>{count}</strong> parts across pair
+          <strong>{count}</strong> 个组件（两侧合计）
         </div>
       )}
 
@@ -214,7 +215,7 @@ export default function ComparisonWorkbench({ onExit }: Props) {
         onSetExplode={setExplode}
         onReset={reset}
         sectionLabel="Shared disassembly control"
-        title={logical ? 'Expand both' : 'Disassemble both'}
+        title={logical ? '同步展开' : '同步拆解'}
         sliderLabel={`${logical ? 'Expand' : 'Disassemble'} both ${group.label.toLowerCase()}`}
         valueText={`${Math.round(state.explode)} percent for both ${group.label.toLowerCase()}`}
       />

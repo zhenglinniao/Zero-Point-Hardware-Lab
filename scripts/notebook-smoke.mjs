@@ -46,7 +46,7 @@ try {
   };
   const phase = async (name, level, amount) => {
     await page
-      .getByRole('button', { name, exact: true })
+      .locator(`[data-phase="${name}"]`)
       .evaluate((button) => button.click());
     await ready(level, amount);
   };
@@ -59,7 +59,7 @@ try {
       .getByRole('button', { name: label, exact: true })
       .evaluate((button) => button.click());
     await page
-      .getByRole('button', { name: new RegExp('^Take apart ') })
+      .getByRole('button', { name: new RegExp('^继续拆解 ') })
       .evaluate((button) => button.click());
     await ready(destination);
   };
@@ -70,11 +70,11 @@ try {
   await capture('legion-exploded');
   await phase('Inventory', 'legion', 100);
   await capture('legion-inventory');
-  await openFromTray('Legion system board', 'legionboard');
+  await openFromTray('笔记本系统主板', 'legionboard');
   await phase('Inventory', 'legionboard', 100);
-  await openFromTray('DDR4 SO-DIMM', 'legionmemory');
+  await openFromTray('DDR4 SO-DIMM 内存', 'legionmemory');
   await phase('Inventory', 'legionmemory', 100);
-  await openFromTray('DDR4 FBGA packages', 'legionpackage');
+  await openFromTray('笔记本 DRAM 封装', 'legionpackage');
   await phase('Dissection', 'legionpackage', 50);
   await capture('legion-package-exploded');
   console.log('Switching to Mac');
@@ -93,10 +93,10 @@ try {
   assert.equal(new URL(page.url()).searchParams.get('scale'), 'macbook');
   console.log('Comparing both laptops');
   await page
-    .getByRole('button', { name: 'Compare components' })
+    .locator('.compare-button')
     .evaluate((button) => button.click());
   await page
-    .getByRole('button', { name: 'Laptops', exact: true })
+    .getByRole('button', { name: '笔记本电脑', exact: true })
     .evaluate((button) => button.click());
   await page.waitForFunction(
     () =>
@@ -112,12 +112,12 @@ try {
       'macbook:legion',
   );
   await page
-    .getByRole('button', { name: 'Back to explorer' })
+    .getByRole('button', { name: '返回实验台' })
     .evaluate((button) => button.click());
   console.log('Checking the existing desktop explorer');
   await page
     .locator('.system-picker button')
-    .filter({ hasText: 'Desktop PC' })
+    .filter({ hasText: '台式电脑' })
     .evaluate((button) => button.click());
   await ready('pc');
   await capture('pc-assembled');
@@ -148,7 +148,7 @@ try {
     .evaluate((button) => button.click());
   await page
     .locator('.system-picker button')
-    .filter({ hasText: 'Laptops' })
+    .filter({ hasText: 'Legion' })
     .evaluate((button) => button.click());
   await ready('legion');
   await capture('legion-mobile');

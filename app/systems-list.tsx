@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { ChevronDown } from 'lucide-react';
 import { Switch } from '@/components/ui/switch';
 import { categories, colors, manifest, type Category } from '@/lib/manifest';
+import { categoryZh, conceptNameZh } from '@/lib/zh';
 
 type Props = {
   level: LevelId;
@@ -34,9 +35,9 @@ export default function SystemsList({
   return (
     <div className="systems-section">
       <div className="section-heading">
-        VISIBLE SYSTEMS{' '}
+        可见子系统{' '}
         <button onClick={onToggleAll}>
-          {visible.length === categories.length ? 'Hide all' : 'Show all'}
+          {visible.length === categories.length ? '全部隐藏' : '全部显示'}
         </button>
       </div>
       <div className="layer-scroll">
@@ -52,8 +53,8 @@ export default function SystemsList({
                 onClick={() => onToggleCategory(category)}
               >
                 <i style={{ background: colors[category] }} />
-                <span>{category}</span>
-                <small>{visible.includes(category) ? 'On' : 'Off'}</small>
+                <span>{categoryZh[category]}</span>
+                <small>{visible.includes(category) ? '开' : '关'}</small>
               </button>
               <button
                 className="category-expand"
@@ -82,7 +83,7 @@ export default function SystemsList({
                   .map((c) => (
                     <div key={c.id}>
                       <button onClick={() => onSelectConcept(c.id)}>
-                        {c.shortName}
+                        {conceptNameZh(c)}
                       </button>
                       <Switch
                         size="sm"
