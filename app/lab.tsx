@@ -42,7 +42,6 @@ export default function Lab({ lessonId, progress, saved, onComplete, onHome, onF
   const { goTo } = explorer;
   useEffect(() => {
     if (step) {
-      setCount(null);
       goTo({ level: step.level, selection: null, explode: 0 });
     }
   }, [step, goTo]);
@@ -133,7 +132,7 @@ export default function Lab({ lessonId, progress, saved, onComplete, onHome, onF
         className={'explorer' + (layers ? ' mobile-open' : '')}
         aria-label="System visibility"
       >
-        {lesson ? <LessonCoach key={step?.id} lesson={lesson} index={stepIndex} progress={progress} state={state} ready={count !== null && count > 0} saved={saved} onComplete={onComplete} onStep={(index) => { setStepIndex(index); explorer.setLayers(false); }} onRestore={() => step && goTo({ level: step.level, selection: null, explode: 0 })} onHome={onHome} /> : <><ScaleNav
+        {lesson ? <LessonCoach key={step?.id} lesson={lesson} index={stepIndex} progress={progress} state={state} ready={count !== null && count > 0} saved={saved} onComplete={onComplete} onStep={(index) => { if (index !== stepIndex) { setCount(null); setStepIndex(index); } explorer.setLayers(false); }} onRestore={() => step && goTo({ level: step.level, selection: null, explode: 0 })} onHome={onHome} /> : <><ScaleNav
           level={state.level}
           shownMenu={explorer.shownMenu}
           shownSubmenu={explorer.shownSubmenu}

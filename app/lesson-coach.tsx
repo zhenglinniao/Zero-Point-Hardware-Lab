@@ -31,7 +31,7 @@ export default function LessonCoach({ lesson, index, progress, state, ready, sav
       <div className={`observe-task ${observed ? 'is-done' : ''}`}><div>{observed ? <CheckCircle2 size={17} /> : <Eye size={17} />}<strong>{observed ? '观察条件已达成' : '动手观察'}</strong></div><p>{step.observe}</p>{state.level !== step.level && <button onClick={onRestore}><RotateCcw size={13} />回到本实验模型</button>}</div>
       <fieldset className="knowledge-check"><legend>想一想 · {step.question}</legend>{step.options.map((option, i) => <button key={option} className={answer === i ? (correct ? 'answer-correct' : 'answer-wrong') : ''} aria-pressed={answer === i} disabled={!observed} onClick={() => { setAnswer(i); if (i === step.answer) onComplete(step.id); }}><span>{answer === i && correct ? <Check size={13} /> : String.fromCharCode(65 + i)}</span>{option}</button>)}</fieldset>
       {!observed && <p className="coach-hint">先完成上方观察，知识检查就会解锁。</p>}
-      {answer !== null && <div className={`answer-feedback ${correct ? 'correct' : ''}`} role="status"><strong>{correct ? '理解到位！' : '再观察一下。'}</strong><p>{correct ? step.explanation : '可以继续旋转或点选模型，读一读部件资料，再试一次。'}</p></div>}
+      {answer !== null && <div className={`answer-feedback ${correct ? 'correct' : ''}`} aria-live="polite" aria-atomic="true"><strong>{correct ? '理解到位！' : '再观察一下。'}</strong><p>{correct ? step.explanation : '可以继续旋转或点选模型，读一读部件资料，再试一次。'}</p></div>}
       {completed && answer === null && <p className="completed-note"><CheckCircle2 size={15} />这一步已完成，可以再次答题复习。</p>}
       {allDone && <div className="lesson-finished"><CheckCircle2 size={21} /><strong>这条路径，你已经拆懂了。</strong><p>回到首页，继续探索下一个主题。</p></div>}
     </div>

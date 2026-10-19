@@ -1,15 +1,15 @@
 {
-  "name": "pc-anatomy",
+  "name": "zero-point-hardware-lab",
   "version": "0.1.0",
   "private": false,
-  "description": "An interactive 3D explorer of a desktop computer, from an assembled ATX tower to a single streaming multiprocessor.",
+  "description": "中文交互式 3D 硬件学习实验室：电脑、PS5、手机、相机、手柄与无线耳机拆解，八条课程与二十四个实验。",
   "license": "MIT",
-  "author": "Yoseph",
+  "author": "zln <zhenglinniao1417@gmail.com>",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Yoosseph/pc-anatomy.git"
+    "url": "git+https://github.com/zhenglinniao/Zero-Point-Hardware-Lab.git"
   },
-  "homepage": "https://github.com/Yoosseph/pc-anatomy#readme",
+  "homepage": "https://zero-point-hardware-lab.vercel.app/",
   "keywords": [
     "computer-hardware",
     "three.js",
@@ -57,5 +57,8 @@
     "typescript": "5.9.3",
     "vite": "8.0.13"
   },
-  "type": "module"
+  "type": "module",
+  "contributors": [
+    "Yoseph (upstream PC Anatomy, MIT)"
+  ]
 }

@@ -11,7 +11,7 @@
 
 ## 提交策略
 
-每个节点完成后提交；较长节点中形成可运行结果时追加提交。用户已澄清只需本地 Git，zln 是作者名：`zln <zhenglinniao1417@gmail.com>`。只设置仓库局部配置，不配置远程、不推送。此前两笔本地提交已统一修正作者。
+每个节点完成后提交；较长节点中形成可运行结果时追加提交。zln 是作者名：`zln <zhenglinniao1417@gmail.com>`，使用仓库局部配置。初始阶段仅本地提交；2026-10-19 用户明确要求推送至指定 GitHub 仓库并部署 Vercel，发布阶段按该授权执行。此前两笔本地提交已统一修正作者。
 
 ## 来源
 
@@ -57,3 +57,15 @@
 6. [x] 最终 120 项测试、构建与体积检查通过；新数码设备、原有学习流程和笔记本/对比浏览器回归通过；代表性截图已保存，见 VALIDATION.md。
 
 新设备不冒充精确维修模型，且不将通用耳机、镜头或手柄结构冒充特定商业型号的内部物料清单。详细来源和范围见 DIGITAL-DEVICES.md。
+
+
+## 发布节点 · 2026-10-19
+
+- [x] 将保留分节点历史的 main 推送到 https://github.com/zhenglinniao/Zero-Point-Hardware-Lab 。
+- [x] 创建 Vercel 项目 zero-point-hardware-lab，云端生产构建 READY，正式域名 https://zero-point-hardware-lab.vercel.app/ 返回 HTTP 200。
+- [x] 连接 GitHub 仓库与 Vercel，后续推送触发自动部署。
+- [x] 重写中文 README：在线入口、设备矩阵、真实截图、启动、验证、部署与明确的上游许可和原创范围。
+- [x] 更新包名、作者和仓库信息；迁移 sitemap、robots、首页与指南站点地址，重新生成 sitemap。
+- [x] 发布配置变更后 120 项测试、生产构建与体积预算检查通过。
+
+部署凭证、Vercel 项目连接信息与本地环境文件由 .gitignore 排除，不提交仓库。

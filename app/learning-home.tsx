@@ -15,6 +15,7 @@ type Props = {
 /** An authored vector diagram, separate from the upstream 3D geometry. */
 function ExplodedBoard({ open }: { open: boolean }) {
   return (
+    // oxlint-disable-next-line jsx-a11y/prefer-tag-over-role -- Inline SVG keeps its editable geometry and accessible title/description.
     <svg viewBox="0 0 620 450" role="img" aria-labelledby="board-title board-description" className={open ? 'learning-diagram is-open' : 'learning-diagram'}>
       <title id="board-title">处理器与主板的分层结构示意</title>
       <desc id="board-description">原创矢量示意图：橙色处理器、封装基板与下方的主板，可切换装配与分层视图。</desc>
@@ -61,7 +62,7 @@ export default function LearningHome({ progress, onStart, onReset, onExplore }: 
   return (
     <main className="learning-home">
       <aside className="academy-rail">
-        <a href="#" className="academy-logo" aria-label="零点硬件实验室首页"><span>z<span>·</span></span><strong>零点<br />硬件实验室</strong></a>
+        <a href="/" className="academy-logo" aria-label="零点硬件实验室首页"><span>z<span>·</span></span><strong>零点<br />硬件实验室</strong></a>
         <div className="rail-section">WORKSPACE / 工作空间</div>
         <a className="rail-item active" href="#devices"><Box size={18} />数码设备<span>{String(devices.length).padStart(2,'0')}</span></a>
         <a className="rail-item" href="#courses"><BookOpen size={18} />实验课程<span>{String(lessons.length).padStart(2,'0')}</span></a>
@@ -85,7 +86,7 @@ export default function LearningHome({ progress, onStart, onReset, onExplore }: 
             return <button className={`course-card ${lesson.color}`} key={lesson.id} onClick={() => onStart(lesson.id)}><div className="course-card-top"><span className="course-number">实验 / {lesson.number}</span><span className="course-icon"><Icon size={27} strokeWidth={1.3} /></span></div><span className="course-tag">{lesson.tag}</span><h3>{lesson.title}</h3><p>{lesson.subtitle}</p><div className="course-footer"><span>{done === lesson.steps.length ? <><Check size={14} />已完成 · 可复习</> : `${done} / ${lesson.steps.length} 个实验`}</span><ArrowRight size={19} /></div><span className="course-progress" style={{ width: `${done / lesson.steps.length * 100}%` }} /></button>;
           })}</div>
         </section>
-        <section className="learning-journal" aria-label="学习进度"><div className="journal-symbol"><BookOpen size={22} /></div><div><h2>每拆懂一点，都算数。</h2><p>完成观察与知识检查后，实验记录会留在这里。</p></div><div className="journal-total"><strong>{String(progress.length).padStart(2, '0')}</strong><span>/ {String(total).padStart(2, '0')} 实验完成</span></div><div className="journal-track" role="progressbar" aria-label="总学习进度" aria-valuemin={0} aria-valuemax={total} aria-valuenow={progress.length}><span style={{ width: `${progress.length / total * 100}%` }} /></div></section>
+        <section className="learning-journal" aria-label="学习进度"><div className="journal-symbol"><BookOpen size={22} /></div><div><h2>每拆懂一点，都算数。</h2><p>完成观察与知识检查后，实验记录会留在这里。</p></div><div className="journal-total"><strong>{String(progress.length).padStart(2, '0')}</strong><span>/ {String(total).padStart(2, '0')} 实验完成</span></div><progress className="journal-track" aria-label="总学习进度" max={total} value={progress.length} /></section>
         <footer className="academy-footer"><span>零点硬件实验室 / 通过探索理解技术</span>{resetConfirm ? <span className="reset-confirm">清除这台浏览器的学习进度？<button onClick={() => { onReset(); setResetConfirm(false); }}>确认清除</button><button onClick={() => setResetConfirm(false)}>取消</button></span> : <button onClick={() => setResetConfirm(true)} disabled={!progress.length}><RotateCcw size={12} />重置学习记录</button>}<a href="https://github.com/Yoosseph/pc-anatomy" target="_blank" rel="noreferrer">模型来源与 MIT 许可<Maximize2 size={12} /></a></footer>
       </div>
     </main>

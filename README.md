@@ -1,65 +1,126 @@
 # 零点硬件实验室
 
-一个以「观察 → 拆解 → 理解」为核心的中文硬件学习应用。首页、原创矢量结构示意、八条课程、二十四个实验、知识检查与学习记录由 zln 设计实现
+**Zero Point Hardware Lab · 拆开，才能看懂。**
 
+一个面向硬件爱好者的中文交互式 3D 学习应用。从电脑到 PS5、手机、相机、手柄与无线耳机，通过「观察 → 拆解 → 理解」认识设备内部的结构与协作。
 
-## 数码设备库
+[在线体验](https://zero-point-hardware-lab.vercel.app/) · [中文指南](https://zero-point-hardware-lab.vercel.app/guide/zh-CN.html) · [建模范围](docs/DIGITAL-DEVICES.md) · [验证记录](docs/VALIDATION.md)
 
-首页可按电脑、游戏、移动、影像和音频分类筛选，共 8 台参考设备。新增的 5 类设备都能装配、分层拆解、查看零件清单、选择部件和进入子层级。
+![中文设备库与学习路径](docs/screenshots/digital-library.png)
 
-| 新增设备 | 直接打开 | 深入层级 |
+## 可以探索什么
+
+**8 台参考设备 · 82 个探索层级 · 699 条部件资料 · 8 条学习路径 · 24 个互动实验**
+
+| 设备 | 探索内容 | 打开模型 |
 | --- | --- | --- |
-| PlayStation 5 | /?scale=ps5 | 主板、散热系统 |
-| iPhone 15 参考结构 | /?scale=phone | 逻辑板、双摄模组 |
-| Sony α7 IV 参考结构 | /?scale=camera | 传感器与防抖、通用镜头原理 |
-| 双摇杆手柄 | /?scale=gamepad | 输入与控制电路 |
-| 无线耳机原理样机 | /?scale=earbuds | 耳机内部、动圈单元 |
+| 台式电脑 | 机箱、主板、CPU、GPU、内存、存储与芯片层级 | [台式机](https://zero-point-hardware-lab.vercel.app/?scale=pc) |
+| Legion 游戏本 | 整机布局、主板、可更换内存与封装 | [Legion](https://zero-point-hardware-lab.vercel.app/?scale=legion) |
+| MacBook | 紧凑主板、集成芯片与散热布局 | [MacBook](https://zero-point-hardware-lab.vercel.app/?scale=macbook) |
+| PlayStation 5 | 原版光驱机参考结构、主板与散热系统 | [PS5](https://zero-point-hardware-lab.vercel.app/?scale=ps5) |
+| iPhone 15 参考结构 | 屏幕、电池、逻辑板与双摄模组 | [手机](https://zero-point-hardware-lab.vercel.app/?scale=phone) |
+| Sony α7 IV 参考结构 | 机身、传感器防抖与通用镜头原理 | [相机](https://zero-point-hardware-lab.vercel.app/?scale=camera) |
+| 双摇杆手柄 | 输入机构、控制电路与反馈模块 | [手柄](https://zero-point-hardware-lab.vercel.app/?scale=gamepad) |
+| 无线耳机原理样机 | 充电盒、耳机内部与动圈单元 | [耳机](https://zero-point-hardware-lab.vercel.app/?scale=earbuds) |
 
-新增课程链接为 `/?lesson=console`、`mobile`、`imaging`、`interaction`、`audio`（均通过 lesson 参数）。每条路径含 3 个实验，与原有课程共同构成 8 条路径、24 个实验。
+这些是帮助理解结构与功能的教学模型，不是精确维修图、完整物料清单或真实性能模拟。具体型号参考与通用原理模型的范围见[设备参考](docs/DIGITAL-DEVICES.md)。
 
-部件面板默认展示**中文功能导读**，原有电脑资料保留英文原文与原始规格，方便核对。新数码设备描述直接使用中文编写；中文搜索也支持「手机」「相机」「电池」等设备或部件词。运行时无需翻译接口或 API 密钥。
+## 不只是看模型
 
-这些模型解释结构与功能，不是精确维修图、完整物料清单或性能模拟器。具体参考与局限见 [数码设备参考](docs/DIGITAL-DEVICES.md)。
-## 启动
+- **自由拆解**：旋转、缩放、连续拆解与零件清单，支持选择、隐藏、隔离、聚焦、层级深入和对比。
+- **中文导读**：默认展示中文功能说明；原有电脑资料保留可展开的英文原文和原始规格，便于核对。
+- **带任务的学习**：每条路径包含 3 个实验。到达指定层级并满足拆解要求后解锁知识检查，答错可重试，答对记录完成。
+- **随时继续**：当前浏览器保存进度，支持继续未完成实验、复习与重置。无需账号或翻译 API。
+- **分享具体位置**：用 `?scale=phone&open=60` 分享模型与拆解进度；用 `?lesson=mobile` 进入手机课程。
+- **响应式工作台**：中文设备分类、学习日志、独立滚动面板与手机任务抽屉。
 
-需要 Node.js 22.13 或更新版本，在项目目录运行：
+![PS5 分层拆解](docs/screenshots/ps5-dissection.png)
 
-```powershell
+<details>
+<summary>更多预览：手机中文部件说明与相机拆解</summary>
+
+![手机中文部件说明](docs/screenshots/phone-chinese-detail.png)
+
+![相机拆解](docs/screenshots/camera-dissection.png)
+
+</details>
+
+## 本地运行
+
+需要 **Node.js 22.13+**（已使用 Node.js 24 验证）、npm，以及支持 WebGL 的现代浏览器。
+
+```bash
+git clone https://github.com/zhenglinniao/Zero-Point-Hardware-Lab.git
+cd Zero-Point-Hardware-Lab
 npm ci
 npm run dev
 ```
 
-打开终端地址的根路径（默认 http://127.0.0.1:5173/），看到新的中文学习台。`npm run build` 生成 dist/，`npm start` 启动生产预览。浏览器需支持 WebGL，推荐开启图形加速。
+打开终端显示的地址，通常为 `http://localhost:5173/`。
 
-## 原创学习体验
+```bash
+npm run build   # TypeScript 检查并生成 dist/
+npm start       # 预览生产构建，默认 http://127.0.0.1:4173/
+```
 
-- **学习台**：米白、墨绿与橙色视觉，原创可展开的处理器 / 主板 SVG 示意，课程选择与学习日志。
-- **一台电脑的协作**：机箱 → 主板 → NVMe，从系统空间组织理解分工。
-- **像素背后的工厂**：显卡 → GPU 架构 → SM，区分物理结构和逻辑组织。
-- **追踪一个比特**：内存模组 → 封装 → 存储单元，逐层建立尺度概念。
-- **互动实验**：依据模型层级和拆解进度解锁知识检查，答错可重试，答对才记录完成；不冒充眼动或阅读检测。
-- **学习记录**：保存在当前浏览器，支持复习、继续未完成实验、确认后重置。存储损坏时安全恢复，存储禁用时提示仅暂存当前页面。
-- **响应式工作台**：独立滚动的任务面板、始终可见的下一步按钮、手机任务抽屉。
+纯静态前端，无服务端、数据库或运行所需的 API 密钥。学习记录保存在当前浏览器，不会跨设备同步。
 
-课程链接：`/?lesson=inside`、`/?lesson=graphics`、`/?lesson=memory`。刷新恢复到该路径第一个未完成的实验。打开 `/?scale=sm` 等原有模型链接会进入自由拆解；原有电脑内容与对比功能保留，现合计 82 个探索层级、699 条部件资料。
+## 技术与目录
 
-电脑模型与渲染器复用原项目；PS5、手机、相机、手柄与耳机的教学几何、部件目录和课程由本项目新增。型号、原理样机与精度范围见 [数码设备参考](docs/DIGITAL-DEVICES.md)。更详细的版权和技术资料见 [LICENSE](LICENSE)、[SOURCES.md](SOURCES.md)、[原始 README](docs/UPSTREAM_README.md)。
+React 19 · TypeScript · Three.js · Vite 8 · Tailwind CSS 4 · Node.js Test Runner · Playwright
+
+```text
+app/                   中文学习台、课程任务与拆解工作台
+lib/digital/           新增数码设备目录与程序化 3D 几何
+lib/learning.ts        学习路径、知识检查与进度校验
+lib/zh.ts              离线中文术语与功能导读
+lib/                   硬件目录、层级定义与渲染逻辑
+public/guide/          静态使用指南
+tests/                 逻辑、目录、模型边界与链接测试
+scripts/               浏览器验收、体积检查与目录生成工具
+docs/                  参考来源、开发记录、截图与验证记录
+```
+
+架构见 [ARCHITECTURE.md](ARCHITECTURE.md)，开发节点见 [docs/DEVELOPMENT.md](docs/DEVELOPMENT.md)。
 
 ## 验证
 
-```powershell
+```bash
 npm run check
 npm test
 npm run build
 npm run size
+```
+
+已通过 **120 项测试**。另提供浏览器验收，覆盖学习流程、进度持久化、新设备拆解、部件交互与移动布局。先运行生产预览，再在另一个终端执行：
+
+```bash
 node scripts/learning-smoke.mjs
 node --experimental-strip-types scripts/digital-smoke.mjs
 ```
 
-浏览器脚本默认连接 http://127.0.0.1:4173/ ，运行前执行 `npm start`。默认使用 Windows Edge；其他环境通过 BROWSER_EXECUTABLE 指定浏览器，NOTEBOOK_BASE_URL 指定地址。截图写入被忽略的 output/playwright/learning/。验证范围见 [验证记录](docs/VALIDATION.md)。
+脚本默认使用 Windows Edge、连接 `http://127.0.0.1:4173/`。其他环境用 `BROWSER_EXECUTABLE` 指定浏览器路径、`NOTEBOOK_BASE_URL` 指定站点。完整覆盖范围和局限见[验证记录](docs/VALIDATION.md)。
 
-## 部署与维护
+## 部署
 
-静态应用，无服务端与 API 密钥。上传整个 dist/ 到网站根路径即可；保留 guide/ 的静态页面。已提供 Vercel 和 Netlify 配置。子路径部署需单独调整 Vite base 与静态链接。
+生产站点部署于 [Vercel](https://zero-point-hardware-lab.vercel.app/)，已连接本 GitHub 仓库，推送触发自动部署。仓库包含 `vercel.json`，构建命令为 `npm run build`，输出目录为 `dist`。也可将 `dist/` 部署到其他静态托管服务的网站根路径。
 
-当前没有远程仓库、不推送、不发布；所有节点提交到本地 main，作者为 `zln <zhenglinniao1417@gmail.com>`。上游版本 ace99de7956f741b6bdb70de56d5dc4b4aafb7ae。变更记录见 [开发记录](docs/DEVELOPMENT.md)，架构见 [ARCHITECTURE.md](ARCHITECTURE.md)。继承的英文指南、sitemap 和 robots.txt 仍含上游域名；独立域名发布前需统一更新。新的首页不会使用上游 canonical 或社交站点身份。
+使用 Vercel CLI 更新部署：
+
+```bash
+npx vercel login
+npx vercel link
+npx vercel --prod
+```
+
+更换域名时，请统一修改首页、指南、`public/robots.txt` 和 `scripts/sitemap-urls.ts` 中的站点地址，然后运行 `node --experimental-strip-types scripts/generate-sitemap.mjs`。子路径部署还需调整 Vite `base` 与静态链接。
+
+## 来源、原创扩展与许可
+
+本项目基于 Yoseph 的 MIT 开源项目 [PC Anatomy](https://github.com/Yoosseph/pc-anatomy)，复用其电脑模型、渲染器及相关资料；上游快照为 `ace99de7956f741b6bdb70de56d5dc4b4aafb7ae`。
+
+zln 在此基础上设计实现中文学习台、原创 SVG 结构示意、课程与知识检查、学习记录，以及 PS5、手机、相机、手柄和耳机的程序化教学几何、部件目录与课程。中文功能导读属于解释性整理，原有英文资料与数值规格保留以供核对。
+
+硬件参考与厂商资料见 [SOURCES.md](SOURCES.md) 和[数码设备参考](docs/DIGITAL-DEVICES.md)。产品名称与商标归其各自权利人所有，本项目不代表厂商官方产品。
+
+代码采用 [MIT License](LICENSE)，保留原作者版权声明。[原始 README](docs/UPSTREAM_README.md) 一并保留。

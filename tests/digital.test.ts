@@ -14,13 +14,13 @@ globalThis.document = { createElement: () => ({ width:0, height:0, getContext: (
 const models = new Map(digitalDefinitions.map((definition)=>[definition.id,buildModel(definition.id)]));
 after(()=>{ models.forEach(disposeModelResources); globalThis.document=oldDocument; });
 
-test('the device library exposes every independent system exactly once',()=>{
+await test('the device library exposes every independent system exactly once',()=>{
   assert.deepEqual(new Set(devices.map((device)=>device.level)),new Set(systemRoots));
   assert.equal(devices.length,new Set(devices.map((device)=>device.level)).size);
   assert.equal(digitalRoots.length,5);
   assert.equal(Object.keys(digitalLevels).length,14);
 });
-test('every digital scale has native selectable geometry, Chinese descriptions and a reversible owner',()=>{
+await test('every digital scale has native selectable geometry, Chinese descriptions and a reversible owner',()=>{
   for(const definition of digitalDefinitions) {
     const model=models.get(definition.id)!;
     assert.equal(model.pieces.length,definition.parts.length,definition.id);
@@ -37,7 +37,7 @@ test('every digital scale has native selectable geometry, Chinese descriptions a
     }
   }
 });
-test('nested digital assemblies retain native millimetre proportions under uniform scaling',()=>{
+await test('nested digital assemblies retain native millimetre proportions under uniform scaling',()=>{
   for(const parent of digitalDefinitions) for(const part of parent.parts.filter((item)=>item.open)) {
     const piece=models.get(parent.id)!.pieces.find((item)=>item.concept===part.open)!;
     const child=digitalDefinitions.find((item)=>item.id===part.open)!;
@@ -53,7 +53,7 @@ test('nested digital assemblies retain native millimetre proportions under unifo
     assert.ok(expected.distanceTo(actual)<1e-6,part.open);
   }
 });
-test('runtime posing cannot erase native conversion or installed rotation',()=>{
+await test('runtime posing cannot erase native conversion or installed rotation',()=>{
   for(const definition of digitalDefinitions) {
     const model=models.get(definition.id)!;
     prepareModelInventory(model,definition.id,1.5);
@@ -72,7 +72,7 @@ test('runtime posing cannot erase native conversion or installed rotation',()=>{
     }
   }
 });
-test('all digital assembly, dissection and inventory bounds remain finite and populated',()=>{
+await test('all digital assembly, dissection and inventory bounds remain finite and populated',()=>{
   for(const [id,model] of models) {
     prepareModelInventory(model,id,1.5);
     for(const explode of [0,.5,1]) {
@@ -82,14 +82,14 @@ test('all digital assembly, dissection and inventory bounds remain finite and po
     }
   }
 });
-test('PS5 board, cooling, fan, power and disc drive occupy separate installed regions',()=>{
+await test('PS5 board, cooling, fan, power and disc drive occupy separate installed regions',()=>{
   const model=models.get('ps5')!;
   const boxes=['ps5board','ps5cooling','ps5-fan','ps5-power','ps5-drive'].map((id)=>({id,box:new T.Box3().setFromObject(model.pieces.find((piece)=>piece.concept===id)!.object)}));
   for(let a=0;a<boxes.length;a++) for(let b=a+1;b<boxes.length;b++) {
     assert.ok(!boxes[a].box.intersectsBox(boxes[b].box),`${boxes[a].id} intersects ${boxes[b].id}`);
   }
 });
-test('earbuds fit below the closed case lid and phone battery clears its logic board',()=>{
+await test('earbuds fit below the closed case lid and phone battery clears its logic board',()=>{
   const model=models.get('earbuds')!;
   const lid=new T.Box3().setFromObject(model.pieces.find((piece)=>piece.concept==='earbuds-lid')!.object);
   for(const id of ['earbuds-left','earbudunit']) {
@@ -102,7 +102,7 @@ test('earbuds fit below the closed case lid and phone battery clears its logic b
   const board=new T.Box3().setFromObject(phone.pieces.find((piece)=>piece.concept==='phoneboard')!.object);
   assert.ok(!battery.intersectsBox(board));
 });
-test('Chinese reading summaries cover every inherited and new component without replacing source data',()=>{
+await test('Chinese reading summaries cover every inherited and new component without replacing source data',()=>{
   for(const concept of manifest) {
     const original=concept.description;
     const intro=chineseIntro(concept);

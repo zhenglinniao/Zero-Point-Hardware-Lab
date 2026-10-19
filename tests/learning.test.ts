@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { lessons, lessonFromSearch, resumeStep, sanitizeProgress } from '../lib/learning.ts';
 import { levels, isPhysical } from '../lib/levels.ts';
 
-test('learning paths refer to existing models and valid interaction conditions', () => {
+await test('learning paths refer to existing models and valid interaction conditions', () => {
   const ids = lessons.flatMap((lesson) => lesson.steps.map((step) => step.id));
   assert.equal(ids.length, new Set(ids).size);
   for (const lesson of lessons) for (const step of lesson.steps) {
@@ -15,14 +15,14 @@ test('learning paths refer to existing models and valid interaction conditions',
   }
 });
 
-test('saved progress rejects corrupt values, duplicates and unknown future steps', () => {
+await test('saved progress rejects corrupt values, duplicates and unknown future steps', () => {
   const id = lessons[0].steps[0].id;
   assert.deepEqual(sanitizeProgress(null), []);
   assert.deepEqual(sanitizeProgress({ completed: true }), []);
   assert.deepEqual(sanitizeProgress([id, id, null, 3, 'unknown']), [id]);
 });
 
-test('resume finds the first incomplete step, regardless of out-of-order exploration', () => {
+await test('resume finds the first incomplete step, regardless of out-of-order exploration', () => {
   const lesson = lessons[0];
   assert.equal(resumeStep(lesson, []), 0);
   assert.equal(resumeStep(lesson, [lesson.steps[2].id]), 0);
@@ -30,7 +30,7 @@ test('resume finds the first incomplete step, regardless of out-of-order explora
   assert.equal(resumeStep(lesson, lesson.steps.map((step) => step.id)), 0);
 });
 
-test('course links only accept known paths and can coexist with model links', () => {
+await test('course links only accept known paths and can coexist with model links', () => {
   assert.equal(lessonFromSearch('?lesson=memory')?.id, 'memory');
   assert.equal(lessonFromSearch('?scale=dram&lesson=memory')?.id, 'memory');
   assert.equal(lessonFromSearch('?lesson=unknown'), undefined);

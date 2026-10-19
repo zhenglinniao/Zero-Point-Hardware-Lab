@@ -2,7 +2,7 @@ import { isLevelRoot, manifest } from '../lib/manifest.ts';
 import { levelIds } from '../lib/levels.ts';
 import { placeToSearch } from '../lib/deep-link.ts';
 
-export const SITE = 'https://pc-anatomy.com/';
+export const SITE = 'https://zero-point-hardware-lab.vercel.app/';
 
 /**
  * Every address worth a search result: the site, the guide, each scale, and

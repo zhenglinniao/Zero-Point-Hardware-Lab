@@ -2,6 +2,14 @@
 
 日期：2026-10-19（Asia/Shanghai）。环境：Windows，Node.js v24.20.0，npm 11.19.0。
 
+## 发布检查 · GitHub 与 Vercel
+
+- `npm run lint`：通过。修复测试中未等待的 Promise、首页锚点、进度语义与课程状态同步；内联 SVG 的图像角色保留并注明局部规则例外。
+- `npm test`：120 / 120 通过；`npm run build`：类型检查与生产构建通过；`npm run size`：入口约 72.2 KiB gzip，通过原预算。
+- `node scripts/learning-smoke.mjs`：语义进度条与课程切换修复后重新通过，无 pageerror。
+- Vercel 首次云端构建 READY，正式域名首页 HTTP 200；GitHub 与 Vercel 仓库连接成功。
+- 首页、英文指南、robots 和 sitemap 已使用正式域名，README 包含实际截图、操作入口与来源说明。
+
 ## 当前版本：中文介绍与多设备扩展
 
 | 检查 | 最终结果 |

@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://pc-anatomy.com/sitemap.xml
+Sitemap: https://zero-point-hardware-lab.vercel.app/sitemap.xml
