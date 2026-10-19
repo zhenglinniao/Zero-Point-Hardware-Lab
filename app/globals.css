@@ -1,0 +1,21 @@
+@import 'tailwindcss';
+@import './workbench.css';
+@custom-variant dark (&:is(.dark *));
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: #15212a;
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-input: #33485a;
+  --color-ring: #82c8d5;
+  --color-border: #344c5e;
+  --color-popover: #182633;
+  --color-popover-foreground: #e5edf4;
+  --color-accent: #2d4253;
+  --color-accent-foreground: #e5edf4;
+  --font-sans: 'Segoe UI', Arial, sans-serif;
+  --font-heading: var(--font-sans);
+  --radius-lg: 8px;
+}

@@ -1,0 +1,596 @@
+# PC Anatomy — architecture
+
+## Notebook systems and the scale forest
+
+The explorer now has three independent roots: Desktop PC (`pc`), Lenovo Legion
+5 (`legion`), and MacBook Pro (`macbook`). The desktop remains the default and
+existing URLs are unchanged. `systemRoot(level)` follows parent links, while
+`branches(system)` scopes subsystem menus to that root. Search and history
+derive the active system from the level. Reset returns to the active machine.
+Visibility lists are scoped to that machine; global search can cross systems.
+
+`lib/notebook-levels.ts` adds 30 scales. Legion has system board, Ryzen CPU/core,
+RTX Laptop GPU/SM, SO-DIMM/package/die/bank/cell, storage, cooling, battery and display.
+MacBook has logic board, M1 Pro, CPU/core, GPU/core, unified memory/DRAM/bank/cell,
+storage, cooling, battery and display. Mac memory and GPU descend from the SoC;
+Legion memory and GPU descend from its board. Neither is a part of the desktop.
+The desktop scale table below describes its original 38 scales.
+
+`lib/concepts/notebooks.ts` supplies 172 explicitly sourced concepts.
+`lib/notebooks.ts` dispatches to separate builders at a common 20 mm per scene unit.
+`notebook-kit.ts` owns physical helpers, dimensions and shared reference frames;
+`notebook-chassis.ts` owns the keyboard, shell apertures and connector inventory;
+`notebook-hardware.ts` owns boards, cooling, battery, SO-DIMM and FBGA construction;
+`notebook-display.ts` owns the layered display and generated screen artwork;
+`notebook-architecture.ts` authors the chip, bank and cell diagrams.
+Installed components retain their native sizes; no per-axis fitting is allowed.
+The representative M.2 construction reuses the existing NVMe builder with a
+uniform conversion from 8 to 20 mm per unit. `ModelTools.assembly` accepts any LevelId and
+strips nested picking identities as before. Display tilt is inside an identity
+wrapper so the inventory pose lays the screen face up. Both models opt into a
+notebook comparison group with catalogue-backed rows. The shared renderer,
+picking, resource disposal, disassembly and inventory serve all three systems.
+Cooling assemblies carry authored airflow into the complete laptops.
+Impeller meshes retain their animation metadata when static geometry is merged.
+The same preservation also keeps the desktop's authored moving meshes alive.
+Optional `LevelDef.camera` framing makes flat diagrams readable and the small
+FBGA package large enough to inspect without altering its physical dimensions.
+
+The subjects are Legion 5 15ACH6H (Ryzen 7 5800H, RTX 3060 Laptop GPU,
+DDR4-3200, 80 Wh option) and MacBook Pro 14-inch (2021, M1 Pro, 10 CPU / 16 GPU
+cores, 16 GB memory, 512 GB storage). Outer footprints follow published values;
+interior layout, package counts, screws, keyboard artwork and component sizes
+are illustrative. Generic CPU, GPU and DRAM views do not claim undocumented
+vendor microarchitecture or physical silicon placement. Further Legion and
+M-series models are not implied by these two configurations.
+
+`tests/notebooks.test.ts` verifies menu partitioning, links/search, memory/GPU
+ownership, geometry, finite poses, logical-block separation, native assembly size,
+ray access through every port opening, package clearances, SO-DIMM notch and
+population, chip counts, DRAM circuits and retained impeller animation.
+`scripts/notebook-smoke.mjs` checks tray-to-component dives, desktop/mobile
+navigation, comparison, reset and deep links with headless Edge and captures
+screenshots. `scripts/notebook-visual-check.mjs` renders selected scales for
+visual review. Set `NOTEBOOK_BASE_URL`, `NOTEBOOK_SCALES` (visual checks only), and
+optionally `BROWSER_EXECUTABLE` for other setups. Real touch/pinch input and a
+full device matrix remain unverified.
+
+Notebook quantities use selected public configurations. The Legion SO-DIMM is a
+representative Kingston KVR32S22S8/8 (8 GB 1Rx8, eight 8 Gbit x8 packages, 260
+contacts), not a claim about the factory-installed supplier. NVIDIA's published
+3,840 CUDA cores and 128 FP32 lanes per Ampere 8.6 SM give 30 SMs; the drawing
+shows those SMs without inventing a GA106 physical floorplan. The Mac diagrams
+show documented core counts and unified-memory relationships; deeper generic
+execution and DRAM views retain their explicit explanatory scope.
+
+Read this before changing anything. It is written for whoever picks the project
+up next, person or language model, and it assumes you have not seen the code
+before. [README.md](README.md) explains what PC Anatomy is and what it looks
+like; this file explains how it is built and what will bite you.
+
+Most of what follows is a decision that already went one way once. Where a rule
+sounds arbitrary, it is usually the scar of a bug.
+
+## What it is, technically
+
+A static single-page app. Every polygon is generated in TypeScript at runtime
+with three.js — no imported meshes, no image textures, no runtime asset files of
+any kind. The 593 catalogue entries are authored in source, and each one
+is joined to its geometry by a single string id.
+
+React 19, strict TypeScript, Vite 8, Tailwind 4, and three.js used directly:
+no react-three-fiber. UI primitives under `components/ui/` are generated
+shadcn/Base UI files and are excluded from linting. The entry point is
+`index.html` → `app/main.tsx` → `app/page.tsx`. The 3D engine is imported
+dynamically inside `app/viewer.tsx`, so three.js lands in its own chunk and the
+interface paints before it arrives. That only holds while nothing the
+interface imports eagerly reaches a module that imports three: a single
+`import { hasAirflow } from '@/lib/airflow'` once pulled the whole engine into
+the entry chunk (1.2 MB, 340 KB gzipped) without any error. Questions the
+interface asks before the engine loads live in three-free modules
+(`airflow-policy.ts`, `deep-link.ts`, `pointer-intent.ts`,
+`inventory-labels.ts`), and `npm run size`, run in CI after the build, fails
+if three.js reappears in the entry chunk or it grows past its budget.
+
+## Run it
+
+Node 22.13 or newer.
+
+```bash
+npm install
+npm run dev       # vite dev server, http://127.0.0.1:5173/
+
+npm run check     # tsc --noEmit, strict
+npm run lint      # oxlint
+npm run format    # oxfmt
+npm test          # node --experimental-strip-types --test tests/*.test.ts
+npm run build     # tsc --noEmit && vite build
+npm run size      # after a build: entry chunk under budget, no three.js in it
+npm start         # preview the production build
+```
+
+Two things about the toolchain are worth knowing before you debug them:
+
+**Native binaries are per-platform.** oxlint, oxfmt, rolldown (inside Vite) and
+lightningcss ship compiled binaries. A `node_modules` installed on one operating
+system cannot run them on another — for example from a Linux shell against a
+Windows checkout. `tsc` and the test suite are pure JavaScript and run anywhere,
+so those two are always available; the rest need a matching install.
+
+**`npm test` uses Node's native type stripping, not a bundler.** There is no
+path-alias resolution and no extensionless import resolution. Every module a
+test reaches must import with explicit `.ts` extensions all the way down.
+`lib/scene.ts` imports `./models` without one, so it cannot be imported from a
+test at all — which is why `lib/picking.ts` exists as a module of its own rather
+than living inside the scene. If you want new logic under test, keep it out of
+`scene.ts`.
+
+## How it fits together
+
+Four layers, joined by the concept id.
+
+```text
+lib/levels.ts        the scale tree: what scales exist, what opens into what
+      │
+lib/concepts/*.ts    the written catalogue, composed by lib/manifest.ts
+      │              593 entries, each with a globally unique id
+      │
+lib/models.ts        one geometry builder per scale, handed `ModelTools`.
+      │              Builders attach geometry to concept ids via add()
+      │
+lib/stage-runtime.ts shared WebGL, lighting, camera and controls
+lib/model-stage.ts   shared posing, inventory, bounds and model disposal
+lib/scene.ts         ordinary explorer visibility, picking and dive ramp
+lib/comparison-*.ts  same-category comparison state/data and renderer
+      │
+app/                 React: what the viewer is currently looking at
+```
+
+The concept id is the join. The same string appears in the catalogue entry, in
+the builder's `add()` call, in the search index, in the selection state and in
+the detail panel. Nothing else ties them together, which is why ids are global
+and why a collision between two catalogue files is a real hazard rather than a
+theoretical one.
+
+Exploration is data, not code. Adding a scale means adding an entry to
+`lib/levels.ts`, a concept file, a geometry builder, and one line in the
+`builders` registry. There is no route table and no URL routing — navigation is
+state.
+
+## The scale tree
+
+68 scales, 593 concepts. `physical` scales are lit like hardware and keep real
+size relationships in the inventory; `logical` scales are block diagrams and are
+lit flat.
+
+| Scale | Parent | Menu | Kind | Concepts |
+| --- | --- | --- | --- | ---: |
+| `pc` | — | root | physical | 18 |
+| `motherboard` | `pc` | Motherboard | physical | 24 |
+| `dimm` | `motherboard` | Memory · DDR5 | physical | 10 |
+| `dram` | `dimm` | Memory · DDR5 | physical | 8 |
+| `banks` | `dram` | Memory · DDR5 | logical | 9 |
+| `bank` | `banks` | Memory · DDR5 | logical | 9 |
+| `cell` | `bank` | Memory · DDR5 | logical | 10 |
+| `ddr4` | `motherboard` | Memory · DDR4 | physical | 10 |
+| `ddr4dram` | `ddr4` | Memory · DDR4 | physical | 8 |
+| `ddr4banks` | `ddr4dram` | Memory · DDR4 | logical | 9 |
+| `ddr4array` | `ddr4banks` | Memory · DDR4 | logical | 9 |
+| `ddr4cell` | `ddr4array` | Memory · DDR4 | logical | 10 |
+| `ryzen` | `motherboard` | Motherboard | logical | 6 |
+| `ryzenio` | `ryzen` | Motherboard | logical | 5 |
+| `corei9` | `motherboard` | Motherboard | logical | 9 |
+| `coreio` | `corei9` | Motherboard | logical | 4 |
+| `psu` | `pc` | Power supply | physical | 17 |
+| `psubronze` | `pc` | Power supply | physical | 17 |
+| `fan` | `pc` | Cooling | physical | 8 |
+| `cooler` | `pc` | Cooling | physical | 8 |
+| `liquid` | `pc` | Cooling | physical | 9 |
+| `ssd` | `pc` | Storage | physical | 8 |
+| `nvme` | `motherboard` | Storage | physical | 6 |
+| `card` | `pc` | GPU · RTX 5090 | physical | 40 |
+| `die` | `card` | GPU · RTX 5090 | logical | 9 |
+| `gpc` | `die` | GPU · RTX 5090 | logical | 3 |
+| `tpc` | `gpc` | GPU · RTX 5090 | logical | 2 |
+| `sm` | `tpc` | GPU · RTX 5090 | logical | 9 |
+| `rx9070` | `pc` | GPU · RX 9070 XT | physical | 40 |
+| `navi48` | `rx9070` | GPU · RX 9070 XT | logical | 11 |
+| `rxse` | `navi48` | GPU · RX 9070 XT | logical | 5 |
+| `rxwgp` | `rxse` | GPU · RX 9070 XT | logical | 3 |
+| `rxcu` | `rxwgp` | GPU · RX 9070 XT | logical | 12 |
+| `arcb580` | `pc` | GPU · Arc B580 | physical | 36 |
+| `bmg` | `arcb580` | GPU · Arc B580 | logical | 7 |
+| `xeslice` | `bmg` | GPU · Arc B580 | logical | 3 |
+| `xecore` | `xeslice` | GPU · Arc B580 | logical | 4 |
+| `xve` | `xecore` | GPU · Arc B580 | logical | 6 |
+
+Menus are grouped by `branchLabel`, not by branch root, which is why the case
+fan, the tower cooler and the AIO share one Cooling heading instead of nesting.
+The GPU menu has sub-menus: each card declares `submenu`, and every scale beneath
+it is listed under that card. The Memory menu does the same for its two
+generations, the installed DDR5 module and a DDR4 one from the same product
+line. The Power supply menu lists its two models directly.
+
+Six scales are marked `alternative: true`: the second processor, the liquid
+cooler, the two graphics cards, the fixed-cable PSU the tower does not carry and
+the DDR4 module the board's DDR5 slots cannot take. Only one cooler bolts to one
+socket, only one processor sits in it, one card is installed, the tower carries
+one supply and a slot is keyed for one generation —
+so these are real scales with real content that simply have nothing to click on
+at the scale above. They are reached from their subsystem menu instead. The flag
+is what keeps the "every scale is reachable" test honest without forcing the
+machine to carry two coolers and three cards at once.
+
+Each `LevelDef` also declares `phases` — the named stops along the 0–100
+disassembly slider — and optionally `spread`, which multiplies how far pieces
+travel as they come apart. A tower needs far bigger gaps than a card before its
+subsystems stop touching.
+
+## Where the code lives
+
+| Path | Responsibility |
+| --- | --- |
+| `lib/levels.ts` | The scale tree: parents, kind, phases, spread, menu grouping. Also `levelPath`, `branchRoot`, `submenuRoot`, `branches`, `menuRoot`. |
+| `lib/concept.ts` | The `Concept` shape, the eight categories and their colours, the three accuracy strings, and the `concept()` factory. |
+| `lib/concepts/*.ts` | The written catalogue, one file per subsystem. Ids are global. |
+| `lib/sources.ts` | Every citable reference, keyed by id. 84 of them. |
+| `lib/manifest.ts` | Composes the catalogue, wires parents to children, and answers questions about it: `byId`, `searchConcepts`, `openLevel`, `levelConcept`. Nothing about the current view. |
+| `lib/explorer-state.ts` | `ExplorerState` — what the viewer is looking at — plus `initialState` and `selectSearch`. |
+| `lib/models.ts` | The `builders` registry, the `Piece` type, the shared `material()` cache, and `buildModel(level)`. |
+| `lib/hardware.ts` | `ModelTools`, the interface every builder is handed, and the RTX 5090 card assembly. |
+| `lib/machine.ts` | The tower itself: ATX constants, what goes where inside the case, cable routing, the rear I/O shield, RGB palette. |
+| `lib/chassis.ts` | The case: corner columns and rails, the cut rear panel, tray, floor and roof, the glass side, the mesh front, the dust filters, the front I/O, and `plateWithHoles`, which cuts openings in a sheet. It is handed its openings as measurements from `machine.ts`. |
+| `lib/mainboard.ts`, `power-supply.ts`, `fan-unit.ts`, `cooler.ts`, `liquid.ts`, `ssd.ts`, `nvme.ts`, `processor.ts`, `io-die.ts` | Builders for physical or logical scales. `power-supply.ts` builds both TUF exteriors from one illustrative conversion chain. |
+| `lib/memory-module.ts`, `dram-package.ts`, `ram-architecture.ts` | The memory dive. `memory-module.ts` builds both UDIMMs from one set of JEDEC constants and a per-generation spec (key offset, edge curve, envelope, which parts exist) and exports `keyCenter`, which the motherboard's slots are keyed from. `dram-package.ts` builds the board-on-chip FBGA for either generation. `ram-architecture.ts` draws the two dies and, for each generation, one bank and one mat of cells; the DDR4 bank and cell concepts are the DDR5 ones under `ddr4` ids with the numbers that differ swapped in. |
+| `lib/graphics-card.ts`, `card-kit.ts`, `radeon-card.ts`, `arc-card.ts` | The three graphics cards. `card-kit.ts` holds the millimetre-scale parts all three share. |
+| `lib/gpu-architecture.ts`, `radeon-architecture.ts`, `arc-architecture.ts` | The chip block diagrams. |
+| `lib/diagram-kit.ts` | The shared visual language of those diagrams — `put`, `backdrop`, `block` — with a palette per chip. Navi 48 and BMG-G21 draw from it; the GB202 scales predate it and build their own scenery. |
+| `lib/airflow.ts` | Where the air goes: the chevron, the sampling and marching of a path, `cardAirflow` for the three cards, and `airflowStrength`, the curve that takes it off screen as the machine opens. Re-exports the policy below so builders keep one import. |
+| `lib/airflow-policy.ts` | `airflowLevels`, `hasAirflow`, `AirflowMode` and `airflowShown`, which decides whether a scale draws air at all. No three.js, so the interface can import it. |
+| `lib/deep-link.ts` | A place (scale, described part, disassembly) to and from the address bar's query string, and the page title for it. Unknown or contradictory links fall back rather than guess. |
+| `lib/pointer-intent.ts` | `tapIntent`: a mouse click opens, a tap describes first. |
+| `lib/inventory-labels.ts` | Which laid-out parts get a name on screen: biggest first, one per part, no overlaps, nothing off the stage. |
+| `lib/parts.ts` | Shared realistic parts: fans, grilles, fin stacks, capacitors, chokes, slots, ports, screws, `glowMaterial`, `buildLightStrip`. |
+| `lib/materials.ts` | The ten surface finishes and `temperedGlass`. |
+| `lib/surfaces.ts`, `pcb.ts`, `silicon-texture.ts` | Generated material maps. No downloaded textures. |
+| `lib/board-details.ts` | Representative support circuitry and mechanical subassemblies. |
+| `lib/stage-runtime.ts` | Shared Three.js stage foundation: renderer, environment, lighting, camera, controls, demand-driven frame scheduling, animation ticking, camera fitting, context-loss reporting, and base disposal. |
+| `lib/scene.ts` | Ordinary explorer visibility, picking, camera targets, and dive ramp composed over the shared stage runtime. Returns `{ update, dispose }`. |
+| `lib/model-stage.ts` | Reusable model-stage primitives shared by both renderers: scratch-backed piece posing and bounds, inventory preparation, common bounds, and resource disposal. |
+| `lib/comparison-state.ts` | Category-specific comparison schemas, metadata-driven model discovery, pure comparison transitions, catalogue-backed spec projection, validation, and pane coordinate math. |
+| `lib/comparison-scene.ts` | One-renderer comparison engine composed over the shared stage runtime. It renders isolated scissored panes on wide screens and one active pane below 700 CSS pixels. |
+| `lib/picking.ts` | `resolvePick` / `resolvePickNear` — the see-through picking policy. Deliberately outside the scene so tests can import it. |
+| `lib/layout.ts` | `inventoryLayout`, `hardwareInventory`, `spatialInventory`, `smoothstep`, `Vec3`. |
+| `app/page.tsx` | Chooses the explorer or comparison workbench and otherwise keeps application-level composition state. |
+| `app/comparison-workbench.tsx`, `comparison-viewer.tsx`, `comparison-specs.tsx` | Comparison composition and controls, the React-to-Three bridge, and the responsive specification sheet. |
+| `app/use-explorer.ts` | All explorer state and every named move: navigate, goTo, dive, arrive, choose, isolate, hide, and the rest. The first state is read from the address. |
+| `app/use-address.ts` | Keeps the address bar, title and canonical link on the place shown: a scale change pushes history, a selection or slider move replaces it, and the back button moves the explorer. |
+| `app/use-first-visit-hint.ts` | The one-time line under the heading that says what clicking or tapping does. |
+| `app/use-disassembly-playback.ts` | Shared request-animation-frame playback for explorer and comparison disassembly controls. |
+| `app/topbar.tsx`, `scale-nav.tsx`, `systems-list.tsx`, `stage-heading.tsx`, `stage-tools.tsx`, `disassembly.tsx`, `search-dialog.tsx`, `detail-panel.tsx`, `about-dialog.tsx` | One panel each. |
+| `app/viewer.tsx` | The React ↔ three.js bridge: lazy scene load, the loading line, hover label, names on the laid-out parts, error state. |
+| `app/links.ts` | Destinations used by more than one panel. |
+| `app/globals.css`, `app/workbench.css` | The visual direction, desktop through phone. |
+| `tests/*.test.ts` | 108 tests: catalogue integrity, layout, picking, geometry presence, airflow, the case, the memory dive, comparison state/data/pane/bounds behaviour, and links, taps, labels and the engine staying out of the entry chunk. |
+| `scripts/generate-icons.mjs` | Rasterises `public/favicon.svg` into PNG and ICO variants. Uses Playwright and Edge. |
+| `scripts/generate-reference-index.mjs` | Regenerates `docs/component-references.md` from the catalogue. Run it after changing citations. |
+| `scripts/generate-sitemap.mjs`, `sitemap-urls.ts` | Regenerates `public/sitemap.xml`: the site, the guide, every scale and every part, in the link format the explorer reads. Run it after adding scales or parts; a test fails when it falls behind. |
+| `scripts/check-bundle-size.mjs` | `npm run size`. Fails if three.js is in the entry chunk or the chunk is over budget. |
+
+## The interfaces you will touch
+
+**`ModelTools`** (`lib/hardware.ts`) is what every builder receives:
+
+| Member | What it does |
+| --- | --- |
+| `add(concept, object, pos, delta?, reveal?)` | Registers an object as one selectable piece of a named concept. |
+| `instances(concept, positions, size, reveal?, color?, geometry?)` | The same, for many identical pieces drawn as one instanced mesh. |
+| `box(size, color, metal?, r?)` | A rounded box in the shared material cache. |
+| `pcb(size, variant?)` | A circuit board: routed faces, bare laminate on the cut edges. |
+| `material(color, metal?, rough?)` | The cached standard material. |
+| `label(parent, text, pos, width, color?)` | 3-D text, sized to a width rather than a font size. |
+| `assembly(level)` | Reuses a detailed scale as one installed, selectable assembly — how the motherboard and the card appear inside the tower, and the DDR5 module in the motherboard's slots. |
+| `airflow(streams)` | Chevrons marching along the paths this build moves air along. Scenery, not parts: see the convention below. |
+
+`delta` is the direction a piece travels as the machine comes apart. `reveal` is
+the disassembly fraction below which a piece is hidden, and it defaults to 0.
+
+**`Piece`** (`lib/models.ts`) is what a builder produces: the object, its base
+and exploded positions, its inventory slot, its concept and instance number, and
+its visibility. The scene animates pieces; it never re-reads the catalogue.
+
+**`ExplorerState`** (`lib/explorer-state.ts`) is the whole of what the viewer is
+looking at: level, explode 0–100, visible categories, hidden ids, selection,
+isolated, camera view, the airflow mode, and three revision counters. `cameraRevision` and
+`focusRevision` exist so that asking for the same camera twice still moves it;
+`diveRevision` starts a dive. The scene watches the revisions, not the values.
+
+## Conventions that matter
+
+**Geometry is millimetres.** Every builder opens with a local `mm()` converting
+to scene units and states its scale in the file header: the tower is 1 unit ≈
+35 mm, the motherboard 22, the AIO 14, the power supply 12, the tower cooler 11,
+the case fan 9, the SSD 8. The three graphics cards share `MM` from
+`card-kit.ts`, which is sized so all three come out at their true relative
+lengths. Keep this. A builder without an `mm()` is a builder whose numbers mean
+nothing.
+
+**Every rendered object belongs to a named concept.** `tests/models.test.ts`
+enforces it. An anonymous mesh is one a viewer can hover and get nothing from.
+The only exception is scenery explicitly marked `userData.contextFrame`.
+
+**`reveal` is for things genuinely inside something.** If you could see it
+before picking up a screwdriver, `reveal` is 0. Putting a reveal on a cooler's
+fin stack once meant the assembled cooler rendered as a bare coldplate.
+
+**Ids are global across every catalogue file.** The Radeon branch prefixes
+everything `rx` and the Arc branch `arc` precisely because the original GPU
+catalogue claimed bare names like `fan` and `pcb`. A duplicate id fails the
+tests, but only after you have written the geometry.
+
+**Airflow is authored, not derived, and it is never a part.** A builder states
+the path its build actually moves air along and hands it to `tools.airflow`;
+nothing reads a fan's transform and blows air along its axis. It cannot:
+`buildFan` contradicts itself about which face is the intake — the lit ring and
+the finger guard are on +Y, documented as the intake face, while the builder's
+own header says it blows along +Y — and the callers are split on which of those
+they believed. Air that followed the geometry would leave the tower through the
+front panel. The chevrons carry `contextFrame`, refuse raycasts outright, and
+fade out over the first tenth of the disassembly, because a path through a
+machine is a claim about a machine that is closed.
+
+**Covers come off first.** A concept marked `opensFirst` — the glass and mesh
+panels, the lid, the dust filters — finishes its travel in the first fifth of
+the disassembly, before anything else starts to move. Without it the front
+fans set off forward while the mesh in front of them was still shut, and went
+through it. Anything that closes over other parts should carry the flag.
+
+**Case openings are measured, not styled.** `buildChassis` is handed the rear
+I/O window, the slot pitch, the supply's opening, the exhaust fan and the
+processor-power grommet as numbers taken from the parts that need them, and
+the I/O shield's holes are cut from the board's own connector positions,
+which the motherboard builder records on its root as `userData.rearPorts`
+before its meshes are merged. Move a connector and the shield follows it.
+
+**Shine is contrast, not brightness.** High `envMapIntensity` and low roughness
+on metals, restrained key light. Raising overall exposure washes everything to
+chalk; that was tried and reverted.
+
+**Emissive materials do not light anything.** RGB needs `glowMaterial` for the
+surface *and* a `PointLight` beside it.
+
+**Nothing is downloaded at runtime.** Material maps are generated in
+`surfaces.ts`, `pcb.ts` and `silicon-texture.ts`. If you find yourself reaching
+for a texture file, you are solving it the wrong way.
+
+**When a model is rebuilt, the scene clears its cached `layoutSignature`.**
+Otherwise returning to a scale leaves every piece with an inventory position of
+zero, heaped at the origin.
+
+## The interface layer
+
+`app/page.tsx` is composition and nothing else: it renders the panels in order
+and wires them to `useExplorer`. It holds only the state no panel owns — whether
+the app is in explorer or comparison mode, whether the search palette and
+about dialog are open, and the part count the viewer reports.
+
+`app/use-explorer.ts` owns everything else about the current view and exposes it
+as named moves rather than state patches. A panel calls `navigate`, `dive`,
+`toggleCategory`, `isolate` or `hide`; it never assembles an `ExplorerState`
+itself. State that only one panel cares about lives in that panel — which system
+is unfolded is inside `systems-list.tsx`, whether the window is fullscreen is
+inside `stage-tools.tsx`.
+
+These interaction decisions are settled, and re-opening them has been tried:
+
+- **The dive is a zoom, not a scene change.** Clicking an explorable component
+  scales the rest of the stage away while the camera closes on it, then swaps in
+  the deeper scale, which grows back out of the same spot. The ramp is owned by
+  `lib/scene.ts`, not by React timers — timers drifted against the render loop.
+  `diveInto` is the whole record of a dive in flight, so cancelling one is just
+  clearing it.
+- **A tap describes; a click opens.** A mouse opens on left-click and
+  inspects on right-click. A finger has no right button and iOS does not fire
+  `contextmenu` on a long press, so a tap selects the part and shows the card,
+  whose "Take apart" button opens it; tapping the selected part again also
+  opens it where the card leaves it in reach. `tapIntent` is the rule.
+- **The address is the place, not the view.** `?scale=`, `&part=` (with
+  `&n=` for the n-th identical part) and `&open=` for the disassembly. Camera,
+  hidden parts and the airflow preference stay out: they are how one person is
+  looking, not where. Scale changes are history steps; selections and slider
+  moves replace the current entry, the slider only once it has settled.
+- **The detail panel is suppressed mid-dive.** `selected` is null while
+  `diveInto` is set, or the outer component's panel flashes for a few hundred
+  milliseconds before the deeper scale replaces it.
+- **Glass is see-through to the cursor.** `resolvePick` steps past transparent
+  surfaces. Before it existed, the side panel answered for the whole machine and
+  nothing inside the case could be hovered.
+- **Airflow is a preference, and its default belongs to the scale.**
+  `state.airflow` is `auto`, `on` or `off`, and `airflowShown` resolves it.
+  `auto` draws air wherever there are fans except on the assembled machine:
+  that is the scale a viewer arrives at, the case is closed, nothing has moved
+  yet, and four streams crossing an untouched tower is a lot to meet first.
+  It is also the one scale where a viewer might never think to look for the
+  control, which is why that control is a labelled switch beside the camera
+  row rather than a glyph inside it. Saying either way holds on every scale
+  until Reset, so returning to the tower having asked for air does not switch
+  it off again. The switch is absent where there are no fans, and airflow
+  follows the Cooling category — hide the fans and the arrows go with them.
+
+## Same-category comparison mode
+
+Comparison is a separate workbench; see
+[`docs/comparison-mode-spec.md`](docs/comparison-mode-spec.md) for its contract.
+Levels opt in through `comparisonGroup`, and configured groups appear once two
+models opt in. The registry supplies labels and catalogue-backed row schemas;
+pure transitions and startup validation reject invalid groups, pairs, or rows.
+
+Its scene coordinator shares `stage-runtime.ts` and `model-stage.ts` with the
+explorer. One camera and disassembly amount frame both models at true relative
+scale. Wide screens use two scissored panes; below 700 CSS pixels only the
+selected A/B pane renders. Swaps reuse both roots, replacements dispose only
+one root, and exit disposes the renderer and both models.
+
+## Adding a component
+
+A component joins the written catalogue to selectable geometry through its id.
+
+1. Add the concept to the right file in `lib/concepts/`. Follow a neighbour: it
+   needs a unique `id`, scale, parent, category, representation type,
+   description, purpose, quantity, specifications and source ids.
+2. In that scale's builder, create the geometry and pass the same id to `add` or
+   `instances`. The helper supplies selection identity, explode placement,
+   inventory layout and counting.
+3. Add any new reference to `lib/sources.ts` and document it in `SOURCES.md`,
+   then regenerate the index:
+   `node --experimental-strip-types scripts/generate-reference-index.mjs`,
+   and the sitemap:
+   `node --experimental-strip-types scripts/generate-sitemap.mjs`.
+4. If the concept lives in a new catalogue file, export its array and compose it
+   into `lib/manifest.ts`.
+5. Run the checks. The tests reject anonymous geometry, duplicate ids, broken
+   parent links, and scales with nothing to render.
+
+Do not introduce a reveal threshold for assembled geometry. A component that
+exists in the assembled product exists at slider position zero and moves
+continuously as the product comes apart.
+
+## Adding a scale
+
+Five integration points, and the tests check both directions of the link:
+
+1. Add the id and its `LevelDef` to `lib/levels.ts` — parent, kind, concept,
+   phases, navigation text, and `spread` if its assemblies are large.
+2. Write the geometry builder and register it in the `builders` map in
+   `lib/models.ts`.
+3. Add its written catalogue under `lib/concepts/`.
+4. Put `open: '<new-level-id>'` on the concept one scale up that leads into it.
+   A complete alternative the machine does not carry sets `alternative: true`
+   instead and is reached from its subsystem menu; `submenu` gives it a dropdown
+   of its own inside that menu.
+5. Export and compose the new concepts in `lib/manifest.ts`.
+
+The scale tree drives navigation, breadcrumbs, lighting and the disassembly
+timeline. Do not add a second hand-written route table.
+
+## Sourcing rules
+
+Every technical claim points at an entry in `lib/sources.ts`. Standards bodies
+and vendor documentation first. All 593 concepts currently cite at least one
+source, and `docs/component-references.md` is the generated index of which.
+
+`concept()` fills in a default when an entry names no sources — `specs` for a
+physical concept, `whitepaper` for a logical one. **This is a trap.** It once left
+components across the machine silently citing NVIDIA for drive cages and CMOS
+batteries.
+Name your sources explicitly, and if no honest reference exists, say so with
+`sources: []` rather than inheriting one. Sheet metal and fin stacks do not need
+a vendor document, and inventing one is worse than admitting there is none.
+
+`tests/manifest.test.ts` checks that every cited id resolves and that no concept
+cites the same source twice. It does not check that a citation is appropriate.
+
+Nothing here claims a specific product's bill of materials. Every physical
+concept carries a `physicalAccuracy` string saying so, and they are not
+decorative — read one before adding a component that implies more precision than
+the model has. 368 concepts are physical, 225 are logical diagrams.
+
+## Tests
+
+108 tests, all through Node's built-in runner.
+
+`.github/workflows/ci.yml` runs `npm ci`, type checking, linting, tests, a
+production build and the bundle-size check on every push and pull request
+with Node.js 22.
+
+- `tests/manifest.test.ts` (16) — unique ids, reciprocal parents, no cycles,
+  source resolution, SKU counts against full-chip capacity, search behaviour,
+  reachability of every scale, the three-stage dissection language, inventory
+  packing without overlap at several aspect ratios, machine depth.
+- `tests/models.test.ts` (18) — geometry presence and identity for every scale,
+  ATX outline compliance, clearances between sockets, slots and armour, fits
+  (M.2 packages under their covers, DDR5 notches), picking through glass,
+  instanced pieces staying pickable after the layout moves them, and the rule
+  that no rendered object is anonymous.
+- `tests/gpus.test.ts` (10) — the three-card menu structure, published hierarchy
+  counts multiplying out to published totals, diagram blocks not overlapping,
+  each card's published construction and envelope, board passives not
+  intersecting, and search reaching the new chips at their own scale.
+- `tests/airflow.test.ts` (8) — that the scales drawing airflow are exactly the
+  ones `airflowLevels` names (the stage tools offer the control from that
+  list), that the installed card brings its own streams into the tower, that
+  the chevrons are scenery no ray can reach, that the explorer opens on a quiet
+  machine while every other scale starts drawing, that the fade is monotonic
+  and over by a tenth, that the chevrons march and stop on command, that no
+  stream strays far from the hardware it describes, and that the tower's air
+  enters at the front and leaves at the back.
+- `tests/case.test.ts` (3) — that no case fan runs into the front mesh or
+  its filter anywhere in the first half of the disassembly, that every rear
+  connector can be seen from behind the machine through the I/O shield, and
+  that the front I/O sits on the outside of the roof.
+- `tests/comparison.test.ts` (6) — metadata-driven discovery (including the
+  DDR5/DDR4 memory pair), valid distinct
+  state and group transitions, complete catalogue-backed spec rows, pane-local
+  pointer coordinates at desktop and mobile widths, and common bounds that
+  contain both posed models at assembled, half-disassembled, and inventory
+  positions.
+- `tests/ram.test.ts` (20) — both generations' menus and open chains down
+  to the cell, the DDR4 bank and cell matching DDR5's parts with their own
+  row count and wordline voltage, the dive being at least as deep and as populated as the GPU
+  chains, bank × row × page multiplying out to 16 Gb on both dies, bank-group
+  ownership, ECC on DDR5 and a DLL on DDR4, no two diagram parts sharing
+  space, the JEDEC outline and the data-sheet height and thickness, 288
+  contacts at 0.85 mm with none across the key, a real key cut at a different
+  offset per generation, DDR4's curved edge, the PMIC on DDR5 and the
+  termination on DDR4, components clear of the contacts and of each other,
+  spreaders clear of the contacts and seated on their pads, the detailed
+  module standing in both populated motherboard slots, the 78-ball grid with
+  its empty centre columns, the package stack with the die face down over the
+  slot, named geometry everywhere, and search reaching every memory scale.
+
+- `tests/discovery.test.ts` (10) — every scale and every part surviving a
+  round trip through a link, instances and disassembly kept, nonsense links
+  falling back to the nearest sensible place, titles, the committed sitemap
+  matching the catalogue, tap versus click, part names never overlapping or
+  leaving the stage, and the interface's own modules staying free of three.js.
+
+The suite builds every scale, so a geometry regression usually surfaces as a
+failing assertion rather than a silent visual change.
+
+## What is verified, and what is not
+
+Keep this section honest; it is the part a newcomer will trust.
+
+- `npm run check` and `npm test` run on any platform and are the baseline.
+- `npm run lint`, `npm run format` and `npm run build` need a `node_modules`
+  installed for the machine you are running them on. A cross-platform checkout
+  cannot run them, and "lint passes" must not be reported from a machine that
+  could not execute oxlint.
+- **Real touch and pinch input is not verified**, nor is the full tablet and
+  small-phone matrix, nor a clean console audit across every scale. Do not
+  report those as passing.
+
+If you automate a browser against this app:
+
+- `page.click()` fails Playwright's stability check here even on provably still
+  elements. Use `page.evaluate(el => el.click())`.
+- `deviceScaleFactor: 1` is required, or screenshots time out under SwiftShader.
+- `.viewport` carries `data-level`, `data-visible`, `data-component-types`,
+  `data-explode`, `data-draw-calls` and `data-triangles` for assertions. Under
+  software rendering they lag several seconds behind a level change — wait for
+  them, do not poll tightly.
+- There is no URL routing. Drive navigation by clicking `button.branch-head`,
+  then the entry in `.branch-scales`.
+
+For UI work that is meant to change nothing visible, the strongest check is to
+render the old and new trees and diff the markup: transpile with TypeScript's
+`transpileModule`, stub `lib/scene.ts` with a fake `createViewer` that reports a
+part count, mount both into jsdom, drive the same script of clicks through
+`act`, and compare `document.body.innerHTML` at each step.
+
+## Keeping this file honest
+
+This document is only useful while it is true. When you change the scale tree,
+move a module, or settle a decision the hard way, update the section that covers
+it in the same change. If you are a model working on this repository, treat that
+as part of the task rather than a follow-up.
