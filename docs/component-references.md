@@ -96,7 +96,7 @@ Manufacturer documents support component roles, architecture or construction. Th
 | camera-flex | 传感器与控制柔性排线 | Sony α7 IV 相机 | [Sony · ILCE-7M4 / 7M4K 服务手册分解图（第三方镜像）](https://manuals.plus/m/662ac7b243a51dfb6adfa3f731348687443abee969b90e085dcd0aebbb51fbad.pdf) |
 | camera-base | 底板与三脚架螺孔 | Sony α7 IV 相机 | [Sony · ILCE-7M4 / 7M4K 服务手册分解图（第三方镜像）](https://manuals.plus/m/662ac7b243a51dfb6adfa3f731348687443abee969b90e085dcd0aebbb51fbad.pdf) |
 | camerasensor-carrier | 活动承载框 | 传感器与防抖 | [Sony · ILCE-7M4 / 7M4K 服务手册分解图（第三方镜像）](https://manuals.plus/m/662ac7b243a51dfb6adfa3f731348687443abee969b90e085dcd0aebbb51fbad.pdf) |
-| camerasensor-sensor | 全画幅 CMOS 示意 | 传感器与防抖 | [Sony · ILCE-7M4 / 7M4K 服务手册分解图（第三方镜像）](https://manuals.plus/m/662ac7b243a51dfb6adfa3f731348687443abee969b90e085dcd0aebbb51fbad.pdf) |
+| camerasensor-sensor | 全画幅 CMOS 示意 | 传感器与防抖 | [Sony · α7 IV（ILCE-7M4）官方技术规格](https://www.sony.com/electronics/support/e-mount-body-ilce-7-series/ilce-7m4/specifications) |
 | camerasensor-filter | 保护与滤光层示意 | 传感器与防抖 | [Sony · ILCE-7M4 / 7M4K 服务手册分解图（第三方镜像）](https://manuals.plus/m/662ac7b243a51dfb6adfa3f731348687443abee969b90e085dcd0aebbb51fbad.pdf) |
 | camerasensor-actuators | 防抖驱动机构示意 | 传感器与防抖 | [Sony · ILCE-7M4 / 7M4K 服务手册分解图（第三方镜像）](https://manuals.plus/m/662ac7b243a51dfb6adfa3f731348687443abee969b90e085dcd0aebbb51fbad.pdf) |
 | camerasensor-flex | 柔性信号连接 | 传感器与防抖 | [Sony · ILCE-7M4 / 7M4K 服务手册分解图（第三方镜像）](https://manuals.plus/m/662ac7b243a51dfb6adfa3f731348687443abee969b90e085dcd0aebbb51fbad.pdf) |

@@ -805,7 +805,7 @@ export function detailedGeometry(
     put(
       plate(31, 1.2, 31, silver, 2, [
         circleHole(-7, -7, 6.1),
-        circleHole(7, 7, 7.1),
+        circleHole(7, 7, 7.7),
       ]),
       [0, 0.7, 0],
     );

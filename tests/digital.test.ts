@@ -268,7 +268,7 @@ await test('all six curved glass solids render and the source image plane meets 
   const sensitive=new T.Box3();
   camera.root.traverse(object=>{if(object instanceof T.Mesh && object.userData.activeSensor)sensitive.union(new T.Box3().setFromObject(object));});
   const size=sensitive.getSize(new T.Vector3());
-  assert.ok(Math.abs(size.x-36/15)<1e-5);assert.ok(Math.abs(size.y-24/15)<1e-5);
+  assert.ok(Math.abs(size.x-35.9/15)<1e-5);assert.ok(Math.abs(size.y-23.9/15)<1e-5);
   assert.ok(Math.abs(image.z-sensitive.max.z)<1e-5,'optical image must land on the active face');
   assert.ok(Math.abs(27.5/15-sensitive.max.z-18/15)<1e-5,'E-mount mating face is 18 mm ahead of sensor');
   assert.ok(opticalCentre>38 && opticalCentre<40);

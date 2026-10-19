@@ -10,7 +10,7 @@
 
 ## 可以探索什么
 
-**8 台参考设备 · 82 个探索层级 · 754 条部件资料 · 8 条学习路径 · 24 个互动实验**
+**8 台参考设备 · 91 个探索层级 · 808 条部件资料 · 8 条学习路径 · 24 个互动实验**
 
 | 设备 | 探索内容 | 打开模型 |
 | --- | --- | --- |
@@ -25,11 +25,27 @@
 
 这些是帮助理解结构与功能的教学模型，不是精确维修图、完整物料清单或真实性能模拟。具体型号参考与通用原理模型的范围见[设备参考](docs/DIGITAL-DEVICES.md)。
 
+## 五类设备的装配与层级深化
+
+整机与子层级共用同一份毫米单位模型，安装旋转和比例由装配层统一管理。新增九个可深入总成，原有部件分享 ID 保留：
+
+| 设备 | 本轮可深入内容与装配修正 |
+| --- | --- |
+| iPhone 15 | [显示总成](https://zero-point-hardware-lab.vercel.app/?scale=phone-display&open=50)：盖板、光学贴合、OLED、导热层、支承板、柔性连接和密封框。修正朝向、总厚度、逻辑板封装与屏蔽罩净空，机身框架待内件退出后移动。 |
+| PS5 原版光驱版 | [电源](https://zero-point-hardware-lab.vercel.app/?scale=ps5-power&open=50)分开薄壁壳、通风盖、PCB、输入滤波、储能、变压器与输出；[蓝光驱动器](https://zero-point-hardware-lab.vercel.app/?scale=ps5-drive&open=50)分开冲压壳、主轴、拾取滑台、双导轨、滚轮和控制板。 |
+| Sony α7 IV | [图像主板](https://zero-point-hardware-lab.vercel.app/?scale=camera-board&open=50)区分板形、处理器、缓存、电源、屏蔽和插座；[快门](https://zero-point-hardware-lab.vercel.app/?scale=camera-shutter&open=50)区分前后帘、固定框与驱动。修正顶部开口、导热板/快门拆出方向；感光面遵循 Sony 官方 35.9×23.9 mm。 |
+| DualSense | [左侧](https://zero-point-hardware-lab.vercel.app/?scale=gamepad-haptics&open=50)和[右侧](https://zero-point-hardware-lab.vercel.app/?scale=gamepad-right-haptic&open=50)反馈机构可分开套筒、固定磁路、环形质量、绕组与端部支承，保留已有授权外观。 |
+| AirPods Pro 2 | [充电盒管理板](https://zero-point-hardware-lab.vercel.app/?scale=earbuds-board&open=50)、[耳柄柔性电路](https://zero-point-hardware-lab.vercel.app/?scale=earbudunit-processor&open=50)可以继续深入。左右耳复用相同内部总成，调整入盒方向及托盘开口，补齐互补声腔上壳，并分开电池与发声单元。 |
+
+主要实体模块的退出阶段增加每隔 2% 的包围盒间距检查，覆盖 0%–70% 的 36 个姿态。检查范围、图片与精度边界见 [验证记录](docs/VALIDATION.md)。内部机械尺寸仍为资料重建，未宣称制造级 CAD、公差或完整维修步骤。
+
+![PS5 电源内部总成](docs/screenshots/ps5-power-dissection.png)
+
 ## 开源资源与光学数据更新
 
 - **DualSense 外观**：采用 Taohid Animation 的 CC BY 4.0 模型，保留曲面、UV 与贴图，将 81 个网格归入可选择的外壳、摇杆、按键和扳机。内部电路与机构由项目另行构建；外观模型不是完整内部 CAD。
 - **100 mm 双高斯教学镜头**：按 Optiland 的 MIT 光学处方生成六片四组镜片，使用真实曲率、厚度、间距及玻璃色散系数。补齐镜片座、压圈、螺旋对焦、九叶光圈、驱动环、排线与卡口，共 20 个可选部件。
-- **装配核对**：近轴焦距约 100.004 mm，后焦距约 61.488 mm；相机有效感光面修正为 36×24 mm，核对 18 mm 法兰距。镜头是独立教学设计，不冒称 Sony 商用镜头的原厂处方。
+- **装配核对**：近轴焦距约 100.004 mm，后焦距约 61.488 mm；相机有效感光面修正为 35.9×23.9 mm，核对 18 mm 法兰距。镜头是独立教学设计，不冒称 Sony 商用镜头的原厂处方。
 
 作者、许可与修改范围见 [第三方资源清单](THIRD_PARTY_ASSETS.md)，候选筛选见 [资源审核](docs/OPEN-MODEL-AUDIT.md)。手柄 GLB 约 6.24 MB，仅进入手柄层级时加载。
 
@@ -126,7 +142,7 @@ npm run build
 npm run size
 ```
 
-已通过 **131 项测试**。另提供浏览器验收，覆盖学习流程、进度持久化、新设备拆解、部件交互与移动布局。先运行生产预览，再在另一个终端执行：
+已通过 **135 项测试**。另提供浏览器验收，覆盖学习流程、进度持久化、新设备拆解、部件交互与移动布局。先运行生产预览，再在另一个终端执行：
 
 ```bash
 node scripts/learning-smoke.mjs

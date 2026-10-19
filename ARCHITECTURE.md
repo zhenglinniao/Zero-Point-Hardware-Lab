@@ -2,11 +2,11 @@
 
 ## Multi-device Chinese explorer (2026-10-19)
 
-The current app contains eight independent device roots, 82 scales and 754 concepts.
+The current app contains eight independent device roots, 91 scales and 808 concepts.
 The 14 new scales are declared with their native dimensions and part ownership in
 `lib/digital/catalogue.ts`, built by `lib/digital/models.ts`, and registered through
 the same model/manifest/level contracts as the desktop and notebooks. Five new
-device families have 161 catalogue entries including roots. `lib/devices.ts` is the
+device families have 215 catalogue entries including roots. `lib/devices.ts` is the
 home library; tests require its roots to match `systemRoots` exactly.
 
 Each device family uses a documented millimetres-per-unit conversion. Installing a
@@ -682,3 +682,9 @@ Current totals: 8 roots, 82 scales, 754 concepts; 156 digital component definiti
 `gamepad-asset.ts` lazily loads the credited CC BY GLB, caches a private CPU template and clones geometry, materials and texture handles per rendered instance. Viewer and comparison creation/update await assets, reject stale navigation revisions and dispose engines resolving after unmount. Failure is reported instead of silently substituting the old coarse shell.
 
 `lens-prescription.ts` contains the MIT DoubleGauss prescription and CC0 glass coefficients. `lens-layout.ts` maps native millimetres into assemblies; `lens-geometry.ts` creates closed spherical solids and authored sectioned mechanics. Tests cover cemented interfaces, edge thickness, paraxial imaging, and the mounted sensor plane. Mechanical dimensions and clear aperture choices are teaching design.
+
+## Assembly refinement contracts (current)
+
+The catalogue now has 91 scales / 808 concepts, including 23 digital scales / 210 digital parts. Nine added dives reuse their exact installed geometry; stable legacy component IDs double as the new scale IDs. `DigitalPart.assembly` also allows a left-ear instance of the same right-ear internal model without inventing another navigation parent. Child installation honors the part rotation, while stage poses retain an identity wrapper around the unit conversion.
+
+`precision-layout.ts` defines local millimetre coordinates; `precision-geometry.ts` builds the dedicated mechanical geometry. Optional extraction windows on a selectable root defer support-frame movement until components withdraw. PCB keepouts are measured relative to the PCB part origin, including boards installed away from the local assembly origin. Sampled solid-body clearance checks are deliberately scoped and do not assert whole-mesh collision freedom.

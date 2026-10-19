@@ -53,7 +53,7 @@ export function refinePrecisionAssemblies(definitions: Definition[]) {
       name,
       unit,
       source,
-      summary: '独立装配总成 · 毫米尺寸统一 · 可逐件深入',
+      summary: '从总成到零件 · 内部结构与工作原理',
       camera: { direction: [0.7, 1.4, 0.9], padding: 1.08 },
       specs: {
         结构依据: '同代设备维修或拆解资料，见来源链接',
@@ -609,10 +609,17 @@ export function refinePrecisionAssemblies(definitions: Definition[]) {
     });
   edit('phoneboard', 'pmic', { size: [8, 0.8, 8], pos: [0, 1.1, 28] });
   edit('phoneboard', 'shield', { pos: [0, 2.25, 0] });
-  edit('phone', 'frame', { motion: [.45, .7] });
-  edit('ps5', 'frame', { motion: [.45, .7] });
+  edit('phone', 'frame', { motion: [0.45, 0.7] });
+  edit('ps5', 'frame', { motion: [0.45, 0.7] });
   edit('camera', 'shutter', { delta: [0, 42, 60] });
   edit('camera', 'heatplate', { delta: [-55, 0, 24] });
+  edit('camerasensor', 'sensor', {
+    size: [35.9, 1, 23.9],
+    description:
+      'Sony ILCE-7M4 官方规格为 35.9 × 23.9 mm Exmor R CMOS；有效感光面按此尺寸绘制。',
+    sources: ['sonyalpha'],
+  });
+  get('camera').specs!['感光面尺寸'] = '35.9 × 23.9 mm（Sony 官方规格）';
   edit('earbuds', 'left', {
     assembly: 'earbudunit',
     pos: [-14, 2.5, 0],
@@ -637,4 +644,15 @@ export function refinePrecisionAssemblies(definitions: Definition[]) {
     opensFirst: true,
     sources: [get('earbudunit').source],
   });
+  for (const [id, delta] of [
+    ['glass', [0, 65, 0]],
+    ['optical', [15, 40, 0]],
+    ['oled', [0, 15, 0]],
+    ['graphite', [-15, -15, 0]],
+    ['backplate', [0, -45, 0]],
+    ['flex', [35, -30, 20]],
+    ['seal', [-25, -65, 0]],
+  ] as [string, Vec3][])
+    edit('phone-display', id, { delta });
+  edit('ps5-power', 'cover', { delta: [65, 55, -100] });
 }

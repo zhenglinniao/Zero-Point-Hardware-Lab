@@ -169,18 +169,7 @@ export function precisionGeometry(
           clearcoat: 1,
           clearcoatRoughness: 0.12,
         });
-        put(
-          plate(
-            w - 2,
-            0.008,
-            d - 2,
-            '#20303a',
-            [hole(20, 5, 0, -62.5, 2.5)],
-            7.5,
-          ),
-          [0, h / 2 + 0.005, 0],
-        );
-        put(plate(20, 0.009, 5, '#030608', [], 2.5), [0, h / 2 + 0.006, -62.5]);
+        put(plate(20, 0.009, 5, '#030608', [], 2.5), [0, h / 2 + 0.015, -62.5]);
       }
       if (id === 'backplate')
         for (const x of [-w * 0.46, w * 0.46])
