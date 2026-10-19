@@ -71,8 +71,12 @@ export const deviceDisassembly: Partial<Record<LevelId, DisassemblyStep[]>> = {
   ],
   gamepad: [
     step('Assembled', 0, '先观察 DualSense 的握柄、摇杆和肩键轮廓。'),
-    step('分开壳体', 20, '上下壳让出主板、电池与左右握柄的内部空间。'),
-    step('触觉反馈', 35, '比较左右线性触觉执行器与上方输入机构。'),
+    step(
+      '退出输入件',
+      20,
+      '按键和触控板先竖直退出开口，再移到侧边；背壳向下分离。',
+    ),
+    step('移开上壳', 35, '上壳在输入件让位后抬起；观察握柄内的触觉执行器。'),
     step('Dissection', 50, '分别进入左右摇杆、自适应扳机、主板与触觉机构。'),
     step('机构细分', 68, '在摇杆中看双轴电位器，在扳机中看电机与蜗杆齿轮。'),
     step('Inventory', 100, '检查两侧对应的机构与独立零件说明。'),

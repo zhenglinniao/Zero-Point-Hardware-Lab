@@ -298,14 +298,14 @@ export function mechanicalGeometry(
       g.add(gamepadExterior(root)!);
     } else if (id === 'base') {
       box(part.size);
-      for (const x of [-7, 7]) cylinder(1.8, 4, [x, 2, 0], '#3e4b51', 0.8);
+      for (const x of [-7, 7]) cylinder(1.8, 4, [x, 2, -5], '#3e4b51', 0.8);
     } else if (id === 'motor') {
       cylinder(4.3, 10, [0, 0, 0], '#aab3b5', 0, 'x');
       cylinder(1, 1.8, [5.9, 0, 0], '#c7cecf', 0, 'x');
       for (const z of [-2, 2]) box([0.4, 1, 1], [-5.3, 0, z], '#bd9e64');
     } else if (id === 'worm') {
-      cylinder(0.7, 9.5, [0, 0, 0], '#bac1c0', 0, 'x');
-      helix(1.05, 8.8, 8, 0.18, 'x', '#d9ceb3');
+      cylinder(1.05, 9.5, [0, 0, 0], '#bac1c0', 1.02, 'x');
+      helix(1.25, 8.8, 8, 0.15, 'x', '#d9ceb3');
     } else if (id === 'gear') {
       cylinder(4.1, 1.6, [0, 0, 0], '#d1c5a9', 0.8);
       for (let i = 0; i < 28; i++) {

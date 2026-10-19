@@ -446,18 +446,11 @@ export function detailedGeometry(
     }
   }
   function shellController(top: boolean) {
-    for (const x of [-52, 52])
-      for (const z of [-25, 27]) {
-        put(disk(2.7, 7, '#d2d6d3', 1.1), [x, top ? -2 : -17, z]);
-        for (const sign of [-1, 1])
-          put(box([8, 1, 1.1], '#cbd1cf'), [x + sign * 4, top ? 0 : -19, z]);
-      }
-    for (const side of [-1, 1])
-      for (let i = 0; i < 5; i++) {
-        const rib = box([1.2, 5.5, 10], '#ced4d0', 0.02, 0.3);
-        rib.rotation.y = side * -0.25;
-        put(rib, [side * (55 + i * 1.6), top ? -4 : -16, 10 + i * 5]);
-      }
+    for (const x of [-67, 67]) {
+      put(disk(2.1, 5, '#d2d6d3', 1.1), [x, top ? 3 : -23, 15]);
+      for (const z of [8, 21])
+        put(box([0.8, 3, 4], '#ced4d0', 0.02, 0.2), [x, top ? 2 : -22, z]);
+    }
   }
   function trigger() {
     put(plate(w * 0.82, 2, d * 0.68, '#30383c', 3), [0, -h * 0.35, 0]);
@@ -853,6 +846,56 @@ export function detailedGeometry(
     text('NP-FZ100', [0, 0.1, 0], w * 0.83, '#aab1b2', label);
     label.rotation.x = Math.PI / 2;
     put(label, [0, 0, d / 2 + 0.03]);
+  } else if (level === 'gamepad' && id === 'holder') {
+    put(plate(43, 0.5, 36, '#252b30', 2), [0, -3.2, 0]);
+    for (const x of [-21.2, 21.2])
+      put(box([0.6, 6.8, 36], '#252b30'), [x, 0.2, 0]);
+    put(box([41.8, 6.8, 0.6], '#252b30'), [0, 0.2, 17.7]);
+    put(box([28.7, 6.8, 0.6], '#252b30'), [-6.55, 0.2, -17.7]);
+    put(box([8, 6.8, 0.6], '#252b30'), [16.9, 0.2, -17.7]);
+  } else if (level === 'gamepad' && id === 'membrane') {
+    for (const side of [-1, 1]) {
+      put(disk(8, 0.2, '#4a594c'), [side * 48, 0, -20]);
+      for (const [dx, dz] of [
+        [0, -4],
+        [4, 0],
+        [0, 4],
+        [-4, 0],
+      ])
+        put(disk(1.5, 0.12, '#272c2b'), [side * 48 + dx, 0.16, -20 + dz]);
+      flex(
+        [
+          [side * 48, 0, -28],
+          [side * 46, 0, -37],
+        ],
+        2.5,
+      );
+      put(box([29, 0.06, 2.5], '#b88b46'), [side * 31.5, 0, -37]);
+    }
+  } else if (level === 'gamepad' && id === 'wiring') {
+    for (const side of [-1, 1]) {
+      flex(
+        [
+          [side * 48, 1, -37],
+          [side * 38, 2, -32],
+          [side * 27, 3, -27],
+        ],
+        3,
+      );
+      for (const [dy, color] of [
+        [0, '#7d3936'],
+        [1.2, '#252b30'],
+      ] as const)
+        tube(
+          [
+            [side * 57, -10 + dy, 1.8],
+            [side * 44, -6 + dy, -3],
+            [side * 25, 1 + dy, -12],
+          ],
+          0.3,
+          color,
+        );
+    }
   } else if (level === 'gamepad' && (id === 'top' || id === 'back'))
     shellController(id === 'top');
   else if (level === 'gamepad' && (id === 'triggers' || id === 'right-trigger'))
@@ -885,11 +928,11 @@ export function detailedGeometry(
     // Exterior pad and light guide come from the licensed surface mesh.
     flex(
       [
-        [0, -1, 0],
-        [0, -4, 5],
-        [0, -7, 12],
+        [-18, -1, -8],
+        [-18, -4, -13],
+        [-18, -7, -17],
       ],
-      8,
+      6,
     );
   } else if (level === 'earbuds' && id === 'case') {
     const shell = put(

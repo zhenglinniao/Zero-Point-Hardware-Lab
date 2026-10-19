@@ -52,6 +52,13 @@ export function decorateBoard(
       : [];
   const free = (x: number, z: number, side: number) =>
     onBoard(x, z, 0.8) &&
+    // Reserve the controller's button-contact pads and perimeter flex route.
+    // These sit directly over this face and cannot share it with SMT bodies.
+    !(
+      level === 'gamepadboard' &&
+      side > 0 &&
+      ((Math.abs(x) > 35 && z > -15 && z < 9) || (Math.abs(x) > 12 && z < -15))
+    ) &&
     !packages.some(
       (item) =>
         (item.pos[1] - part.pos[1]) * side >= 0 &&

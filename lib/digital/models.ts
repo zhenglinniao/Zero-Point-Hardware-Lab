@@ -16,6 +16,13 @@ export function buildDigital(level: DigitalLevel, tools: ModelTools) {
         pivot: [0, 9.4 / definition.unit, -8.6 / definition.unit],
         angle: (-Math.PI * 105) / 180,
       };
+    if (level === 'gamepad' && part.id === 'back')
+      object.userData.hinge = { pivot: vec([0, 24, -45]), angle: Math.PI / 2 };
+    if (part.path)
+      object.userData.disassemblyPath = part.path.map((p) => ({
+        at: p.at,
+        offset: vec(p.offset),
+      }));
     if (part.motion) object.userData.disassemblyWindow = part.motion;
     const nested = part.open ?? part.assembly;
     if (nested) {

@@ -10,7 +10,7 @@ export type DigitalPart = {
   id: string; name: string; category: Category; shape: ShapeKind;
   size: Vec3; pos: Vec3; delta: Vec3; color: string;
   description: string; purpose: string; open?: DigitalLevel; opensFirst?: boolean;
-  rotation?: Vec3; sources?: SourceId[]; quantity?: string; assembly?: DigitalLevel; motion?: [number, number];
+  rotation?: Vec3; sources?: SourceId[]; quantity?: string; assembly?: DigitalLevel; motion?: [number, number]; path?: {at:number;offset:Vec3}[];
 };
 export type Definition = { id: DigitalLevel; parent: DigitalLevel | null; name: string; summary: string; unit: number; source: SourceId; specs?: Record<string, string>; parts: DigitalPart[]; camera?: LevelDef['camera'] };
 

@@ -368,7 +368,7 @@ await test('controller battery and haptic bodies stay inside the licensed shell 
   }
   for(const [x,z,bottom,top] of sections){
     const ray=new T.Raycaster(new T.Vector3(x,100,z),new T.Vector3(0,-1,0));
-    const hits=ray.intersectObject(shell,true).filter(hit=>/^(back-shell|black-front-shell|white-shell)/.test(hit.object.name));
+    const hits=ray.intersectObject(shell,true).filter(hit=>/^(back-shell|black-front-shell|white-shell|touchpad)/.test(hit.object.name));
     assert.ok(hits.length>=2,`closed shell section ${x},${z}`);
     const heights=hits.map(hit=>hit.point.y);
     assert.ok(top<Math.max(...heights),`body pierces upper skin at ${x},${z}`);

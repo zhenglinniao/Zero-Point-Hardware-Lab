@@ -66,6 +66,26 @@ export function pieceDestination(
       (isPhysical(level) ? stage : smoothstep(0, 0.75, value)) *
         (levels[level].spread ?? 1),
     );
+  const path = piece.object.userData.disassemblyPath as
+    | { at: number; offset: [number, number, number] }[]
+    | undefined;
+  if (path?.length) {
+    const next = path.findIndex((p) => p.at > value);
+    const right = next < 0 ? path.length - 1 : next,
+      left = Math.max(0, right - 1);
+    const progress =
+      left === right ? 1 : smoothstep(path[left].at, path[right].at, value);
+    const a = path[left].offset,
+      b = path[right].offset;
+    position
+      .set(
+        a[0] + (b[0] - a[0]) * progress,
+        a[1] + (b[1] - a[1]) * progress,
+        a[2] + (b[2] - a[2]) * progress,
+      )
+      .multiplyScalar(levels[level].spread ?? 1)
+      .add(piece.base);
+  }
   const grid = laidOutAmount(value);
   const hinge = piece.object.userData.hinge;
   if (hinge) {
