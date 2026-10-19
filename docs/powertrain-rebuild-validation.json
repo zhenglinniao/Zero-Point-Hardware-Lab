@@ -1,0 +1,158 @@
+{
+  "date": "2026-10-19",
+  "timezone": "Asia/Shanghai",
+  "runtimeCommits": [
+    "1e97241",
+    "fd31f9a"
+  ],
+  "fullTests": {
+    "passed": 172,
+    "failed": 0
+  },
+  "focusedPowertrainTests": {
+    "passed": 15,
+    "failed": 0
+  },
+  "comparisonTests": {
+    "passed": 6,
+    "failed": 0
+  },
+  "geometryCatalogueAudit": {
+    "levels": 116,
+    "poses": 348,
+    "pieces": 3241,
+    "systems": {
+      "pc": 38,
+      "legion": 15,
+      "macbook": 15,
+      "ps5": 6,
+      "phone": 6,
+      "camera": 7,
+      "gamepad": 8,
+      "earbuds": 5,
+      "engine": 10,
+      "evmotor": 6
+    }
+  },
+  "structuralBrowserStates": 48,
+  "finalDesktopAndMobile": {
+    "states": 14,
+    "errors": [],
+    "pcLoadsCastings": false,
+    "results": [
+      {
+        "id": "engine",
+        "amount": 0,
+        "viewport": "desktop"
+      },
+      {
+        "id": "engine",
+        "amount": 45,
+        "viewport": "desktop"
+      },
+      {
+        "id": "engine",
+        "amount": 100,
+        "viewport": "desktop"
+      },
+      {
+        "id": "evmotor",
+        "amount": 0,
+        "viewport": "desktop"
+      },
+      {
+        "id": "evmotor",
+        "amount": 45,
+        "viewport": "desktop"
+      },
+      {
+        "id": "evmotor",
+        "amount": 100,
+        "viewport": "desktop"
+      },
+      {
+        "id": "engine-head",
+        "amount": 45,
+        "viewport": "desktop"
+      },
+      {
+        "id": "ev-stator",
+        "amount": 45,
+        "viewport": "desktop"
+      },
+      {
+        "id": "engine",
+        "amount": 0,
+        "viewport": "mobile"
+      },
+      {
+        "id": "engine",
+        "amount": 45,
+        "viewport": "mobile"
+      },
+      {
+        "id": "engine",
+        "amount": 100,
+        "viewport": "mobile"
+      },
+      {
+        "id": "evmotor",
+        "amount": 0,
+        "viewport": "mobile"
+      },
+      {
+        "id": "evmotor",
+        "amount": 45,
+        "viewport": "mobile"
+      },
+      {
+        "id": "evmotor",
+        "amount": 100,
+        "viewport": "mobile"
+      }
+    ]
+  },
+  "reviewRegressionSamples": [
+    {
+      "level": "ev-stator",
+      "aId": "core",
+      "bId": "conductor-1",
+      "collisions": []
+    },
+    {
+      "level": "ev-stator",
+      "aId": "core",
+      "bId": "liner-1",
+      "collisions": []
+    },
+    {
+      "level": "ev-stator",
+      "aId": "core",
+      "bId": "endturn-1",
+      "collisions": []
+    },
+    {
+      "level": "ev-rotor",
+      "aId": "core",
+      "bId": "magnet-1",
+      "collisions": []
+    },
+    {
+      "level": "engine-head",
+      "aId": "head",
+      "bId": "valve-0",
+      "collisions": []
+    },
+    {
+      "level": "engine-head",
+      "aId": "head",
+      "bId": "valve-1",
+      "collisions": []
+    }
+  ],
+  "limitations": [
+    "Discrete selected-pair checks are not all-pairs continuous collision proof.",
+    "Public-reference reconstruction is not measured OEM CAD.",
+    "Remaining issue status is recorded in POWERTRAIN-REBUILD.md."
+  ]
+}
