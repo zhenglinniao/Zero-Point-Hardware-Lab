@@ -1,5 +1,9 @@
 import { chromium } from '@playwright/test';
 import assert from 'node:assert/strict';
+import { mkdir } from 'node:fs/promises';
+
+const output = process.env.SMOKE_OUTPUT_DIR ?? 'output/playwright';
+await mkdir(output, { recursive: true });
 
 const base = process.env.NOTEBOOK_BASE_URL ?? 'http://127.0.0.1:5173';
 console.log('Checking laptop interactions at', base);
@@ -47,7 +51,7 @@ try {
     await ready(level, amount);
   };
   const capture = (name) =>
-    page.screenshot({ path: `docs/screenshots/${name}.png`, timeout: 60000 });
+    page.screenshot({ path: `${output}/${name}.png`, timeout: 60000 });
   const openFromTray = async (label, destination) => {
     console.log('Opening', destination, 'from its tray item');
     await page
@@ -116,6 +120,21 @@ try {
     .filter({ hasText: 'Desktop PC' })
     .evaluate((button) => button.click());
   await ready('pc');
+  await capture('pc-assembled');
+  await phase('Dissection', 'pc', 50);
+  await phase('Inventory', 'pc', 100);
+  await capture('pc-inventory');
+  console.log('Checking Chinese guide and return to the explorer');
+  await page.getByRole('link', { name: '使用指南' }).click();
+  await page.getByRole('heading', { name: '第一次探索，只需三步' }).waitFor();
+  assert.equal(await page.locator('html').getAttribute('lang'), 'zh-CN');
+  await capture('guide-zh-desktop');
+  await page.setViewportSize({ width: 390, height: 844 });
+  assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true);
+  await capture('guide-zh-mobile');
+  await page.getByRole('link', { name: '开始探索 →' }).click();
+  await ready('pc');
+  await page.setViewportSize({ width: 1440, height: 1000 });
   console.log('Checking mobile navigation and deep links');
   await page.goto(base + '/?scale=maccell');
   console.log(
@@ -135,7 +154,7 @@ try {
   await capture('legion-mobile');
   assert.deepEqual(errors, []);
   console.log(
-    'Laptop interaction checks passed: tray dives, reset, comparison, mobile, links; no page errors.',
+    'Interaction checks passed: tray dives, reset, comparison, desktop disassembly, Chinese guide, mobile, links; no page errors.',
   );
 } finally {
   await browser.close();
