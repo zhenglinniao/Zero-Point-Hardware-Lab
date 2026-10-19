@@ -668,8 +668,8 @@ export function refinePrecisionAssemblies(definitions: Definition[]) {
     pos: [0, 8.5, 0],
     motion: [0.28, 0.55],
   });
-  edit('earbuds', 'left', { motion: [0.16, 0.38], delta: [-14, 32, 2] });
-  edit('earbuds', 'unit', { motion: [0.16, 0.38], delta: [14, 32, 2] });
+  edit('earbuds', 'left', { motion: [0.16, 0.38], delta: [0, 46, 0] });
+  edit('earbuds', 'unit', { motion: [0.16, 0.38], delta: [0, 46, 0] });
   edit('earbuds', 'connector', {
     pos: [0, -20, 0],
     size: [8.8, 2.3, 4],

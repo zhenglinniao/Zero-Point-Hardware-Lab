@@ -512,7 +512,7 @@ export function detailedGeometry(
       [0, 0, 0],
       parent,
     );
-    const ventGeometry = new T.CircleGeometry(1, 64),
+    const ventGeometry = new T.RingGeometry(0, 1, 64, 8),
       v = ventGeometry.getAttribute('position');
     for (let i = 0; i < v.count; i++) {
       const x = -4.4 + v.getX(i) * 1.8,
