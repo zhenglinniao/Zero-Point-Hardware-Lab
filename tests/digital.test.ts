@@ -21,7 +21,7 @@ await test('the device library exposes every independent system exactly once',()
   assert.deepEqual(new Set(devices.map((device)=>device.level)),new Set(systemRoots));
   assert.equal(devices.length,new Set(devices.map((device)=>device.level)).size);
   assert.equal(digitalRoots.length,5);
-  assert.equal(Object.keys(digitalLevels).length,14);
+  assert.equal(Object.keys(digitalLevels).length,23);
 });
 await test('every digital scale has native selectable geometry, Chinese descriptions and a reversible owner',()=>{
   for(const definition of digitalDefinitions) {
@@ -294,4 +294,51 @@ await test('controller battery and haptic bodies stay inside the licensed shell 
     assert.ok(bottom>Math.min(...heights),`body pierces lower skin at ${x},${z}`);
   }
   disposeModelResources({root:shell,pieces:[]});
+});
+
+
+await test('major solid modules stay separate throughout extraction before inventory packing',()=>{
+  const pairs={phone:[['phone-display','phone-battery'],['phoneboard','phone-battery']],camera:[['camera-board','camera-heatplate'],['camerasensor','camera-shutter'],['camera-board','camera-battery'],['camera-slots','camera-battery']],earbudunit:[['earbudunit-battery','earbuddriver'],['earbudunit-processor','earbudunit-mic']],ps5:[['ps5-power','ps5cooling'],['ps5-drive','ps5board'],['ps5-fan','ps5-power']]};
+  for(const [level,checks] of Object.entries(pairs)){
+    const model=models.get(level as DigitalLevel)!;
+    try{for(let step=0;step<=35;step++){
+      for(const piece of model.pieces)applyPiecePose(piece,level as DigitalLevel,step/50,new ModelStageScratch());
+      model.root.updateMatrixWorld(true);
+      for(const [left,right] of checks){
+        const a=new T.Box3().setFromObject(model.pieces.find(p=>p.concept===left)!.object);
+        const b=new T.Box3().setFromObject(model.pieces.find(p=>p.concept===right)!.object);
+        assert.ok(!a.intersectsBox(b),`${level}: ${left} crosses ${right} at ${step*2}%`);
+      }
+    }}finally{for(const piece of model.pieces)applyPiecePose(piece,level as DigitalLevel,0,new ModelStageScratch());}
+  }
+});
+
+await test('phone support frame waits until the display and internal modules have withdrawn',()=>{
+  const model=models.get('phone')!,frame=model.pieces.find(p=>p.concept==='phone-frame')!,board=model.pieces.find(p=>p.concept==='phoneboard')!;
+  applyPiecePose(frame,'phone',.35,new ModelStageScratch());applyPiecePose(board,'phone',.35,new ModelStageScratch());
+  assert.ok(frame.object.position.equals(frame.base));assert.ok(board.object.position.y>board.base.y);
+  applyPiecePose(frame,'phone',0,new ModelStageScratch());applyPiecePose(board,'phone',0,new ModelStageScratch());
+});
+
+await test('phone display stack fits the enclosure thickness and shield clears its actual packages',()=>{
+  const phone=models.get('phone')!,display=new T.Box3().setFromObject(phone.pieces.find(p=>p.concept==='phone-display')!.object);
+  assert.ok(display.min.y>=-3.9/12-1e-6);assert.ok(display.max.y<=-2.8/12);
+  const board=models.get('phoneboard')!,shield=new T.Box3().setFromObject(board.pieces.find(p=>p.concept==='phoneboard-shield')!.object);
+  for(const id of ['soc','nand','radio','pmic']){
+    const chip=new T.Box3().setFromObject(board.pieces.find(p=>p.concept===`phoneboard-${id}`)!.object);
+    assert.ok(chip.max.y<shield.min.y,`${id} penetrates shield`);
+  }
+});
+
+await test('both earphones use the same native assembly and turn their nozzle along the case width',()=>{
+  const model=models.get('earbuds')!;model.root.updateMatrixWorld(true);
+  const bounds=[];
+  for(const id of ['earbuds-left','earbudunit']){
+    const piece=model.pieces.find(p=>p.concept===id)!;
+    const box=new T.Box3().setFromObject(piece.object);bounds.push(box);
+    assert.ok(box.min.z>-9/10 && box.max.z<9/10,'heads must clear front and rear case walls');
+    assert.ok(box.max.y<16.5/10,'heads must clear the closed lid');
+    assert.ok(box.min.y>-12.85/10,'stems must clear the battery envelope');
+  }
+  assert.ok(bounds[0].getSize(new T.Vector3()).distanceTo(bounds[1].getSize(new T.Vector3()))<1e-6);
 });

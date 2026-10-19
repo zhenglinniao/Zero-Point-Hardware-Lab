@@ -54,9 +54,9 @@ export function decorateBoard(
     onBoard(x, z, 0.8) &&
     !packages.some(
       (item) =>
-        item.pos[1] * side >= 0 &&
-        Math.abs(x - item.pos[0]) < item.size[0] / 2 + 1.8 &&
-        Math.abs(z - item.pos[2]) < item.size[2] / 2 + 1.8,
+        (item.pos[1] - part.pos[1]) * side >= 0 &&
+        Math.abs(x - (item.pos[0] - part.pos[0])) < item.size[0] / 2 + 1.8 &&
+        Math.abs(z - (item.pos[2] - part.pos[2])) < item.size[2] / 2 + 1.8,
     );
 
   const canvas = document.createElement('canvas');

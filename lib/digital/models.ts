@@ -11,9 +11,11 @@ export function buildDigital(level: DigitalLevel, tools: ModelTools) {
     value.map((v) => v / definition.unit) as Vec3;
   for (const part of definition.parts) {
     const object = new T.Group();
-    if (part.open) {
-      const assembly = tools.assembly(part.open);
-      const child = digitalDefinitions.find((entry) => entry.id === part.open)!;
+    if (part.motion) object.userData.disassemblyWindow = part.motion;
+    const nested = part.open ?? part.assembly;
+    if (nested) {
+      const assembly = tools.assembly(nested);
+      const child = digitalDefinitions.find((entry) => entry.id === nested)!;
       assembly.scale.setScalar(child.unit / definition.unit);
       if (
         level === 'ps5' &&
@@ -31,6 +33,7 @@ export function buildDigital(level: DigitalLevel, tools: ModelTools) {
         (part.open === 'camerasensor' || part.open === 'cameralens')
       )
         assembly.rotation.x = Math.PI / 2;
+      if (part.rotation) assembly.rotation.set(...part.rotation);
       object.add(assembly);
     } else {
       const geometry = detailedGeometry(level, part, definition.unit, tools);

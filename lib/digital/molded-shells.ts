@@ -138,8 +138,8 @@ export function cameraGrip() {
   });
 }
 
-export function earbudShell(open: boolean) {
-  return surface(`earbud-${open}`, [12, 18, 12], (x, y, z) => {
+export function earbudShell(open: boolean, cap = false) {
+  return surface(`earbud-${open}-${cap}`, [12, 18, 12], (x, y, z) => {
     // A swollen acoustic head joins a short, flattened stem without a seam of
     // intersecting boxes. Cavity opens towards the driver on the service side.
     const head =
@@ -147,7 +147,7 @@ export function earbudShell(open: boolean) {
     const stem = capsule(x * 1.2, y, z, 2.3, -12, 5, 2.3, 3, 5, 2.7);
     const body = blend(head, stem, 2.5);
     let shell = Math.max(body, -(body + 1.0));
-    if (open) shell = Math.max(shell, y - 7.2);
+    if (open) shell = Math.max(shell, cap ? 7.25 - y : y - 7.2);
     return shell;
   });
 }

@@ -42,7 +42,8 @@ export function pieceDestination(
   inventoryTarget: T.Vector3,
 ) {
   const entry = byId[piece.concept];
-  const stage = entry.opensFirst
+  const window = piece.object.userData.disassemblyWindow as [number, number] | undefined;
+  const stage = window ? smoothstep(window[0], window[1], value) : entry.opensFirst
     ? smoothstep(0, 0.2, value)
     : entry.category === 'Cooling'
       ? smoothstep(0, 0.48, value)

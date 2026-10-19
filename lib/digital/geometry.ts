@@ -3,6 +3,7 @@ import { cameraGrip, earbudShell, chargingCase } from './molded-shells.ts';
 import { decorateBoard } from './board-detail.ts';
 import { gamepadExterior } from './gamepad-asset.ts';
 import { buildLensPart } from './lens-geometry.ts';
+import { precisionGeometry } from './precision-geometry.ts';
 import type { ModelTools } from '../hardware.ts';
 import type { Vec3 } from '../layout.ts';
 import type { DigitalLevel, DigitalPart } from './catalogue.ts';
@@ -535,7 +536,9 @@ export function detailedGeometry(
 
   const id = part.id;
   let handled = true;
-  if (level === 'cameralens') g.add(buildLensPart(part, tools));
+  const precision = precisionGeometry(level, part, tools);
+  if (precision) g.add(precision);
+  else if (level === 'cameralens') g.add(buildLensPart(part, tools));
   else if (level === 'ps5' && part.shape === 'wing') {
     // Thin doubly curved surface with a disc-side swelling. Grid topology keeps
     // thickness and curvature, rather than a side-view profile extruded flat.
@@ -923,7 +926,7 @@ export function detailedGeometry(
       8,
     );
   } else if (level === 'camera' && id === 'top') {
-    put(plate(w, h, d, ink, 6, [rectHole(-8, -4, 31, 25, 3)]));
+    put(plate(w, h, d, ink, 6, [rectHole(-8, -10, 43, 33, 3)]));
     put(disk(5, 2, silver), [48, h / 2 + 4, 14]);
     for (const x of [-60, 60]) put(disk(3, 2, silver, 1.7), [x, h / 2, 0]);
     for (const [x, z, r] of [
@@ -1007,17 +1010,23 @@ export function detailedGeometry(
   } else if (level === 'earbuds' && id === 'tray') {
     put(
       plate(w, h, d, '#eaefec', 8, [
-        circleHole(-14, 0, 7.7),
-        circleHole(14, 0, 7.7),
+        rectHole(-14, 0, 24.4, 17.2, 4),
+        rectHole(14, 0, 24.4, 17.2, 4),
       ]),
     );
     for (const x of [-14, 14]) {
-      put(disk(8.5, 13, '#d6dedb', 7.5), [x, -5, 0]);
+      put(plate(25.2, 6, 18, '#d6dedb', 4.4, [rectHole(0, 0, 24.4, 17.2, 4)]), [
+        x,
+        -4,
+        0,
+      ]);
       for (const offset of [-1, 1])
         put(disk(0.7, 2, copper), [x + offset * 1.5, -9, 3]);
     }
   } else if (level === 'earbuds' && id === 'left') budShell(g, false);
   else if (level === 'earbudunit' && id === 'shell') budShell();
+  else if (level === 'earbudunit' && id === 'cap')
+    put(new T.Mesh(earbudShell(true, true), mat('#edf0ed', 0.02, 0.22)));
   else if (level === 'earbudunit' && id === 'tip') {
     const points = [
       [2.5, -2.5],
@@ -1033,9 +1042,9 @@ export function detailedGeometry(
     ].map(([x, y]) => new T.Vector2(x, y));
     put(new T.Mesh(new T.LatheGeometry(points, 48), mat('#dce3df', 0.02, 0.8)));
   } else if (level === 'earbudunit' && id === 'battery') {
-    put(disk(4.5, 5, silver));
-    put(disk(3.8, 0.25, '#b8aa8d'), [0, 2.65, 0]);
-    text('Li-ion', [0, 2.9, 0], 6, '#343c3d');
+    put(disk(w / 2, h, silver));
+    put(disk(w * 0.42, 0.18, '#b8aa8d'), [0, h / 2 + 0.1, 0]);
+    text('Li-ion', [0, h / 2 + 0.22, 0], w * 0.75, '#343c3d');
   } else handled = false;
 
   if (!handled)

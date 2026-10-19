@@ -4,13 +4,13 @@ import type { SourceId } from '../sources.ts';
 import type { Vec3 } from '../layout.ts';
 import { refineDigitalDefinitions } from './refinements.ts';
 
-export type DigitalLevel = 'ps5' | 'ps5board' | 'ps5cooling' | 'phone' | 'phoneboard' | 'phonecamera' | 'camera' | 'camerasensor' | 'cameralens' | 'gamepad' | 'gamepadboard' | 'earbuds' | 'earbudunit' | 'earbuddriver';
+export type DigitalLevel = 'ps5' | 'ps5board' | 'ps5cooling' | 'phone' | 'phoneboard' | 'phonecamera' | 'camera' | 'camerasensor' | 'cameralens' | 'gamepad' | 'gamepadboard' | 'earbuds' | 'earbudunit' | 'earbuddriver' | 'phone-display' | 'ps5-power' | 'ps5-drive' | 'camera-board' | 'camera-shutter' | 'gamepad-haptics' | 'gamepad-right-haptic' | 'earbudunit-processor' | 'earbuds-board';
 export type ShapeKind = 'box' | 'board' | 'chip' | 'battery' | 'screen' | 'wing' | 'frame' | 'fan' | 'fins' | 'pipes' | 'lens' | 'ring' | 'coil' | 'sensor' | 'shutter' | 'grip-shell' | 'buttons' | 'stick' | 'earbud' | 'diaphragm' | 'flex' | 'screws' | 'connector' | 'trigger' | 'actuator' | 'tray' | 'shield' | 'mount';
 export type DigitalPart = {
   id: string; name: string; category: Category; shape: ShapeKind;
   size: Vec3; pos: Vec3; delta: Vec3; color: string;
   description: string; purpose: string; open?: DigitalLevel; opensFirst?: boolean;
-  rotation?: Vec3; sources?: SourceId[]; quantity?: string;
+  rotation?: Vec3; sources?: SourceId[]; quantity?: string; assembly?: DigitalLevel; motion?: [number, number];
 };
 export type Definition = { id: DigitalLevel; parent: DigitalLevel | null; name: string; summary: string; unit: number; source: SourceId; specs?: Record<string, string>; parts: DigitalPart[]; camera?: LevelDef['camera'] };
 

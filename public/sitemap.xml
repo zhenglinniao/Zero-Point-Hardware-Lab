@@ -83,6 +83,15 @@
   <url><loc>https://zero-point-hardware-lab.vercel.app/?scale=earbuds</loc></url>
   <url><loc>https://zero-point-hardware-lab.vercel.app/?scale=earbudunit</loc></url>
   <url><loc>https://zero-point-hardware-lab.vercel.app/?scale=earbuddriver</loc></url>
+  <url><loc>https://zero-point-hardware-lab.vercel.app/?scale=phone-display</loc></url>
+  <url><loc>https://zero-point-hardware-lab.vercel.app/?scale=ps5-power</loc></url>
+  <url><loc>https://zero-point-hardware-lab.vercel.app/?scale=ps5-drive</loc></url>
+  <url><loc>https://zero-point-hardware-lab.vercel.app/?scale=camera-board</loc></url>
+  <url><loc>https://zero-point-hardware-lab.vercel.app/?scale=camera-shutter</loc></url>
+  <url><loc>https://zero-point-hardware-lab.vercel.app/?scale=gamepad-haptics</loc></url>
+  <url><loc>https://zero-point-hardware-lab.vercel.app/?scale=gamepad-right-haptic</loc></url>
+  <url><loc>https://zero-point-hardware-lab.vercel.app/?scale=earbuds-board</loc></url>
+  <url><loc>https://zero-point-hardware-lab.vercel.app/?scale=earbudunit-processor</loc></url>
   <url><loc>https://zero-point-hardware-lab.vercel.app/?scale=ps5&amp;part=ps5-left-cover</loc></url>
   <url><loc>https://zero-point-hardware-lab.vercel.app/?scale=ps5&amp;part=ps5-right-cover</loc></url>
   <url><loc>https://zero-point-hardware-lab.vercel.app/?scale=ps5&amp;part=ps5-frame</loc></url>
@@ -234,11 +243,65 @@
   <url><loc>https://zero-point-hardware-lab.vercel.app/?scale=earbudunit&amp;part=earbudunit-tip</loc></url>
   <url><loc>https://zero-point-hardware-lab.vercel.app/?scale=earbudunit&amp;part=earbudunit-flex</loc></url>
   <url><loc>https://zero-point-hardware-lab.vercel.app/?scale=earbudunit&amp;part=earbudunit-contacts</loc></url>
+  <url><loc>https://zero-point-hardware-lab.vercel.app/?scale=earbudunit&amp;part=earbudunit-cap</loc></url>
   <url><loc>https://zero-point-hardware-lab.vercel.app/?scale=earbuddriver&amp;part=earbuddriver-frame</loc></url>
   <url><loc>https://zero-point-hardware-lab.vercel.app/?scale=earbuddriver&amp;part=earbuddriver-magnet</loc></url>
   <url><loc>https://zero-point-hardware-lab.vercel.app/?scale=earbuddriver&amp;part=earbuddriver-coil</loc></url>
   <url><loc>https://zero-point-hardware-lab.vercel.app/?scale=earbuddriver&amp;part=earbuddriver-diaphragm</loc></url>
   <url><loc>https://zero-point-hardware-lab.vercel.app/?scale=earbuddriver&amp;part=earbuddriver-mesh</loc></url>
+  <url><loc>https://zero-point-hardware-lab.vercel.app/?scale=phone-display&amp;part=phone-display-glass</loc></url>
+  <url><loc>https://zero-point-hardware-lab.vercel.app/?scale=phone-display&amp;part=phone-display-optical</loc></url>
+  <url><loc>https://zero-point-hardware-lab.vercel.app/?scale=phone-display&amp;part=phone-display-oled</loc></url>
+  <url><loc>https://zero-point-hardware-lab.vercel.app/?scale=phone-display&amp;part=phone-display-graphite</loc></url>
+  <url><loc>https://zero-point-hardware-lab.vercel.app/?scale=phone-display&amp;part=phone-display-backplate</loc></url>
+  <url><loc>https://zero-point-hardware-lab.vercel.app/?scale=phone-display&amp;part=phone-display-flex</loc></url>
+  <url><loc>https://zero-point-hardware-lab.vercel.app/?scale=phone-display&amp;part=phone-display-seal</loc></url>
+  <url><loc>https://zero-point-hardware-lab.vercel.app/?scale=ps5-power&amp;part=ps5-power-housing</loc></url>
+  <url><loc>https://zero-point-hardware-lab.vercel.app/?scale=ps5-power&amp;part=ps5-power-cover</loc></url>
+  <url><loc>https://zero-point-hardware-lab.vercel.app/?scale=ps5-power&amp;part=ps5-power-pcb</loc></url>
+  <url><loc>https://zero-point-hardware-lab.vercel.app/?scale=ps5-power&amp;part=ps5-power-input</loc></url>
+  <url><loc>https://zero-point-hardware-lab.vercel.app/?scale=ps5-power&amp;part=ps5-power-bulk</loc></url>
+  <url><loc>https://zero-point-hardware-lab.vercel.app/?scale=ps5-power&amp;part=ps5-power-transformer</loc></url>
+  <url><loc>https://zero-point-hardware-lab.vercel.app/?scale=ps5-power&amp;part=ps5-power-secondary</loc></url>
+  <url><loc>https://zero-point-hardware-lab.vercel.app/?scale=ps5-drive&amp;part=ps5-drive-chassis</loc></url>
+  <url><loc>https://zero-point-hardware-lab.vercel.app/?scale=ps5-drive&amp;part=ps5-drive-cover</loc></url>
+  <url><loc>https://zero-point-hardware-lab.vercel.app/?scale=ps5-drive&amp;part=ps5-drive-spindle</loc></url>
+  <url><loc>https://zero-point-hardware-lab.vercel.app/?scale=ps5-drive&amp;part=ps5-drive-pickup</loc></url>
+  <url><loc>https://zero-point-hardware-lab.vercel.app/?scale=ps5-drive&amp;part=ps5-drive-rails</loc></url>
+  <url><loc>https://zero-point-hardware-lab.vercel.app/?scale=ps5-drive&amp;part=ps5-drive-loader</loc></url>
+  <url><loc>https://zero-point-hardware-lab.vercel.app/?scale=ps5-drive&amp;part=ps5-drive-controller</loc></url>
+  <url><loc>https://zero-point-hardware-lab.vercel.app/?scale=camera-board&amp;part=camera-board-pcb</loc></url>
+  <url><loc>https://zero-point-hardware-lab.vercel.app/?scale=camera-board&amp;part=camera-board-processor</loc></url>
+  <url><loc>https://zero-point-hardware-lab.vercel.app/?scale=camera-board&amp;part=camera-board-memory</loc></url>
+  <url><loc>https://zero-point-hardware-lab.vercel.app/?scale=camera-board&amp;part=camera-board-power</loc></url>
+  <url><loc>https://zero-point-hardware-lab.vercel.app/?scale=camera-board&amp;part=camera-board-shield</loc></url>
+  <url><loc>https://zero-point-hardware-lab.vercel.app/?scale=camera-board&amp;part=camera-board-connectors</loc></url>
+  <url><loc>https://zero-point-hardware-lab.vercel.app/?scale=camera-shutter&amp;part=camera-shutter-frame</loc></url>
+  <url><loc>https://zero-point-hardware-lab.vercel.app/?scale=camera-shutter&amp;part=camera-shutter-first</loc></url>
+  <url><loc>https://zero-point-hardware-lab.vercel.app/?scale=camera-shutter&amp;part=camera-shutter-second</loc></url>
+  <url><loc>https://zero-point-hardware-lab.vercel.app/?scale=camera-shutter&amp;part=camera-shutter-drive</loc></url>
+  <url><loc>https://zero-point-hardware-lab.vercel.app/?scale=camera-shutter&amp;part=camera-shutter-flex</loc></url>
+  <url><loc>https://zero-point-hardware-lab.vercel.app/?scale=gamepad-haptics&amp;part=gamepad-haptics-sleeve</loc></url>
+  <url><loc>https://zero-point-hardware-lab.vercel.app/?scale=gamepad-haptics&amp;part=gamepad-haptics-magnet</loc></url>
+  <url><loc>https://zero-point-hardware-lab.vercel.app/?scale=gamepad-haptics&amp;part=gamepad-haptics-mass</loc></url>
+  <url><loc>https://zero-point-hardware-lab.vercel.app/?scale=gamepad-haptics&amp;part=gamepad-haptics-coil</loc></url>
+  <url><loc>https://zero-point-hardware-lab.vercel.app/?scale=gamepad-haptics&amp;part=gamepad-haptics-end-a</loc></url>
+  <url><loc>https://zero-point-hardware-lab.vercel.app/?scale=gamepad-haptics&amp;part=gamepad-haptics-end-b</loc></url>
+  <url><loc>https://zero-point-hardware-lab.vercel.app/?scale=gamepad-right-haptic&amp;part=gamepad-right-haptic-sleeve</loc></url>
+  <url><loc>https://zero-point-hardware-lab.vercel.app/?scale=gamepad-right-haptic&amp;part=gamepad-right-haptic-magnet</loc></url>
+  <url><loc>https://zero-point-hardware-lab.vercel.app/?scale=gamepad-right-haptic&amp;part=gamepad-right-haptic-mass</loc></url>
+  <url><loc>https://zero-point-hardware-lab.vercel.app/?scale=gamepad-right-haptic&amp;part=gamepad-right-haptic-coil</loc></url>
+  <url><loc>https://zero-point-hardware-lab.vercel.app/?scale=gamepad-right-haptic&amp;part=gamepad-right-haptic-end-a</loc></url>
+  <url><loc>https://zero-point-hardware-lab.vercel.app/?scale=gamepad-right-haptic&amp;part=gamepad-right-haptic-end-b</loc></url>
+  <url><loc>https://zero-point-hardware-lab.vercel.app/?scale=earbuds-board&amp;part=earbuds-board-pcb</loc></url>
+  <url><loc>https://zero-point-hardware-lab.vercel.app/?scale=earbuds-board&amp;part=earbuds-board-charger</loc></url>
+  <url><loc>https://zero-point-hardware-lab.vercel.app/?scale=earbuds-board&amp;part=earbuds-board-controller</loc></url>
+  <url><loc>https://zero-point-hardware-lab.vercel.app/?scale=earbuds-board&amp;part=earbuds-board-power</loc></url>
+  <url><loc>https://zero-point-hardware-lab.vercel.app/?scale=earbuds-board&amp;part=earbuds-board-connectors</loc></url>
+  <url><loc>https://zero-point-hardware-lab.vercel.app/?scale=earbudunit-processor&amp;part=earbudunit-processor-flex</loc></url>
+  <url><loc>https://zero-point-hardware-lab.vercel.app/?scale=earbudunit-processor&amp;part=earbudunit-processor-sip</loc></url>
+  <url><loc>https://zero-point-hardware-lab.vercel.app/?scale=earbudunit-processor&amp;part=earbudunit-processor-sensor</loc></url>
+  <url><loc>https://zero-point-hardware-lab.vercel.app/?scale=earbudunit-processor&amp;part=earbudunit-processor-contacts</loc></url>
   <url><loc>https://zero-point-hardware-lab.vercel.app/?scale=legion&amp;part=legion-cover</loc></url>
   <url><loc>https://zero-point-hardware-lab.vercel.app/?scale=legion&amp;part=legion-deck</loc></url>
   <url><loc>https://zero-point-hardware-lab.vercel.app/?scale=legion&amp;part=legion-trackpad</loc></url>

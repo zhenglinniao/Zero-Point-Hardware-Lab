@@ -29,14 +29,14 @@ try {
   await click(page.getByRole('tab',{name:'全部',exact:true}));
   await page.locator('#devices').scrollIntoViewIfNeeded();
   await capture('device-library');
-  console.log('Checking all fourteen new scales at assembly, dissection and inventory');
+  console.log('Checking all digital scales at assembly, dissection and inventory');
   for(const definition of digitalDefinitions) {
     console.log('Rendering',definition.id);
     await page.goto(`${base}/?scale=${definition.id}`);
     await ready(definition.id,0);
     if(digitalRoots.includes(definition.id)) await capture(`${definition.id}-assembled`);
     await click(page.locator('[data-phase="Dissection"]')); await ready(definition.id,50);
-    if(digitalRoots.includes(definition.id)) await capture(`${definition.id}-dissection`);
+    await capture(`${definition.id}-dissection`);
     await click(page.locator('[data-phase="Inventory"]')); await ready(definition.id,100);
     assert.ok(await page.locator('.part-labels button').count()>0,definition.id);
   }
@@ -85,5 +85,6 @@ try {
   await page.locator('.explorer.mobile-open').waitFor();
   assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));
   assert.deepEqual(errors,[]);
-  console.log('Digital checks passed: 14 scales × 3 poses, all 5 learning paths, Chinese descriptions, visibility, nested dive, device filters and mobile; no page errors.');
+  console.log('Digital checks passed: all digital scales × 3 poses, all 5 learning paths, Chinese descriptions, visibility, nested dive, device filters and mobile; no page errors.');
 } finally { await browser.close(); }
+

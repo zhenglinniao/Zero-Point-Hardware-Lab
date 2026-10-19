@@ -162,11 +162,65 @@ Manufacturer documents support component roles, architecture or construction. Th
 | earbudunit-tip | 柔性耳塞套 | 耳机内部结构 | [52audio · AirPods Pro 2 USB-C 实机拆解（2023）](https://www.52audio.com/archives/178135.html) |
 | earbudunit-flex | 声腔柔性连接 | 耳机内部结构 | [52audio · AirPods Pro 2 USB-C 实机拆解（2023）](https://www.52audio.com/archives/178135.html) |
 | earbudunit-contacts | 耳柄充电接点 | 耳机内部结构 | [52audio · AirPods Pro 2 USB-C 实机拆解（2023）](https://www.52audio.com/archives/178135.html) |
+| earbudunit-cap | 声腔上壳与分型边 | 耳机内部结构 | [52audio · AirPods Pro 2 USB-C 实机拆解（2023）](https://www.52audio.com/archives/178135.html) |
 | earbuddriver-frame | 单元支架 | 动圈发声原理 | [COMSOL · 动圈扬声器的磁路、音圈与振膜原理](https://doc.comsol.com/6.3/doc/com.comsol.help.models.aco.lumped_loudspeaker_driver/lumped_loudspeaker_driver.html) |
 | earbuddriver-magnet | 永磁体与磁路示意 | 动圈发声原理 | [COMSOL · 动圈扬声器的磁路、音圈与振膜原理](https://doc.comsol.com/6.3/doc/com.comsol.help.models.aco.lumped_loudspeaker_driver/lumped_loudspeaker_driver.html) |
 | earbuddriver-coil | 音圈 | 动圈发声原理 | [COMSOL · 动圈扬声器的磁路、音圈与振膜原理](https://doc.comsol.com/6.3/doc/com.comsol.help.models.aco.lumped_loudspeaker_driver/lumped_loudspeaker_driver.html) |
 | earbuddriver-diaphragm | 振膜 | 动圈发声原理 | [COMSOL · 动圈扬声器的磁路、音圈与振膜原理](https://doc.comsol.com/6.3/doc/com.comsol.help.models.aco.lumped_loudspeaker_driver/lumped_loudspeaker_driver.html) |
 | earbuddriver-mesh | 出声保护网示意 | 动圈发声原理 | [COMSOL · 动圈扬声器的磁路、音圈与振膜原理](https://doc.comsol.com/6.3/doc/com.comsol.help.models.aco.lumped_loudspeaker_driver/lumped_loudspeaker_driver.html) |
+| phone-display-glass | 圆角盖板与黑色边框 | iPhone 15 显示总成 | [Apple · iPhone 15 官方内部视图](https://support.apple.com/en-ca/104901) |
+| phone-display-optical | 光学贴合与偏振层 | iPhone 15 显示总成 | [Apple · iPhone 15 官方内部视图](https://support.apple.com/en-ca/104901) |
+| phone-display-oled | OLED 发光与驱动面板 | iPhone 15 显示总成 | [Apple · iPhone 15 官方内部视图](https://support.apple.com/en-ca/104901) |
+| phone-display-graphite | 石墨导热与绝缘层 | iPhone 15 显示总成 | [Apple · iPhone 15 官方内部视图](https://support.apple.com/en-ca/104901) |
+| phone-display-backplate | 显示背部支承板 | iPhone 15 显示总成 | [Apple · iPhone 15 官方内部视图](https://support.apple.com/en-ca/104901) |
+| phone-display-flex | 显示驱动柔性连接与焊盘 | iPhone 15 显示总成 | [Apple · iPhone 15 官方内部视图](https://support.apple.com/en-ca/104901) |
+| phone-display-seal | 周边显示胶与密封框 | iPhone 15 显示总成 | [Apple · iPhone 15 官方内部视图](https://support.apple.com/en-ca/104901) |
+| ps5-power-housing | 电源下壳与固定座 | PS5 内置电源总成 | [iFixit · 原版 PS5 实机拆解与双面主板照片（2020）](https://www.ifixit.com/Teardown/PlayStation+5+Teardown/138280) |
+| ps5-power-cover | 电源通风上盖 | PS5 内置电源总成 | [iFixit · 原版 PS5 实机拆解与双面主板照片（2020）](https://www.ifixit.com/Teardown/PlayStation+5+Teardown/138280) |
+| ps5-power-pcb | 电源 PCB 与隔离槽 | PS5 内置电源总成 | [iFixit · 原版 PS5 实机拆解与双面主板照片（2020）](https://www.ifixit.com/Teardown/PlayStation+5+Teardown/138280) |
+| ps5-power-input | 交流输入与 EMI 滤波 | PS5 内置电源总成 | [iFixit · 原版 PS5 实机拆解与双面主板照片（2020）](https://www.ifixit.com/Teardown/PlayStation+5+Teardown/138280) |
+| ps5-power-bulk | 初级储能电容 | PS5 内置电源总成 | [iFixit · 原版 PS5 实机拆解与双面主板照片（2020）](https://www.ifixit.com/Teardown/PlayStation+5+Teardown/138280) |
+| ps5-power-transformer | 高频变压器与绝缘骨架 | PS5 内置电源总成 | [iFixit · 原版 PS5 实机拆解与双面主板照片（2020）](https://www.ifixit.com/Teardown/PlayStation+5+Teardown/138280) |
+| ps5-power-secondary | 次级整流与滤波区 | PS5 内置电源总成 | [iFixit · 原版 PS5 实机拆解与双面主板照片（2020）](https://www.ifixit.com/Teardown/PlayStation+5+Teardown/138280) |
+| ps5-drive-chassis | 冲压底壳与减振安装点 | PS5 蓝光驱动器 | [iFixit · 原版 PS5 实机拆解与双面主板照片（2020）](https://www.ifixit.com/Teardown/PlayStation+5+Teardown/138280) |
+| ps5-drive-cover | 光驱上盖与压盘座 | PS5 蓝光驱动器 | [iFixit · 原版 PS5 实机拆解与双面主板照片（2020）](https://www.ifixit.com/Teardown/PlayStation+5+Teardown/138280) |
+| ps5-drive-spindle | 盘片主轴与夹持盘 | PS5 蓝光驱动器 | [iFixit · 原版 PS5 实机拆解与双面主板照片（2020）](https://www.ifixit.com/Teardown/PlayStation+5+Teardown/138280) |
+| ps5-drive-pickup | 光学拾取滑台 | PS5 蓝光驱动器 | [iFixit · 原版 PS5 实机拆解与双面主板照片（2020）](https://www.ifixit.com/Teardown/PlayStation+5+Teardown/138280) |
+| ps5-drive-rails | 双导轨与进给丝杆 | PS5 蓝光驱动器 | [iFixit · 原版 PS5 实机拆解与双面主板照片（2020）](https://www.ifixit.com/Teardown/PlayStation+5+Teardown/138280) |
+| ps5-drive-loader | 吸入滚轮与传动齿轮 | PS5 蓝光驱动器 | [iFixit · 原版 PS5 实机拆解与双面主板照片（2020）](https://www.ifixit.com/Teardown/PlayStation+5+Teardown/138280) |
+| ps5-drive-controller | 驱动控制板与排线接口 | PS5 蓝光驱动器 | [iFixit · 原版 PS5 实机拆解与双面主板照片（2020）](https://www.ifixit.com/Teardown/PlayStation+5+Teardown/138280) |
+| camera-board-pcb | 带缺口的主板与安装孔 | α7 IV 图像处理主板 | [Sony · ILCE-7M4 / 7M4K 服务手册分解图（第三方镜像）](https://manuals.plus/m/662ac7b243a51dfb6adfa3f731348687443abee969b90e085dcd0aebbb51fbad.pdf) |
+| camera-board-processor | 图像处理封装 | α7 IV 图像处理主板 | [Sony · ILCE-7M4 / 7M4K 服务手册分解图（第三方镜像）](https://manuals.plus/m/662ac7b243a51dfb6adfa3f731348687443abee969b90e085dcd0aebbb51fbad.pdf) |
+| camera-board-memory | 图像缓存封装 | α7 IV 图像处理主板 | [Sony · ILCE-7M4 / 7M4K 服务手册分解图（第三方镜像）](https://manuals.plus/m/662ac7b243a51dfb6adfa3f731348687443abee969b90e085dcd0aebbb51fbad.pdf) |
+| camera-board-power | 电源管理与支持电路 | α7 IV 图像处理主板 | [Sony · ILCE-7M4 / 7M4K 服务手册分解图（第三方镜像）](https://manuals.plus/m/662ac7b243a51dfb6adfa3f731348687443abee969b90e085dcd0aebbb51fbad.pdf) |
+| camera-board-shield | 分区屏蔽罩与卡脚 | α7 IV 图像处理主板 | [Sony · ILCE-7M4 / 7M4K 服务手册分解图（第三方镜像）](https://manuals.plus/m/662ac7b243a51dfb6adfa3f731348687443abee969b90e085dcd0aebbb51fbad.pdf) |
+| camera-board-connectors | 传感器与控制排线插座 | α7 IV 图像处理主板 | [Sony · ILCE-7M4 / 7M4K 服务手册分解图（第三方镜像）](https://manuals.plus/m/662ac7b243a51dfb6adfa3f731348687443abee969b90e085dcd0aebbb51fbad.pdf) |
+| camera-shutter-frame | 快门固定框与成像窗口 | α7 IV 焦平面快门 | [Sony · ILCE-7M4 / 7M4K 服务手册分解图（第三方镜像）](https://manuals.plus/m/662ac7b243a51dfb6adfa3f731348687443abee969b90e085dcd0aebbb51fbad.pdf) |
+| camera-shutter-first | 前帘叶片组 | α7 IV 焦平面快门 | [Sony · ILCE-7M4 / 7M4K 服务手册分解图（第三方镜像）](https://manuals.plus/m/662ac7b243a51dfb6adfa3f731348687443abee969b90e085dcd0aebbb51fbad.pdf) |
+| camera-shutter-second | 后帘叶片组 | α7 IV 焦平面快门 | [Sony · ILCE-7M4 / 7M4K 服务手册分解图（第三方镜像）](https://manuals.plus/m/662ac7b243a51dfb6adfa3f731348687443abee969b90e085dcd0aebbb51fbad.pdf) |
+| camera-shutter-drive | 侧部驱动与连杆机构 | α7 IV 焦平面快门 | [Sony · ILCE-7M4 / 7M4K 服务手册分解图（第三方镜像）](https://manuals.plus/m/662ac7b243a51dfb6adfa3f731348687443abee969b90e085dcd0aebbb51fbad.pdf) |
+| camera-shutter-flex | 快门控制柔性连接 | α7 IV 焦平面快门 | [Sony · ILCE-7M4 / 7M4K 服务手册分解图（第三方镜像）](https://manuals.plus/m/662ac7b243a51dfb6adfa3f731348687443abee969b90e085dcd0aebbb51fbad.pdf) |
+| gamepad-haptics-sleeve | 金属套筒与固定耳 | 左侧线性触觉反馈机构 | [iFixit · 初代 DualSense 机构与维修分解资料](https://www.ifixit.com/Device/DualSense) |
+| gamepad-haptics-magnet | 固定磁路与中心导向 | 左侧线性触觉反馈机构 | [iFixit · 初代 DualSense 机构与维修分解资料](https://www.ifixit.com/Device/DualSense) |
+| gamepad-haptics-mass | 可动质量与环形配重 | 左侧线性触觉反馈机构 | [iFixit · 初代 DualSense 机构与维修分解资料](https://www.ifixit.com/Device/DualSense) |
+| gamepad-haptics-coil | 驱动线圈与绝缘骨架 | 左侧线性触觉反馈机构 | [iFixit · 初代 DualSense 机构与维修分解资料](https://www.ifixit.com/Device/DualSense) |
+| gamepad-haptics-end-a | 前端弹性支承与盖 | 左侧线性触觉反馈机构 | [iFixit · 初代 DualSense 机构与维修分解资料](https://www.ifixit.com/Device/DualSense) |
+| gamepad-haptics-end-b | 后端弹性支承与接线端 | 左侧线性触觉反馈机构 | [iFixit · 初代 DualSense 机构与维修分解资料](https://www.ifixit.com/Device/DualSense) |
+| gamepad-right-haptic-sleeve | 金属套筒与固定耳 | 右侧线性触觉反馈机构 | [iFixit · 初代 DualSense 机构与维修分解资料](https://www.ifixit.com/Device/DualSense) |
+| gamepad-right-haptic-magnet | 固定磁路与中心导向 | 右侧线性触觉反馈机构 | [iFixit · 初代 DualSense 机构与维修分解资料](https://www.ifixit.com/Device/DualSense) |
+| gamepad-right-haptic-mass | 可动质量与环形配重 | 右侧线性触觉反馈机构 | [iFixit · 初代 DualSense 机构与维修分解资料](https://www.ifixit.com/Device/DualSense) |
+| gamepad-right-haptic-coil | 驱动线圈与绝缘骨架 | 右侧线性触觉反馈机构 | [iFixit · 初代 DualSense 机构与维修分解资料](https://www.ifixit.com/Device/DualSense) |
+| gamepad-right-haptic-end-a | 前端弹性支承与盖 | 右侧线性触觉反馈机构 | [iFixit · 初代 DualSense 机构与维修分解资料](https://www.ifixit.com/Device/DualSense) |
+| gamepad-right-haptic-end-b | 后端弹性支承与接线端 | 右侧线性触觉反馈机构 | [iFixit · 初代 DualSense 机构与维修分解资料](https://www.ifixit.com/Device/DualSense) |
+| earbuds-board-pcb | 充电管理板与安装缺口 | AirPods Pro 2 充电盒管理板 | [52audio · AirPods Pro 2 USB-C 实机拆解（2023）](https://www.52audio.com/archives/178135.html) |
+| earbuds-board-charger | 充电管理封装 | AirPods Pro 2 充电盒管理板 | [52audio · AirPods Pro 2 USB-C 实机拆解（2023）](https://www.52audio.com/archives/178135.html) |
+| earbuds-board-controller | 定位与控制封装 | AirPods Pro 2 充电盒管理板 | [52audio · AirPods Pro 2 USB-C 实机拆解（2023）](https://www.52audio.com/archives/178135.html) |
+| earbuds-board-power | 滤波与保护元件 | AirPods Pro 2 充电盒管理板 | [52audio · AirPods Pro 2 USB-C 实机拆解（2023）](https://www.52audio.com/archives/178135.html) |
+| earbuds-board-connectors | 电芯、接口与触点连接座 | AirPods Pro 2 充电盒管理板 | [52audio · AirPods Pro 2 USB-C 实机拆解（2023）](https://www.52audio.com/archives/178135.html) |
+| earbudunit-processor-flex | 柔性电路基底与覆盖膜 | 耳柄柔性电路与音频处理 | [52audio · AirPods Pro 2 USB-C 实机拆解（2023）](https://www.52audio.com/archives/178135.html) |
+| earbudunit-processor-sip | 音频处理 SiP 封装 | 耳柄柔性电路与音频处理 | [52audio · AirPods Pro 2 USB-C 实机拆解（2023）](https://www.52audio.com/archives/178135.html) |
+| earbudunit-processor-sensor | 交互与感知封装 | 耳柄柔性电路与音频处理 | [52audio · AirPods Pro 2 USB-C 实机拆解（2023）](https://www.52audio.com/archives/178135.html) |
+| earbudunit-processor-contacts | 底端供电与测试焊盘 | 耳柄柔性电路与音频处理 | [52audio · AirPods Pro 2 USB-C 实机拆解（2023）](https://www.52audio.com/archives/178135.html) |
 | legion | Lenovo Legion 5 | Lenovo Legion 5 | [Lenovo · Legion 5 15ACH6H platform specifications](https://psref.lenovo.com/syspool/Sys/PDF/Legion/Lenovo_Legion_5_15ACH6H/Lenovo_Legion_5_15ACH6H_Spec.pdf) |
 | macbook | MacBook Pro 14-inch | MacBook Pro 14-inch | [Apple · MacBook Pro 14-inch (2021) specifications](https://support.apple.com/en-us/111902) |
 | legion-cover | Bottom cover | Lenovo Legion 5 | [Lenovo · Legion 5 (15 / 17 inch, generation 6) maintenance manual](https://download.lenovo.com/consumer/mobiles_pub/legion_5_15_17_6_hmm.pdf) |

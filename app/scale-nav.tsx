@@ -36,11 +36,29 @@ import { branchZh, scaleNameZh } from '@/lib/zh';
 
 /** One icon per scale, so the branch you are on is recognisable at a glance. */
 const levelIcon: Record<LevelId, typeof Box> = {
-  ps5: Gamepad2, ps5board: CircuitBoard, ps5cooling: Fan,
-  phone: Smartphone, phoneboard: CircuitBoard, phonecamera: Camera,
-  camera: Camera, camerasensor: Microscope, cameralens: Camera,
-  gamepad: Gamepad2, gamepadboard: CircuitBoard,
-  earbuds: Headphones, earbudunit: Headphones, earbuddriver: Microscope,
+  ps5: Gamepad2,
+  ps5board: CircuitBoard,
+  ps5cooling: Fan,
+  phone: Smartphone,
+  phoneboard: CircuitBoard,
+  phonecamera: Camera,
+  camera: Camera,
+  camerasensor: Microscope,
+  cameralens: Camera,
+  gamepad: Gamepad2,
+  gamepadboard: CircuitBoard,
+  earbuds: Headphones,
+  earbudunit: Headphones,
+  earbuddriver: Microscope,
+  'phone-display': Monitor,
+  'ps5-power': Zap,
+  'ps5-drive': HardDrive,
+  'camera-board': CircuitBoard,
+  'camera-shutter': Camera,
+  'gamepad-haptics': Gamepad2,
+  'gamepad-right-haptic': Gamepad2,
+  'earbudunit-processor': CircuitBoard,
+  'earbuds-board': BatteryCharging,
   legion: Laptop,
   legionboard: CircuitBoard,
   legioncpu: Cpu,
@@ -160,11 +178,13 @@ export default function ScaleNav({
                 <Icon size={14} />
                 <i className="system-picker-dot" />
               </span>
-              <strong>
-                {scaleNameZh(root,levels[root].name)}
-              </strong>
+              <strong>{scaleNameZh(root, levels[root].name)}</strong>
               <small>
-                {levels[root].summary.includes(' · ') ? levels[root].summary.split(' · ')[0] : root === 'pc' ? 'ATX 整机' : '可逐层拆解'}
+                {levels[root].summary.includes(' · ')
+                  ? levels[root].summary.split(' · ')[0]
+                  : root === 'pc'
+                    ? 'ATX 整机'
+                    : '可逐层拆解'}
               </small>
             </button>
           );
@@ -196,8 +216,12 @@ export default function ScaleNav({
           <span>01</span>
           <RootIcon size={17} />
           <div>
-            {scaleNameZh(rootLevel,levels[rootLevel].name)}
-            <small>{/[\u3400-\u9fff]/.test(levels[rootLevel].summary) ? levels[rootLevel].summary : '从整机开始，进入各个子系统'}</small>
+            {scaleNameZh(rootLevel, levels[rootLevel].name)}
+            <small>
+              {/[\u3400-\u9fff]/.test(levels[rootLevel].summary)
+                ? levels[rootLevel].summary
+                : '从整机开始，进入各个子系统'}
+            </small>
           </div>
           <ChevronRight size={14} />
         </button>
@@ -216,9 +240,13 @@ export default function ScaleNav({
               >
                 <i />
                 <div>
-                  {scaleNameZh(id,levels[id].name)}
+                  {scaleNameZh(id, levels[id].name)}
                   <small>
-                    {/[\u3400-\u9fff]/.test(levels[id].summary) ? levels[id].summary : levels[id].kind === 'logical' ? '逻辑架构与功能关系' : '组件结构与拆解示意'}
+                    {/[\u3400-\u9fff]/.test(levels[id].summary)
+                      ? levels[id].summary
+                      : levels[id].kind === 'logical'
+                        ? '逻辑架构与功能关系'
+                        : '组件结构与拆解示意'}
                   </small>
                 </div>
               </button>
@@ -240,7 +268,9 @@ export default function ScaleNav({
                   <div>
                     {branchZh[label] ?? label}
                     <small>
-                      {submenus.length > 0 ? `${submenus.length} 类 · ${scales.length} 个层级` : `${scales.length} 个内部层级`}
+                      {submenus.length > 0
+                        ? `${submenus.length} 类 · ${scales.length} 个层级`
+                        : `${scales.length} 个内部层级`}
                     </small>
                   </div>
                   <ChevronDown size={15} />

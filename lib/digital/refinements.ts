@@ -7,6 +7,7 @@ import type {
 import type { Category } from '../concept.ts';
 import type { Vec3 } from '../layout.ts';
 import { refineOpticalLens } from './lens-layout.ts';
+import { refinePrecisionAssemblies } from './precision-layout.ts';
 
 /** Dimensions below are photo-derived approximations unless the specification says otherwise.
  * Stable component IDs keep shared links, saved lessons and inspection working. */
@@ -767,4 +768,5 @@ export function refineDigitalDefinitions(definitions: Definition[]) {
     '#c2ae76',
   );
   refineOpticalLens(definitions);
+  refinePrecisionAssemblies(definitions);
 }
