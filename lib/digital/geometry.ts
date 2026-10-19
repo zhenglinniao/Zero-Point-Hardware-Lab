@@ -1,3 +1,4 @@
+import { mechanicalGeometry } from './mechanical-geometry.ts';
 import * as T from 'three';
 import { earbudShell, chargingCase } from './molded-shells.ts';
 import { decorateBoard } from './board-detail.ts';
@@ -539,7 +540,9 @@ export function detailedGeometry(
 
   const id = part.id;
   let handled = true;
-  const precision = precisionGeometry(level, part, tools);
+  const precision =
+    mechanicalGeometry(level, part, tools) ??
+    precisionGeometry(level, part, tools);
   const exterior = level === 'camera' ? cameraExterior(part, tools) : null;
   if (exterior) g.add(exterior);
   else if (precision) g.add(precision);
@@ -659,8 +662,8 @@ export function detailedGeometry(
         d / 2 - 1,
       ]);
       for (let i = 0; i < 56; i++)
-        put(box([16, 1.1, 4], '#333b40', 0.15, 0.2), [
-          side * 43,
+        put(box([11, 1.1, 3], '#10151a', 0, 0.2), [
+          side * 39.5,
           (i - 27.5) * 5.5,
           d / 2 + 1,
         ]);
@@ -1377,11 +1380,19 @@ export function detailedGeometry(
   g.userData.detailRevision = 3;
   const native = new T.Group();
   native.scale.set(
-    level === 'camera' ? -1 / unit : 1 / unit,
+    level === 'camera' ||
+      level === 'camera-finder' ||
+      level === 'camera-display'
+      ? -1 / unit
+      : 1 / unit,
     1 / unit,
     1 / unit,
   );
-  if (level === 'camera')
+  if (
+    level === 'camera' ||
+    level === 'camera-finder' ||
+    level === 'camera-display'
+  )
     g.traverse((o) => {
       if (
         o instanceof T.Mesh &&

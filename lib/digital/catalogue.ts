@@ -4,7 +4,7 @@ import type { SourceId } from '../sources.ts';
 import type { Vec3 } from '../layout.ts';
 import { refineDigitalDefinitions } from './refinements.ts';
 
-export type DigitalLevel = 'ps5' | 'ps5board' | 'ps5cooling' | 'phone' | 'phoneboard' | 'phonecamera' | 'camera' | 'camerasensor' | 'cameralens' | 'gamepad' | 'gamepadboard' | 'earbuds' | 'earbudunit' | 'earbuddriver' | 'phone-display' | 'ps5-power' | 'ps5-drive' | 'camera-board' | 'camera-shutter' | 'gamepad-haptics' | 'gamepad-right-haptic' | 'earbudunit-processor' | 'earbuds-board';
+export type DigitalLevel = 'ps5' | 'ps5board' | 'ps5cooling' | 'phone' | 'phoneboard' | 'phonecamera' | 'camera' | 'camerasensor' | 'cameralens' | 'gamepad' | 'gamepadboard' | 'earbuds' | 'earbudunit' | 'earbuddriver' | 'phone-display' | 'ps5-power' | 'ps5-drive' | 'camera-board' | 'camera-shutter' | 'gamepad-haptics' | 'gamepad-right-haptic' | 'earbudunit-processor' | 'earbuds-board' | 'ps5-fan' | 'phone-haptic' | 'phone-speaker' | 'camera-finder' | 'camera-display' | 'gamepad-triggers' | 'gamepad-right-trigger' | 'gamepad-leftstick' | 'gamepad-rightstick';
 export type ShapeKind = 'box' | 'board' | 'chip' | 'battery' | 'screen' | 'wing' | 'frame' | 'fan' | 'fins' | 'pipes' | 'lens' | 'ring' | 'coil' | 'sensor' | 'shutter' | 'grip-shell' | 'buttons' | 'stick' | 'earbud' | 'diaphragm' | 'flex' | 'screws' | 'connector' | 'trigger' | 'actuator' | 'tray' | 'shield' | 'mount';
 export type DigitalPart = {
   id: string; name: string; category: Category; shape: ShapeKind;
@@ -153,11 +153,18 @@ export const digitalDefinitions: Definition[] = [
 refineDigitalDefinitions(digitalDefinitions);
 
 export const digitalRoots = digitalDefinitions.filter((item) => item.parent === null).map((item) => item.id);
+const subsystemLabels: Partial<Record<DigitalLevel,string>> = {
+  ps5board:'主板与计算',ps5cooling:'散热与气流','ps5-fan':'散热与气流','ps5-power':'电源','ps5-drive':'光驱与存储',
+  phoneboard:'逻辑板',phonecamera:'双摄影像','phone-display':'显示系统','phone-haptic':'声音与触觉','phone-speaker':'声音与触觉',
+  camerasensor:'成像与光学',cameralens:'成像与光学','camera-shutter':'成像与光学','camera-board':'电路与控制','camera-finder':'取景与显示','camera-display':'取景与显示',
+  gamepadboard:'控制电路','gamepad-haptics':'触觉反馈','gamepad-right-haptic':'触觉反馈','gamepad-triggers':'自适应扳机','gamepad-right-trigger':'自适应扳机','gamepad-leftstick':'摇杆输入','gamepad-rightstick':'摇杆输入',
+  earbudunit:'耳机与声学','earbuds-board':'充电与供电',
+};
 const phases = [['Assembled', 0], ['Dissection', 50], ['Inventory', 100]] as const;
 export const digitalLevels = Object.fromEntries(digitalDefinitions.map((item) => [item.id, {
   id: item.id, parent: item.parent, name: item.name, title: item.name, caption: '数码硬件 · 教学示意', summary: item.summary,
   concept: item.id, kind: 'physical', phases: item.id==='earbuds' ? [['Assembled',0],['开盖查看',16],['Dissection',50],['Inventory',100]] : phases, detailed: true, spread: 1.1,
-  ...(item.parent ? { branchLabel: item.name } : {}), camera: item.camera ?? { padding: 1.05, direction: [1.2,1.0,1.5] },
+  ...(item.parent && digitalDefinitions.find(d => d.id === item.parent)?.parent === null ? { branchLabel: subsystemLabels[item.id] ?? item.name } : {}), camera: item.camera ?? { padding: 1.05, direction: [1.2,1.0,1.5] },
 } satisfies LevelDef])) as unknown as Record<DigitalLevel, LevelDef>;
 
 export const digitalAccuracy = '依照所列型号的内部视图、拆解照片或分解图重建主要组件。壳体曲面、板形、排线和紧固件为观察资料后的几何近似；未测绘的尺寸、微型元件与走线不作为维修依据，镜头和动圈子层级仍是原理模型。';

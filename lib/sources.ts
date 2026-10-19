@@ -12,6 +12,8 @@
  * for that construction alone, and its name says it is an independent review.
  */
 export const sources = {
+  dualsensetrigger: {name:'iFixit · DualSense 肩键、自适应扳机与连接膜拆解',url:'https://www.ifixit.com/Teardown/PS5+Controller+Trigger+Teardown/158397'},
+  dualsensestick: {name:'iFixit · DualSense 双轴电位器、万向架与回中弹簧拆解',url:'https://www.ifixit.com/News/48944/heres-why-ps5-joysticks-drift-and-why-theyll-only-get-worse'},
   optilandprescription: {name:'Optiland · DoubleGauss 六片四组光学处方（MIT）',url:'https://github.com/optiland/optiland/blob/master/optiland/samples/objectives.py'},
   dualsenseasset: {name:'Taohid Animation · PS5 Controller 外观网格（CC BY 4.0）',url:'https://sketchfab.com/3d-models/ps5-controller-b7bb9c5102a04cb0b1966c6d02bad7d6'},
   sonymount: {name:'Sony · E 口 18 mm 法兰距技术资料',url:'https://pro.sony/s3/cms-static-content/file/63/1237491532063.pdf'},

@@ -1,3 +1,4 @@
+import { refineDeepAssemblies } from './deep-assemblies.ts';
 import type {
   Definition,
   DigitalLevel,
@@ -769,4 +770,5 @@ export function refineDigitalDefinitions(definitions: Definition[]) {
   );
   refineOpticalLens(definitions);
   refinePrecisionAssemblies(definitions);
+  refineDeepAssemblies(definitions);
 }

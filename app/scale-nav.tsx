@@ -36,6 +36,15 @@ import { branchZh, scaleNameZh } from '@/lib/zh';
 
 /** One icon per scale, so the branch you are on is recognisable at a glance. */
 const levelIcon: Record<LevelId, typeof Box> = {
+  'ps5-fan': Fan,
+  'phone-haptic': Zap,
+  'phone-speaker': Headphones,
+  'camera-finder': Camera,
+  'camera-display': Monitor,
+  'gamepad-triggers': Gamepad2,
+  'gamepad-right-trigger': Gamepad2,
+  'gamepad-leftstick': Gamepad2,
+  'gamepad-rightstick': Gamepad2,
   ps5: Gamepad2,
   ps5board: CircuitBoard,
   ps5cooling: Fan,

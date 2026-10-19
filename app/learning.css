@@ -259,3 +259,6 @@
 .detail-panel.detail-panel .source-links a { color: #62764a; }
 
 .zln-lab .viewport[aria-busy="true"]::after { content: '正在加载精细模型…'; position: absolute; left: 50%; top: 18px; transform: translateX(-50%); padding: 9px 15px; border: 1px solid #607376; border-radius: 7px; background: #18272ceb; color: #e4e9df; font-size: 12px; pointer-events: none; z-index: 3; }
+
+/* Keep device observation instructions readable without displacing the timeline. */
+.zln-lab .disassembly-label span[title] { font-size: 10px; max-width: 180px; line-height: 1.45; letter-spacing: 0; }

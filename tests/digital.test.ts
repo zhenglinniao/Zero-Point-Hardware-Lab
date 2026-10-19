@@ -11,17 +11,97 @@ import { devices } from '../lib/devices.ts';
 import { applyPiecePose, disposeModelResources, ModelStageScratch, posedModelBounds, prepareModelInventory } from '../lib/model-stage.ts';
 import { gamepadExterior } from '../lib/digital/gamepad-asset.ts';
 import {doubleGaussSurfaces,lensElements,opticalCentre,opticalVertices,sphericalSag,paraxialPrescription,imagePlaneY} from '../lib/digital/lens-prescription.ts';
+import { deviceDisassembly, activeDisassemblyStep } from '../lib/disassembly-steps.ts';
+import { branches } from '../lib/levels.ts';
 
 const oldDocument = globalThis.document;
 globalThis.document = { createElement: () => ({ width:0, height:0, getContext: () => new Proxy({}, { get: (_,key) => key==='createImageData' ? (w:number,h:number)=>({ data:new Uint8ClampedArray(w*h*4) }) : ()=>{} }) }) } as unknown as Document;
 const models = new Map(digitalDefinitions.map((definition)=>[definition.id,buildModel(definition.id)]));
 after(()=>{ models.forEach(disposeModelResources); globalThis.document=oldDocument; });
 
+await test('every device has ordered observation checkpoints that preserve shared phase controls',()=>{
+  assert.deepEqual(new Set(Object.keys(deviceDisassembly)),new Set(systemRoots));
+  for(const root of systemRoots) {
+    const steps=deviceDisassembly[root]!;
+    assert.equal(steps.length,6);
+    assert.equal(steps[0].at,0);assert.equal(steps.at(-1)!.at,100);
+    assert.ok(steps.some(s=>s.name==='Dissection'&&s.at===50));
+    for(let i=0;i<steps.length;i++) {
+      assert.match(steps[i].instruction,/[\u3400-\u9fff]/);
+      assert.equal(activeDisassemblyStep(root,steps[i].at),steps[i]);
+      if(i)assert.ok(steps[i].at>steps[i-1].at);
+    }
+  }
+});
+await test('functional navigation accounts for all scales without separate branches for every nested part',()=>{
+  for(const root of systemRoots) {
+    const ids=branches(root).flatMap(b=>b.levels);
+    const expected=Object.keys(digitalLevels).filter(id=>id!==root&&systemRoot(id as DigitalLevel)===root);
+    if(digitalRoots.includes(root as DigitalLevel)) assert.deepEqual(new Set(ids),new Set(expected));
+    assert.equal(ids.length,new Set(ids).size);
+  }
+  assert.ok(branches('earbuds').some(b=>b.levels.includes('earbudunit')&&b.levels.includes('earbuddriver')&&b.levels.includes('earbudunit-processor')));
+  assert.ok(branches('gamepad').some(b=>b.levels.includes('gamepad-triggers')&&b.levels.includes('gamepad-right-trigger')));
+});
+await test('fan impeller vertices clear the housing and support grilles in native millimetres',()=>{
+  const model=models.get('ps5-fan')!;model.root.updateMatrixWorld(true);
+  const rotor=model.pieces.find(p=>p.concept==='ps5-fan-rotor')!.object;
+  const local=new T.Vector3();let maxRadius=0,maxAxial=0;
+  rotor.traverse(o=>{if(!(o instanceof T.Mesh))return;const a=o.geometry.getAttribute('position');for(let i=0;i<a.count;i++){
+    local.fromBufferAttribute(a,i).applyMatrix4(o.matrixWorld).multiplyScalar(18);
+    maxRadius=Math.max(maxRadius,Math.hypot(local.y,local.z));maxAxial=Math.max(maxAxial,Math.abs(local.x));
+  }});
+  assert.ok(maxRadius<56,`blade radius ${maxRadius} exceeds housing bore`);
+  assert.ok(maxAxial<21.3,'rotor must clear the nearest grille face');
+  const stator=new T.Box3().setFromObject(model.pieces.find(p=>p.concept==='ps5-fan-stator')!.object);
+  assert.ok(stator.getSize(new T.Vector3()).y*18<24,'stator must fit within the 24 mm rotor bore');
+});
+await test('phone moving mass and voice coil have empty surrounding mechanical cavities',()=>{
+  const haptic=models.get('phone-haptic')!;
+  const box=(id:string)=>new T.Box3().setFromObject(haptic.pieces.find(p=>p.concept===`phone-haptic-${id}`)!.object);
+  const mass=box('mass');
+  assert.ok(mass.min.x*4>-9.5&&mass.max.x*4<9.5);
+  assert.ok(mass.min.z*4>-4&&mass.max.z*4<4);
+  for(const id of ['mass','coil','springs','flex']) {
+    const b=box(id);
+    assert.ok(b.min.x*4> -13.78&&b.max.x*4<13.78,id);
+    assert.ok(b.min.z*4> -6.28&&b.max.z*4<6.28,id);
+    assert.ok(b.min.y*4> -1.53&&b.max.y*4<1.78,id);
+  }
+  const speaker=models.get('phone-speaker')!;
+  const diaphragm=new T.Box3().setFromObject(speaker.pieces.find(p=>p.concept==='phone-speaker-diaphragm')!.object);
+  const coil=new T.Box3().setFromObject(speaker.pieces.find(p=>p.concept==='phone-speaker-voice-coil')!.object);
+  assert.ok(coil.max.y<diaphragm.min.y,'voice coil must sit beneath the diaphragm');
+});
+await test('joystick shaft reaches its licensed cap and the switch clears the centring spring',()=>{
+  for(const level of ['gamepad-leftstick','gamepad-rightstick'] as const) {
+    const model=models.get(level)!;
+    const bound=(id:string)=>new T.Box3().setFromObject(model.pieces.find(p=>p.concept===`${level}-${id}`)!.object);
+    assert.ok(bound('gimbal').max.y>=bound('cap').min.y,'floating cap has no connected shaft');
+    assert.ok(!bound('spring').intersectsBox(bound('switch')),'spring crosses the click switch');
+    const cap=bound('cap');
+    for(const id of ['gimbal','pot-x','pot-y','spring','switch']) {
+      const b=bound(id);
+      assert.ok(b.min.x>=cap.min.x&&b.max.x<=cap.max.x,id);
+      assert.ok(b.max.y<cap.max.y,id);
+    }
+  }
+});
+await test('left and right trigger internals use mirrored installation coordinates',()=>{
+  const left=models.get('gamepad-triggers')!,right=models.get('gamepad-right-trigger')!;
+  for(const p of left.pieces.filter(p=>!p.concept.endsWith('-caps'))) {
+    const id=p.concept.replace('gamepad-triggers-','');
+    const a=new T.Box3().setFromObject(p.object),b=new T.Box3().setFromObject(right.pieces.find(p=>p.concept===`gamepad-right-trigger-${id}`)!.object);
+    assert.ok(Math.abs(a.min.x+b.max.x)<1e-6&&Math.abs(a.max.x+b.min.x)<1e-6,id);
+    assert.ok(Math.abs(a.min.y-b.min.y)<1e-6&&Math.abs(a.max.z-b.max.z)<1e-6,id);
+  }
+});
+
 await test('the device library exposes every independent system exactly once',()=>{
   assert.deepEqual(new Set(devices.map((device)=>device.level)),new Set(systemRoots));
   assert.equal(devices.length,new Set(devices.map((device)=>device.level)).size);
   assert.equal(digitalRoots.length,5);
-  assert.equal(Object.keys(digitalLevels).length,23);
+  assert.equal(Object.keys(digitalLevels).length,32);
 });
 await test('every digital scale has native selectable geometry, Chinese descriptions and a reversible owner',()=>{
   for(const definition of digitalDefinitions) {

@@ -72,7 +72,7 @@ function screenTexture(mac: boolean) {
   c.textAlign = 'left';
   c.fillStyle = '#eef5f8';
   c.font = '600 38px "Segoe UI", Arial, sans-serif';
-  c.fillText('PC ANATOMY', 84, mac ? 124 : 96);
+  c.fillText('ZERO POINT LAB', 84, mac ? 124 : 96);
   c.font = '400 24px "Segoe UI", Arial, sans-serif';
   c.fillStyle = '#a8c6d6';
   c.fillText(

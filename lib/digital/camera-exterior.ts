@@ -6,13 +6,18 @@ import { cameraFrontShell } from './molded-shells.ts';
 
 /** ILCE-7M4 exterior landmarks, reconstructed from Sony's front/rear/top
  * diagrams. Native millimetres; the installer converts the legacy X axis. */
-export function cameraExterior(part: DigitalPart, tools: ModelTools) {
+export function cameraExterior(
+  part: DigitalPart,
+  tools: ModelTools,
+  section?: string,
+) {
   if (
     !['front', 'back', 'display', 'finder', 'top', 'dial', 'base'].includes(
       part.id,
     )
   )
     return null;
+  let owner = 'housing';
   const g = new T.Group(),
     black = '#17191b',
     rubber = '#101213';
@@ -30,6 +35,7 @@ export function cameraExterior(part: DigitalPart, tools: ModelTools) {
   };
   const put = <O extends T.Object3D>(o: O, p: Vec3 = [0, 0, 0]) => {
     o.position.set(...p);
+    o.userData.cameraSection = owner;
     g.add(o);
     return o;
   };
@@ -213,10 +219,14 @@ export function cameraExterior(part: DigitalPart, tools: ModelTools) {
     ])
       cylinder(0.8, 0.3, [x, y, -1.4], '#535659', 'z');
   } else if (part.id === 'display') {
+    owner = 'frame';
     const frame = box([75.6, 52.5, 4.4], [0, 0, 0], '#171a1b', 1.6);
     frame.name = 'sony-articulating-monitor';
+    owner = 'lcd';
     box([66.6, 43.2, 0.12], [0, 1.4, -2.27], '#10191d', 0.6);
+    owner = 'frame';
     decal('SONY', 14, [0, -23.2, -2.29], 'back', '#9c9e98');
+    owner = 'lcd';
     decal('M   1/125   F4.0   ISO 100', 58, [0, 20.4, -2.4], 'back', '#aab5b1');
     for (const x of [-10, 10])
       for (const y of [-6, 6]) {
@@ -228,6 +238,7 @@ export function cameraExterior(part: DigitalPart, tools: ModelTools) {
           0.01,
         );
       }
+    owner = 'hinge';
     cylinder(1.8, 40, [-39.3, 0, 1], rubber);
   } else if (part.id === 'finder') {
     const positions: number[] = [],
@@ -274,13 +285,17 @@ export function cameraExterior(part: DigitalPart, tools: ModelTools) {
     housing.name = 'sony-evf-hump';
     const logo = decal('SONY', 23, [0, 0.5, 15.05]);
     logo.rotation.x = -Math.atan(8 / 9.5);
+    owner = 'eyecup';
     box([27, 17, 16], [0, -1, -25], rubber, 3);
     const cup = panel(rect(34, 23, 5), 4, rubber);
     cup.position.set(0, -1, -34);
+    owner = 'optic';
     const eye = box([23, 14, 0.15], [0, -1, -36.1], '#070d12', 2);
     eye.name = 'sony-evf-eyepiece';
     box([20.4, 11.2, 0.04], [0, -1, -36.21], '#25323a', 1.5);
+    owner = 'diopter';
     cylinder(2.2, 2, [18, -1, -27], black, 'x');
+    owner = 'shoe';
     box([19, 1.1, 20], [0, 9.1, -5], '#36393b', 0.4);
     for (const x of [-9, 9]) box([1.7, 2, 20], [x, 10.5, -5], '#858a8c', 0.25);
     box([15.5, 0.5, 15], [0, 9.9, -5], '#202426', 0.2);
@@ -341,5 +356,9 @@ export function cameraExterior(part: DigitalPart, tools: ModelTools) {
     box([24, 0.4, 34], [46, -1.6, 0], '#202324', 2);
     decal('ILCE-7M4', 24, [-33, -1.8, 0], 'top', '#7b7e7b');
   }
+  if (section)
+    g.remove(
+      ...g.children.filter((child) => child.userData.cameraSection !== section),
+    );
   return g;
 }

@@ -3,6 +3,10 @@ import { Pause, Play, RotateCcw } from 'lucide-react';
 import { Slider } from '@/components/ui/slider';
 import { levels, type LevelId } from '@/lib/levels';
 import { phaseZh } from '@/lib/zh';
+import {
+  deviceDisassembly,
+  activeDisassemblyStep,
+} from '@/lib/disassembly-steps';
 
 type Props = {
   level: LevelId;
@@ -31,7 +35,10 @@ export default function Disassembly({
   sliderLabel = 'Disassemble the specimen',
   valueText,
 }: Props) {
-  const phases = levels[level].phases,
+  const steps = deviceDisassembly[level];
+  const currentStep = activeDisassemblyStep(level, explode);
+  const phases =
+      steps?.map((s) => [s.name, s.at] as const) ?? levels[level].phases,
     explodePercent = Math.round(explode);
   return (
     <section className="disassembly" aria-label={sectionLabel}>
@@ -55,7 +62,9 @@ export default function Disassembly({
         <div className="disassembly-label">
           <div>
             <strong>{title ?? (logical ? 'Expand' : 'Disassemble')}</strong>
-            <span>拖动或自动播放</span>
+            <span title={currentStep?.instruction}>
+              {currentStep?.instruction ?? '拖动或自动播放'}
+            </span>
           </div>
         </div>
       </div>
@@ -65,7 +74,21 @@ export default function Disassembly({
             <button
               key={name}
               data-phase={name}
-              className={Math.abs(explode - Number(value)) < 13 ? 'active' : ''}
+              title={steps?.find((s) => s.name === name)?.instruction}
+              aria-label={
+                steps
+                  ? `${phaseZh[name] ?? name}：${steps.find((s) => s.name === name)?.instruction}`
+                  : undefined
+              }
+              className={
+                (
+                  steps
+                    ? currentStep?.name === name
+                    : Math.abs(explode - Number(value)) < 13
+                )
+                  ? 'active'
+                  : ''
+              }
               onClick={() => onSetExplode(Number(value))}
             >
               {phaseZh[name] ?? name}

@@ -59,7 +59,17 @@ export async function installGamepadAsset(data: ArrayBuffer, headless = false) {
 }
 
 export async function prepareModelAssets(level: LevelId) {
-  if (level !== 'gamepad' || template) return;
+  if (
+    ![
+      'gamepad',
+      'gamepad-triggers',
+      'gamepad-right-trigger',
+      'gamepad-leftstick',
+      'gamepad-rightstick',
+    ].includes(level) ||
+    template
+  )
+    return;
   if (!pending)
     pending = (async () => {
       const response = await fetch(gamepadAssetURL, {
@@ -121,6 +131,10 @@ export function gamepadExterior(part: DigitalPart): T.Group | null {
         if (!source) continue;
         if (!textures.has(source)) textures.set(source, source.clone());
         material[key] = textures.get(source)!;
+      }
+      if (object.name.includes('__symbol-decal__')) {
+        material.color.set('#505862');
+        material.emissive?.set('#000000');
       }
       material.roughness = Math.max(material.roughness, 0.6);
       material.metalness = Math.min(material.metalness, 0.04);
