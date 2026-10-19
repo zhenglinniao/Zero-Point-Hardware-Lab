@@ -211,6 +211,7 @@ export function fitCameraToBounds(
   size: T.Vector3,
   padding = 1,
   minimumDistance = 6,
+  controls?: Pick<OrbitControls, 'maxDistance'>,
 ) {
   bounds.getCenter(targetLook);
   bounds.getSize(size);
@@ -223,5 +224,14 @@ export function fitCameraToBounds(
   targetPosition
     .copy(targetLook)
     .addScaledVector(direction, Math.max(minimumDistance, distance));
+  // Narrow panes and large inventories can require a fit beyond the original
+  // 100-unit orbit limit. Clamping that fit prevented the camera ever settling.
+  const fittedDistance = Math.max(minimumDistance, distance);
+  if (controls) controls.maxDistance = Math.max(100, fittedDistance * 1.5);
+  const far = Math.max(200, fittedDistance + radius * 4);
+  if (camera.far !== far) {
+    camera.far = far;
+    camera.updateProjectionMatrix();
+  }
   return size;
 }

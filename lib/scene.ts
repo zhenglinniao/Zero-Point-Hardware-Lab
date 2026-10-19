@@ -249,6 +249,7 @@ export async function createViewer(
       v,
       padding,
       cameraProfile?.minimumDistance ?? (focus ? 3.2 : 6),
+      controls,
     );
   }
   function boxFor(p: Piece, target: T.Box3) {

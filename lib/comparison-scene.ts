@@ -176,6 +176,8 @@ export async function createComparisonViewer(
       direction,
       size,
       camera.aspect < 1 ? 1.08 : 1,
+      6,
+      controls,
     );
   }
 
