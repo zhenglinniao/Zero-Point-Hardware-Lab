@@ -10,6 +10,7 @@ import type { Category } from '../concept.ts';
 import type { Vec3 } from '../layout.ts';
 import { refineOpticalLens } from './lens-layout.ts';
 import { refinePrecisionAssemblies } from './precision-layout.ts';
+import { refinePs5Rebuild } from './ps5-rebuild-layout.ts';
 
 /** Dimensions below are photo-derived approximations unless the specification says otherwise.
  * Stable component IDs keep shared links, saved lessons and inspection working. */
@@ -773,4 +774,5 @@ export function refineDigitalDefinitions(definitions: Definition[]) {
   refinePrecisionAssemblies(definitions);
   refineDeepAssemblies(definitions);
   refineControllerFit(definitions);
+  refinePs5Rebuild(definitions);
 }

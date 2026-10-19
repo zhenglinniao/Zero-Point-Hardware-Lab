@@ -157,6 +157,8 @@
   <url><loc>https://zero-point-hardware-lab.vercel.app/?scale=ps5cooling&amp;part=ps5cooling-coldplate</loc></url>
   <url><loc>https://zero-point-hardware-lab.vercel.app/?scale=ps5cooling&amp;part=ps5cooling-interface</loc></url>
   <url><loc>https://zero-point-hardware-lab.vercel.app/?scale=ps5cooling&amp;part=ps5cooling-duct</loc></url>
+  <url><loc>https://zero-point-hardware-lab.vercel.app/?scale=ps5cooling&amp;part=ps5cooling-foam</loc></url>
+  <url><loc>https://zero-point-hardware-lab.vercel.app/?scale=ps5cooling&amp;part=ps5cooling-brackets</loc></url>
   <url><loc>https://zero-point-hardware-lab.vercel.app/?scale=phone&amp;part=phone-display</loc></url>
   <url><loc>https://zero-point-hardware-lab.vercel.app/?scale=phone&amp;part=phone-back</loc></url>
   <url><loc>https://zero-point-hardware-lab.vercel.app/?scale=phone&amp;part=phone-frame</loc></url>
@@ -288,6 +290,8 @@
   <url><loc>https://zero-point-hardware-lab.vercel.app/?scale=ps5-power&amp;part=ps5-power-bulk</loc></url>
   <url><loc>https://zero-point-hardware-lab.vercel.app/?scale=ps5-power&amp;part=ps5-power-transformer</loc></url>
   <url><loc>https://zero-point-hardware-lab.vercel.app/?scale=ps5-power&amp;part=ps5-power-secondary</loc></url>
+  <url><loc>https://zero-point-hardware-lab.vercel.app/?scale=ps5-power&amp;part=ps5-power-output</loc></url>
+  <url><loc>https://zero-point-hardware-lab.vercel.app/?scale=ps5-power&amp;part=ps5-power-insulator</loc></url>
   <url><loc>https://zero-point-hardware-lab.vercel.app/?scale=ps5-drive&amp;part=ps5-drive-chassis</loc></url>
   <url><loc>https://zero-point-hardware-lab.vercel.app/?scale=ps5-drive&amp;part=ps5-drive-cover</loc></url>
   <url><loc>https://zero-point-hardware-lab.vercel.app/?scale=ps5-drive&amp;part=ps5-drive-spindle</loc></url>

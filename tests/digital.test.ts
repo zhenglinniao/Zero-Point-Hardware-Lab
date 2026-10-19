@@ -5,7 +5,7 @@ import * as T from 'three';
 import { digitalDefinitions, digitalLevels, digitalRoots, type DigitalLevel } from '../lib/digital/catalogue.ts';
 import { buildModel } from '../lib/models.ts';
 import { byId, manifest, searchConcepts } from '../lib/manifest.ts';
-import { levelPath, systemRoot, systemRoots } from '../lib/levels.ts';
+import { levelPath, systemRoot, systemRoots, levels } from '../lib/levels.ts';
 import { chineseIntro } from '../lib/zh.ts';
 import { devices } from '../lib/devices.ts';
 import { applyPiecePose, disposeModelResources, ModelStageScratch, posedModelBounds, prepareModelInventory } from '../lib/model-stage.ts';
@@ -20,7 +20,7 @@ const models = new Map(digitalDefinitions.map((definition)=>[definition.id,build
 after(()=>{ models.forEach(disposeModelResources); globalThis.document=oldDocument; });
 
 await test('every device has ordered observation checkpoints that preserve shared phase controls',()=>{
-  assert.deepEqual(new Set(Object.keys(deviceDisassembly)),new Set(systemRoots));
+  for(const id of Object.keys(deviceDisassembly)) assert.ok(id in levels,`unknown checkpoint level: ${id}`);
   for(const root of systemRoots) {
     const steps=deviceDisassembly[root]!;
     assert.equal(steps.length,6);

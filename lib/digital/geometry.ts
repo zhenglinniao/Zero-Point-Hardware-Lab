@@ -1,5 +1,6 @@
 import { powertrainGeometry } from '../powertrain/geometry.ts';
 import { mechanicalGeometry } from './mechanical-geometry.ts';
+import { ps5RebuildGeometry } from './ps5-rebuild.ts';
 import * as T from 'three';
 import { earbudShell, chargingCase } from './molded-shells.ts';
 import { decorateBoard } from './board-detail.ts';
@@ -537,6 +538,7 @@ export function detailedGeometry(
   const id = part.id;
   let handled = true;
   const precision =
+    ps5RebuildGeometry(level, part, tools) ??
     mechanicalGeometry(level, part, tools) ??
     precisionGeometry(level, part, tools);
   const exterior = level === 'camera' ? cameraExterior(part, tools) : null;

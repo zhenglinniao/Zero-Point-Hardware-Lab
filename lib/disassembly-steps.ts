@@ -9,6 +9,39 @@ const step = (
 /** Observation checkpoints on the real pose timeline. Nested mechanisms have
  * their own independent timeline; these are not real-world repair instructions. */
 export const deviceDisassembly: Partial<Record<LevelId, DisassemblyStep[]>> = {
+  'ps5-power': [
+    step('Assembled', 0, '观察原版异形电源壳体、盖板与收窄输出端。'),
+    step('抬盖让位', 18, '上盖先竖直离开下壳，再移到旁侧，避免扫过内部电容。'),
+    step(
+      '板上分区',
+      28,
+      '区分交流输入、两只卧式储能电容、磁性元件与次级输出。',
+    ),
+    step(
+      '去焊分解示意',
+      50,
+      '板上元件先抬过外壳再向侧面分开；这一步包含解除焊接连接。',
+    ),
+    step(
+      'Inventory',
+      100,
+      '对照异形 PCB、绝缘片、接触座和电源元件；清单布局不代表拆卸路径。',
+    ),
+  ],
+  ps5cooling: [
+    step('焊接总成', 0, '观察三个鳍片区与弯曲热管，管片和底板保持连接。'),
+    step('围护让位', 30, '移开导风边条与泡棉示意，查看中央接触区。'),
+    step(
+      '导热路径',
+      50,
+      '沿液金界面、接触底板、热管和鳍片追踪热量；焊接部分不滑开。',
+    ),
+    step(
+      'Inventory',
+      100,
+      '各构成分开展示以便选择，不表示焊接总成可以无损拔开。',
+    ),
+  ],
   engine: [
     step('Assembled', 0, '辨认倾斜气缸、油箱、空滤、消声器和手拉启动器。'),
     step(
