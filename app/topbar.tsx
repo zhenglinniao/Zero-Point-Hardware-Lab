@@ -1,6 +1,6 @@
 'use client';
 import { Code2, Cpu, Info, Layers3, Search } from 'lucide-react';
-import { GUIDE, REPOSITORY } from './links';
+import { GUIDE_ZH, REPOSITORY } from './links';
 
 type Props = {
   layers: boolean;
@@ -41,10 +41,10 @@ export default function Topbar({
       <div className="header-actions">
         <a
           className="guide-link"
-          href={GUIDE}
-          title="Learn about PC components"
+          href={GUIDE_ZH}
+          title="中文操作指南 · Chinese guide"
         >
-          Guide
+          使用指南
         </a>
         <button
           className="mobile-layers"

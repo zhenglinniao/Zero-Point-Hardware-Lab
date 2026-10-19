@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#15191a" />
+  <meta name="description" content="PC Anatomy 中文操作指南：从整机到芯片，学习旋转、拆解、检索与对比硬件。" />
+  <title>中文操作指南 · PC Anatomy</title>
+  <link rel="icon" type="image/svg+xml" href="../favicon.svg" />
+  <style>
+    :root { color-scheme: dark; font-family: "Segoe UI", "Microsoft YaHei", system-ui, sans-serif; color: #dfe5e6; background: #15191a; }
+    * { box-sizing: border-box; } body { margin: 0; line-height: 1.8; }
+    a { color: #a1d9e2; text-underline-offset: 5px; } a:hover { color: #fff; }
+    a:focus-visible { outline: 2px solid #a1d9e2; outline-offset: 5px; }
+    header, main, footer { width: min(100% - 48px, 1000px); margin: auto; }
+    header { display: flex; gap: 20px; align-items: center; justify-content: space-between; padding: 24px 0; border-bottom: 1px solid #303839; }
+    .brand { font-weight: 700; color: #fff; text-decoration: none; }
+    nav { display: flex; gap: 24px; } .hero { padding: 72px 0 40px; }
+    .eyebrow { color: #a1d9e2; letter-spacing: .15em; font-size: 12px; }
+    h1 { font-size: clamp(32px, 6vw, 56px); line-height: 1.2; letter-spacing: -.04em; margin: 16px 0 24px; color: #fff; }
+    .intro { max-width: 700px; color: #a7b4b7; font-size: 18px; }
+    .start { display: inline-block; padding: 10px 22px; margin-top: 16px; background: #a1d9e2; color: #102024; border-radius: 6px; text-decoration: none; font-weight: 600; }
+    .start:hover { background: #c8eef3; color: #102024; }
+    figure { margin: 20px 0 48px; border: 1px solid #303839; border-radius: 12px; overflow: hidden; }
+    img { width: 100%; height: auto; display: block; } figcaption { padding: 10px 18px; color: #9ba9ac; font-size: 13px; }
+    section { border-top: 1px solid #303839; padding: 32px 0; scroll-margin-top: 24px; }
+    h2 { font-size: 24px; color: #fff; margin: 0 0 18px; }
+    .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    .card { padding: 22px; border: 1px solid #354044; border-radius: 8px; background: #1a2022; }
+    .card h3 { color: #fff; margin: 8px 0; } .card p { margin: 0; color: #a7b4b7; }
+    .number { color: #a1d9e2; font: 13px ui-monospace, monospace; }
+    .table-wrap { overflow-x: auto; } table { border-collapse: collapse; width: 100%; text-align: left; }
+    th, td { padding: 12px; border-bottom: 1px solid #303839; vertical-align: top; }
+    th { color: #a1d9e2; } td:first-child { min-width: 135px; color: #fff; }
+    kbd { font-family: ui-monospace, monospace; background: #263033; padding: 2px 6px; border-radius: 4px; }
+    li { padding: 4px 0; } footer { padding: 28px 0 48px; color: #9ba9ac; font-size: 13px; border-top: 1px solid #303839; }
+    @media (max-width: 640px) { .grid { grid-template-columns: 1fr; } .hero { padding-top: 40px; } header { align-items: flex-start; } nav { gap: 12px; flex-wrap: wrap; font-size: 14px; } }
+    @media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } }
+  </style>
+</head>
+<body>
+  <header><a class="brand" href="../">PC Anatomy</a><nav aria-label="指南导航"><a href="#controls">操作说明</a><a href="index.html" lang="en">English guide</a></nav></header>
+  <main>
+    <div class="hero">
+      <div class="eyebrow">中文操作指南 / HARDWARE EXPLORER</div>
+      <h1>把电脑拆开，<br />让硬件变得直观。</h1>
+      <p class="intro">从完整机箱一路进入主板、显卡和内存。旋转模型，拖动拆解进度，查看每个部件的用途，再深入探索芯片内部的逻辑结构。</p>
+      <a class="start" href="../">开始探索 →</a>
+    </div>
+    <figure><img src="../pc-assembled.png" alt="PC Anatomy 生成的台式主机模型，可见机箱、显卡、风扇与内部结构" /><figcaption>上游项目模型截图。实际探索界面支持旋转、选择和逐层拆解。</figcaption></figure>
+    <section aria-labelledby="first-steps">
+      <h2 id="first-steps">第一次探索，只需三步</h2>
+      <div class="grid">
+        <article class="card"><span class="number">01 / 观察</span><h3>先看完整机器</h3><p>在模型空白处拖动以旋转视角，滚轮缩放。使用相机按钮切换到预设角度。</p></article>
+        <article class="card"><span class="number">02 / 拆解</span><h3>拖动底部时间轴</h3><p>从 Assembly（装配）进入 Dissection（拆解），最后到 Inventory（零件清单）。Auto 可以自动播放。</p></article>
+        <article class="card"><span class="number">03 / 深入</span><h3>进入下一个层级</h3><p>鼠标左键点击可深入的部件。右键查看资料；触屏先点选，再使用 Take apart（拆开）按钮进入内部。</p></article>
+      </div>
+    </section>
+    <section id="controls" aria-labelledby="controls-title">
+      <h2 id="controls-title">操作速查</h2>
+      <div class="table-wrap"><table><thead><tr><th scope="col">操作</th><th scope="col">作用</th></tr></thead><tbody>
+        <tr><td>鼠标拖动 / 滚轮</td><td>旋转模型 / 缩放。拖动空白区域能避免误选部件。</td></tr>
+        <tr><td>左键 / 右键</td><td>左键进入可深入的部件；右键查看部件说明、规格和来源。</td></tr>
+        <tr><td>触屏点按</td><td>先显示资料卡，再通过 Take apart 进入。手机左上角的层级按钮展开系统菜单。</td></tr>
+        <tr><td>Search / <kbd>/</kbd></td><td>搜索英文部件名称，例如 RTX、DDR5、VRM；选中结果可跳转到对应层级。</td></tr>
+        <tr><td>Hide / Isolate / Focus</td><td>隐藏所选部件 / 只显示所选部件 / 将相机对准所选部件。</td></tr>
+        <tr><td>Airflow</td><td>显示适用层级的气流方向；随着拆解进度增加，气流逐渐淡出。</td></tr>
+        <tr><td>面包屑 / <kbd>Backspace</kbd></td><td>回到上一层。浏览器返回键也可回到先前浏览的层级。</td></tr>
+        <tr><td><kbd>Esc</kbd></td><td>取消当前选择；对话框打开时用于关闭对话框。</td></tr>
+        <tr><td>Reset</td><td>恢复当前机器的装配和相机。切换笔记本后会恢复该笔记本。</td></tr>
+      </tbody></table></div>
+    </section>
+    <section aria-labelledby="routes-title">
+      <h2 id="routes-title">推荐探索路线</h2>
+      <ol>
+        <li><a href="../?scale=pc&amp;open=100">台式主机零件清单</a>：先分清电源、散热、存储和主板。</li>
+        <li><a href="../?scale=card">RTX 5090 显卡</a> → 芯片 → <a href="../?scale=sm">SM 流式多处理器</a>：从物理外壳进入逻辑架构。</li>
+        <li><a href="../?scale=dimm">DDR5 内存</a>：沿层级进入封装、阵列和存储单元；也可在对比工作台比较 DDR4 与 DDR5。</li>
+        <li><a href="../?scale=legion">Legion 5</a> / <a href="../?scale=macbook">MacBook Pro</a>：比较笔记本内部的空间组织。</li>
+      </ol>
+      <p>浏览位置会保存在地址栏中。复制链接即可分享层级、部件及拆解进度；相机视角、隐藏部件与气流偏好不写入链接。</p>
+    </section>
+    <section aria-labelledby="help-title">
+      <h2 id="help-title">性能与模型说明</h2>
+      <p>黑屏或渲染缓慢时，请确认浏览器支持 WebGL 并开启图形加速，参考<a href="index.html#smoother-3d">英文图形加速设置说明</a>。本地项目需通过开发或预览服务器访问，不能直接打开 HTML 文件。</p>
+      <p>物理模型表达部件形态和装配关系，芯片模型表达逻辑架构。示意结构不等于精确维修图或芯片制造版图。各部件来源和精度说明可在资料卡中查看。</p>
+    </section>
+  </main>
+  <footer><p>原项目 <a href="https://github.com/Yoosseph/pc-anatomy" target="_blank" rel="noreferrer">PC Anatomy · Yoseph</a>，MIT 许可。本地复刻与中文操作指南由 zln 维护。原版部件英文资料完整保留。</p><a href="../">返回 3D 工作台 ↑</a></footer>
+</body>
+</html>

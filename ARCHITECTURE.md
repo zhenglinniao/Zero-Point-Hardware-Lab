@@ -1,5 +1,17 @@
 # PC Anatomy — architecture
 
+## Local replica additions (2026-10-19)
+
+The complete upstream explorer is retained. `public/guide/zh-CN.html` adds a
+static Chinese operating guide, linked through `GUIDE_ZH` in `app/links.ts`
+from the header and About dialog. The English guide, catalogue, geometry and
+original attribution remain intact. The Vercel Analytics integration was
+removed from `app/main.tsx` and dependencies for this independent local copy.
+`vercel.json` and `netlify.toml` describe optional root-path static deployments;
+neither means a deployment has been performed. Upstream SEO domains still need
+replacement when an independent production domain is chosen. Local setup and
+provenance are in `README.md` and `docs/DEVELOPMENT.md`.
+
 ## Notebook systems and the scale forest
 
 The explorer now has three independent roots: Desktop PC (`pc`), Lenovo Legion

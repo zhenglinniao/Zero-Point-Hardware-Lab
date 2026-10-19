@@ -7,7 +7,7 @@ import {
   DialogDescription,
 } from '@/components/ui/dialog';
 import { sources } from '@/lib/manifest';
-import { GUIDE, GUIDE_ACCELERATION, REPOSITORY } from './links';
+import { GUIDE, GUIDE_ACCELERATION, GUIDE_ZH, REPOSITORY } from './links';
 
 type Props = { open: boolean; onOpenChange: (open: boolean) => void };
 
@@ -42,6 +42,9 @@ export default function AboutDialog({ open, onOpenChange }: Props) {
           full cluster, not an invented map of disabled units.
         </p>
         <h3>Research & credits</h3>
+        <a className="about-source" href={GUIDE_ZH}>
+          中文操作指南 · 本地复刻说明 <ArrowUpRight size={15} />
+        </a>
         <a className="about-source" href={GUIDE_ACCELERATION}>
           Browser hardware acceleration setup <ArrowUpRight size={15} />
         </a>
