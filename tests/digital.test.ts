@@ -148,3 +148,16 @@ await test('Chinese reading summaries cover every inherited and new component wi
   assert.ok(searchConcepts('相机').some((item)=>item.id==='camera'));
   assert.ok(searchConcepts('PS5').some((item)=>item.id==='ps5'));
 });
+
+await test('switching models releases both board traces and mesh resources without double disposal',()=>{
+  const root=new T.Group();
+  const geometry=new T.BufferGeometry();
+  geometry.setAttribute('position',new T.Float32BufferAttribute([0,0,0,1,0,0,0,1,0],3));
+  const meshMaterial=new T.MeshBasicMaterial();
+  const traceMaterial=new T.LineBasicMaterial();
+  root.add(new T.Mesh(geometry,meshMaterial),new T.LineSegments(geometry,traceMaterial));
+  const disposed=[0,0,0];
+  [geometry,meshMaterial,traceMaterial].forEach((resource,index)=>resource.addEventListener('dispose',()=>{disposed[index]++;}));
+  disposeModelResources({root,pieces:[]});
+  assert.deepEqual(disposed,[1,1,1]);
+});

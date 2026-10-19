@@ -63,15 +63,15 @@ export function refineDigitalDefinitions(definitions: Definition[]) {
     'CFI-10xx 光驱版照片参考；关键装配关系重建，非尺寸测绘';
   edit('ps5', 'fan', {
     size: [45, 120, 120],
-    pos: [-25, 131, -47],
+    pos: [-25, 118, -47],
     description:
       '原版 PS5 使用约 120 mm 直径、45 mm 厚的双面进气离心风扇。叶片曲率与数量在不同供应商版本之间存在差异。',
   });
-  edit('ps5', 'cooling', { pos: [-34, -15, 25] });
+  edit('ps5', 'cooling', { pos: [-34, -25, 25] });
   edit('ps5', 'frame', { shape: 'frame', size: [94, 360, 235] });
   get('ps5board').camera = { direction: [1, -1.6, 1.1], padding: 1.1 };
-  edit('ps5cooling', 'coldplate', { pos: [-17, 28, 36.5] });
-  edit('ps5cooling', 'interface', { pos: [-17, 29.3, 36.5] });
+  edit('ps5cooling', 'coldplate', { pos: [-17, 28, 46.5] });
+  edit('ps5cooling', 'interface', { pos: [-17, 29.3, 46.5] });
   edit('ps5cooling', 'pipes', { pos: [0, 26, 0] });
   edit('ps5board', 'pcb', {
     description:
@@ -370,6 +370,7 @@ export function refineDigitalDefinitions(definitions: Definition[]) {
 
   // ILCE-7M4 exploded views: rear/LCD, top, main board, heat spreader,
   // shutter, anti-shake and bayonet are distinct assemblies.
+  edit('camera', 'finder', { pos: [-8, 40, -10], size: [38, 20, 27] });
   edit('camera', 'front', {
     size: [131, 90, 42],
     pos: [0, 0, 6],
@@ -497,7 +498,7 @@ export function refineDigitalDefinitions(definitions: Definition[]) {
     color: '#cfd6d4',
   });
   edit('gamepad', 'board', {
-    size: [96, 2, 56],
+    size: [96, 2, 48],
     pos: [0, 0, -1],
     delta: [0, 24, 0],
   });
@@ -506,8 +507,8 @@ export function refineDigitalDefinitions(definitions: Definition[]) {
     pos: [0, -10, -4],
     delta: [0, -32, 15],
   });
-  edit('gamepad', 'leftstick', { size: [22, 21, 22], pos: [-28, 14, 17] });
-  edit('gamepad', 'rightstick', { size: [22, 21, 22], pos: [28, 14, 17] });
+  edit('gamepad', 'leftstick', { size: [22, 21, 22], pos: [-28, 14, 12] });
+  edit('gamepad', 'rightstick', { size: [22, 21, 22], pos: [28, 14, 12] });
   edit('gamepad', 'buttons', { size: [126, 7, 28], pos: [0, 22, -18] });
   edit('gamepad', 'touch', {
     size: [52, 3, 28],
@@ -597,7 +598,7 @@ export function refineDigitalDefinitions(definitions: Definition[]) {
     '左右扳机橙色排线与执行器红黑线连接主板，分别表达信号和供电路径。',
   );
   edit('gamepadboard', 'pcb', {
-    size: [96, 1.5, 56],
+    size: [96, 1.5, 48],
     description:
       '带两摇杆避让缺口、螺孔、铜焊盘和接口的异形主板，支持件依照初代控制器照片近似排布。',
   });

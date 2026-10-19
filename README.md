@@ -10,7 +10,7 @@
 
 ## 可以探索什么
 
-**8 台参考设备 · 82 个探索层级 · 699 条部件资料 · 8 条学习路径 · 24 个互动实验**
+**8 台参考设备 · 82 个探索层级 · 741 条部件资料 · 8 条学习路径 · 24 个互动实验**
 
 | 设备 | 探索内容 | 打开模型 |
 | --- | --- | --- |
@@ -20,10 +20,16 @@
 | PlayStation 5 | 原版光驱机参考结构、主板与散热系统 | [PS5](https://zero-point-hardware-lab.vercel.app/?scale=ps5) |
 | iPhone 15 参考结构 | 屏幕、电池、逻辑板与双摄模组 | [手机](https://zero-point-hardware-lab.vercel.app/?scale=phone) |
 | Sony α7 IV 参考结构 | 机身、传感器防抖与通用镜头原理 | [相机](https://zero-point-hardware-lab.vercel.app/?scale=camera) |
-| 双摇杆手柄 | 输入机构、控制电路与反馈模块 | [手柄](https://zero-point-hardware-lab.vercel.app/?scale=gamepad) |
-| 无线耳机原理样机 | 充电盒、耳机内部与动圈单元 | [耳机](https://zero-point-hardware-lab.vercel.app/?scale=earbuds) |
+| 初代 DualSense | 输入机构、控制电路与反馈模块 | [手柄](https://zero-point-hardware-lab.vercel.app/?scale=gamepad) |
+| AirPods Pro 2 USB-C 参考结构 | 双电芯、充电板、托盘、耳机内部与动圈原理 | [耳机](https://zero-point-hardware-lab.vercel.app/?scale=earbuds) |
 
 这些是帮助理解结构与功能的教学模型，不是精确维修图、完整物料清单或真实性能模拟。具体型号参考与通用原理模型的范围见[设备参考](docs/DIGITAL-DEVICES.md)。
+
+## 结构重建更新
+
+新增五类设备已按实机拆解、Apple 内部视图及 Sony ILCE-7M4 分解资料重做主要结构：异形 PCB、双面封装、薄壁开孔壳体、柔性排线与连接器、独立执行器、托盘及代表性紧固件。PS5 主板细分 8 颗 GDDR6 与两面共 6 颗 NAND；手机纠正底部组件布局，补齐 TrueDepth 与接口连接；手柄拆分左右扳机的电机、蜗杆与齿轮。
+
+几何由项目独立编写，不直接使用拆解照片当贴图。建模依据、已核对事实与未测绘部分见[重建记录](docs/DIGITAL-DEVICES.md)。
 
 ## 不只是看模型
 
@@ -37,11 +43,15 @@
 ![PS5 分层拆解](docs/screenshots/ps5-dissection.png)
 
 <details>
-<summary>更多预览：手机中文部件说明与相机拆解</summary>
+<summary>更多预览：PS5 主板、手机、相机与手柄</summary>
+
+![PS5 主板双面封装与屏蔽结构](docs/screenshots/ps5-board-detail.png)
 
 ![手机中文部件说明](docs/screenshots/phone-chinese-detail.png)
 
 ![相机拆解](docs/screenshots/camera-dissection.png)
+
+![手柄机构拆解](docs/screenshots/gamepad-dissection.png)
 
 </details>
 
@@ -92,7 +102,7 @@ npm run build
 npm run size
 ```
 
-已通过 **120 项测试**。另提供浏览器验收，覆盖学习流程、进度持久化、新设备拆解、部件交互与移动布局。先运行生产预览，再在另一个终端执行：
+已通过 **123 项测试**。另提供浏览器验收，覆盖学习流程、进度持久化、新设备拆解、部件交互与移动布局。先运行生产预览，再在另一个终端执行：
 
 ```bash
 node scripts/learning-smoke.mjs

@@ -187,7 +187,7 @@ export function disposeModelResources(model: BuiltModel) {
   const geometries = new Set<T.BufferGeometry>(),
     materials = new Set<T.Material>();
   model.root.traverse((object) => {
-    if (!(object instanceof T.Mesh)) return;
+    if (!(object instanceof T.Mesh || object instanceof T.Line)) return;
     geometries.add(object.geometry);
     (Array.isArray(object.material)
       ? object.material

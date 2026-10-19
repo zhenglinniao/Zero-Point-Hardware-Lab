@@ -8,6 +8,6 @@ export const devices: { level: LevelId; name: string; model: string; family: Dev
   { level:'ps5', name:'PlayStation 5', model:'2020 原版光驱版', family:'游戏', note:'定制计算、固态存储与散热路径' },
   { level:'phone', name:'手机', model:'iPhone 15 参考结构', family:'移动', note:'屏幕、电池、逻辑板与双摄' },
   { level:'camera', name:'无反相机', model:'Sony α7 IV 参考结构', family:'影像', note:'镜头、快门、传感器与防抖' },
-  { level:'gamepad', name:'游戏手柄', model:'DualSense 功能参考', family:'游戏', note:'输入采集、无线连接与触觉反馈' },
-  { level:'earbuds', name:'无线耳机', model:'通用动圈原理样机', family:'音频', note:'充电盒、耳机电路与发声单元' },
+  { level:'gamepad', name:'游戏手柄', model:'初代 DualSense 拆解参考', family:'游戏', note:'输入采集、无线连接与触觉反馈' },
+  { level:'earbuds', name:'无线耳机', model:'AirPods Pro 2 · USB-C 参考', family:'音频', note:'充电盒、耳机电路与发声单元' },
 ];

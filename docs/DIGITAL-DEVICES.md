@@ -1,48 +1,49 @@
-# 数码设备参考与模型范围
+# 数码设备：拆解资料与重建范围
 
-资料核对日期：2026-10-19。新增几何由本项目编写，使用原有 Three.js 渲染、拾取、拆解与资源释放机制，不下载第三方模型文件。
+核对日期：2026-10-19。此轮替换了原有通用方块模型，重点重建主要内部装配。几何由项目编写，不把拆解照片、视频截图或第三方模型打包进应用。
 
-| 设备 | 可探索层级 | 参考资料 | 明确的边界 |
-| --- | --- | --- | --- |
-| PlayStation 5 | 整机 → 主板；整机 → 散热系统 | [2020 官方拆解](https://blog.playstation.com/2020/10/07/ps5-teardown-an-inside-look-at-our-most-transformative-console-yet/)、[官方 FAQ](https://blog.playstation.com/2020/11/09/ps5-the-ultimate-faq/) | 参考 2020 原版光驱版，不混入 Slim / Pro 结构。导热、板级与风扇组织作示意，非完整物料清单。 |
-| iPhone 15 | 整机 → 逻辑板；整机 → 双摄模组 | [技术规格](https://support.apple.com/en-gb/111831)、[官方内部视图](https://support.apple.com/en-ca/104901)、[维修资料目录](https://support.apple.com/en-ca/104900) | 标准 iPhone 15，不加入 Pro 专属镜头。封装、屏蔽罩、排线与卡扣的位置/形态简化。 |
-| Sony α7 IV | 机身 → 传感器/防抖；机身 → 镜头原理 | [机身规格](https://www.sony.com/electronics/support/e-mount-body-ilce-7-series/ilce-7m4/specifications)、[光圈与景深原理](https://www.sony.co.uk/electronics/what-is-aperture-depth-of-field) | 机身功能参考 α7 IV；镜头是通用教学结构，不声称是某款商业镜头的精确光学处方。 |
-| 双摇杆手柄 | 整机 → 控制电路 | [DualSense 官方功能介绍](https://www.playstation.com/en-us/accessories/dualsense-wireless-controller/) | 参考输入、通信、触觉与扳机功能；不声称是 DualSense 内部 PCB 或专有执行器的精确复刻。 |
-| 无线耳机 | 充电盒/耳机 → 耳机内部 → 动圈单元 | [公开耳机功能参考](https://support.apple.com/en-il/111851)、[COMSOL 动圈单元原理](https://doc.comsol.com/6.3/doc/com.comsol.help.models.aco.lumped_loudspeaker_driver/lumped_loudspeaker_driver.html) | 通用原理样机，不是 AirPods 的内部复刻。线圈、振膜、电池与声腔尺寸不代表具体产品。 |
+## 逐设备依据
 
-厂商公开页面支持型号、规格或功能存在；并不支持模型中每个坐标、包封数量或几何尺寸。原理性的组件角色与实物的供应商/料号不混为一谈。模型不模拟真实电路、温度、磁场、光学或声学性能。
+| 参考设备 | 直接参考 | 本次重建 |
+| --- | --- | --- |
+| 原版 PS5 光驱版 / CFI-10xx | [Sony 官方拆解](https://blog.playstation.com/2020/10/07/ps5-teardown-an-inside-look-at-our-most-transformative-console-yet/)、[iFixit 原版实机拆解](https://www.ifixit.com/Teardown/PlayStation+5+Teardown/138280) | 曲面侧盖、前后黑色壳架、进排风开口、风扇、光驱外壳；带避让缺口的 PCB、正反面封装、接口、热管、接触板与屏蔽结构。 |
+| iPhone 15 标准版 | [Apple 内部视图](https://support.apple.com/en-ca/104901)、[官方维修目录](https://support.apple.com/en-ca/104900)、[规格](https://support.apple.com/en-gb/111831) | 背部开盖视角、对角双摄、TrueDepth、矩形软包电池、窄长逻辑板、USB-C 与麦克风、排线、压盖、边框内台阶与代表性螺钉。 |
+| Sony α7 IV / ILCE-7M4 | [官方规格](https://www.sony.com/electronics/support/e-mount-body-ilce-7-series/ilce-7m4/specifications)、[Sony 服务手册分解页镜像](https://manuals.plus/m/662ac7b243a51dfb6adfa3f731348687443abee969b90e085dcd0aebbb51fbad.pdf) | 镂空前框、握柄腔、后壳窗口、顶盖、热靴、EVF、主板、导热承载板、卡槽、柔性连接、快门、卡口与传感器防抖分层。手册属于第三方托管的厂商文档副本。 |
+| 初代 DualSense | [iFixit 初代维修资料](https://www.ifixit.com/Device/DualSense)、[实机拆解第 12 步起](https://www.ifixit.com/Teardown/PlayStation+5+Teardown/138280) | 带输入开孔的曲线握柄壳、异形板、中央电池架、两摇杆、触点膜、左右独立线性执行器和自适应扳机；扳机含电机、蜗杆、齿轮及触发臂。 |
+| AirPods Pro 2 USB-C（2023）参考结构 | [52audio 原创拆解](https://www.52audio.com/archives/178135.html)、[Apple 规格](https://support.apple.com/en-il/111851) | 圆角薄壁盒壳、盖、铰链、双电芯、竖向充电板、双耳托盘与触点、背部线圈；耳机短柄、声腔、纽扣形电池、柔性电路和硅胶耳塞。 |
 
-## 中文内容
+## 核对事实与近似部分
 
-新增设备的描述、作用、示意范围和课程直接使用中文编写。原有电脑部件默认展示中文功能导读，同时保留「查看英文原文与精度说明」和原始规格值。导读按组件身份及功能分类组织，不宣称是 593 条原始长文的逐句专业翻译。
+- **PS5**：原版主板的 8 颗 2 GB GDDR6、6 颗 NAND（两面各 3 颗）分别建为可选组件；风扇采用 120 mm / 45 mm 级包络。叶片数存在供应商差异，当前曲率与 23 片表示一种视觉近似，不作为所有 PS5 的统一风扇规格。CPU 裸芯片面朝向散热组件；没有误加桌面 CPU 金属顶盖。
+- **手机**：按照 Apple 官方背部内部视图，底部扬声器在左、Taptic Engine 在右，TrueDepth 与后置双摄分开。标准版不添加 Pro 的第三颗相机。保留 147.6 × 71.6 × 7.8 mm 官方外形参考。
+- **相机**：使用 ILCE-7M4 的装配分区，不将 A7R IV / A7R V 拆解冒称为 A7 IV。芯片微观布局、排线弯曲半径与光学处方没有公开测绘，本模型不填入未经核对的具体芯片料号。
+- **手柄**：两个自适应扳机与两个线性执行器分别展示；不将触觉执行器当作传统偏心马达。不同 DualSense 硬件修订的电路和机构可能不同。
+- **耳机**：从通用原理样机改为 USB-C 版主要组件参考，但仍不声称复制 AirPods 的声学腔体公差、SiP 内部封装或胶粘工艺。独立动圈子层级继续讲解通用原理。
 
-`lib/zh.ts` 提供本地中文名称、常见术语、功能导读、规格标签及精度说明；搜索同时保留英文名称，并加入中文设备和部件别名。运行时不调用翻译或外部模型接口。
+外形曲面、板孔、元件尺寸、微型无源器件位置、排线轨迹和紧固件数量属于观察资料后的几何近似。可视螺钉是代表性采样；电路表面的装饰走线不是真实电气网络。这些模型不能替代维修手册或完整物料清单。
 
-## 实现与可靠性
+## 实现与计数
 
-- `lib/digital/catalogue.ts`：14 个层级、106 个目录条目，包括原生毫米尺寸、参考来源与父子关系。
-- `lib/digital/models.ts`：按设备家族单位换算生成实体几何；子组件使用统一比例，不按各轴拉伸适配。
-- 尺寸换算与安装旋转置于内部容器，外层保持动画系统要求的单位变换，避免运行时重置导致比例失真。
-- `lib/devices.ts`：设备库与独立系统一一对应。
-- `lib/digital-learning.ts`：5 条新增课程、15 个实验，与原有 3 条课程共同组成 8 条路径、24 个实验。
-- `app/lab.tsx`：进入实验后才加载；首页不挂载 WebGL，也不提前加载完整实验面板。
-- `tests/digital.test.ts`：目录/模型绑定、中文内容、完整层级、统一缩放、运行时姿态与边界检查。
-- `scripts/digital-smoke.mjs`：实际浏览器中检查新层级三种姿态、中文介绍、隐藏/恢复、进入/返回、五条课程及移动端。
+- `lib/digital/catalogue.ts` 保留原有 14 个层级与部件 ID。
+- `lib/digital/refinements.ts` 维护本轮修正的位置、尺寸、来源与新增组件；已有课程记录和分享链接继续有效。
+- `lib/digital/geometry.ts` 实现原生毫米几何：镂空轮廓、薄壁壳体、曲面侧盖、双面封装、微型插座、柔性线路、齿轮及声学部件。
+- `lib/digital/models.ts` 负责父子单位换算与安装朝向；变换保存在内层，避免动画重置缩放后子模型变大。
+- 新增 42 条部件资料。五类数码设备共有 148 条目录资料，其中 143 个为各层级的可选组件定义，5 个为设备根条目。整个应用为 741 条资料、82 层级、8 台参考设备、24 个实验。
+- 支持件和微型无源器件随其总成选中；没有给装饰电路赋予虚构的料号。
 
-## 运行
+## 验证方式
 
-```powershell
-npm ci
-npm run dev
-```
-
-生产预览与浏览器检查：
-
-```powershell
+```bash
+npm run lint
+npm test
 npm run build
+npm run size
 npm start
-# 在另一个终端执行：
+# 另开终端
 node --experimental-strip-types scripts/digital-smoke.mjs
+node scripts/learning-smoke.mjs
 ```
 
-默认浏览器脚本使用 Windows Edge。可通过 BROWSER_EXECUTABLE 指定本机已安装的浏览器，通过 NOTEBOOK_BASE_URL 指定预览地址。无新增运行时依赖，不需要 API 密钥。
+几何检查包括父子实际比例、动画前后变换、PS5 内部组件装配间隔与风扇包络、双面封装数量、手机的关键位置与背盖下排线、耳机与盒盖间隙。非凸主板按各实际子组件检查装配区域，避免用整个主板的包围盒填满风扇避让空间。
+
+浏览器验收覆盖 14 层级 × 3 姿态、5 条新增课程、选择/隐藏/恢复、父子深入、中文说明、分类和移动端。截图与验收不是公差测绘、物理声学仿真或全部芯片的逐一鉴定。

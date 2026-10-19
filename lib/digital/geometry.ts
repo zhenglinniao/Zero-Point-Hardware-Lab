@@ -45,12 +45,14 @@ export function detailedGeometry(
         new T.CylinderGeometry(r, r, height, segments),
         mat(color, 0.5),
       );
-    const s = new T.Shape();
-    s.absarc(0, 0, r, 0, Math.PI * 2, false);
-    const hole = new T.Path();
-    hole.absarc(0, 0, inner, 0, Math.PI * 2, true);
-    s.holes.push(hole);
-    return new T.Mesh(extrusion(s, height), mat(color, 0.55));
+    const profile = [
+      [inner, -height / 2],
+      [r, -height / 2],
+      [r, height / 2],
+      [inner, height / 2],
+      [inner, -height / 2],
+    ].map(([x, y]) => new T.Vector2(x, y));
+    return new T.Mesh(new T.LatheGeometry(profile, segments), mat(color, 0.55));
   };
   function rounded(
     width: number,
@@ -419,15 +421,15 @@ export function detailedGeometry(
     shape.moveTo(-67, -41);
     shape.bezierCurveTo(-82, -28, -80, 15, -69, 40);
     shape.bezierCurveTo(-60, 60, -44, 50, -33, 23);
-    shape.quadraticCurveTo(0, 12, 33, 23);
+    shape.quadraticCurveTo(0, 30, 33, 23);
     shape.bezierCurveTo(44, 50, 60, 60, 69, 40);
     shape.bezierCurveTo(80, 15, 82, -28, 67, -41);
     shape.quadraticCurveTo(0, -52, -67, -41);
     shape.closePath();
     if (top) {
       shape.holes.push(
-        circleHole(-28, 17, 10),
-        circleHole(28, 17, 10),
+        circleHole(-28, 12, 10),
+        circleHole(28, 12, 10),
         rectHole(0, -22, 53, 29, 5),
       );
       for (const side of [-1, 1])
@@ -485,7 +487,7 @@ export function detailedGeometry(
         circleHole(-28, 0, 10),
         circleHole(28, 0, 10),
       ]);
-      put(trim, [0, h / 2 + 0.1, 17]);
+      put(trim, [0, h / 2 + 0.1, 12]);
     }
   }
   function trigger() {
@@ -579,8 +581,8 @@ export function detailedGeometry(
           ? 11 *
             Math.exp(-Math.pow((y + 60) / 105, 2) - Math.pow((z - 30) / 95, 2))
           : 0;
-      const taper = 0.88 + 0.1 * Math.cos((y / h) * Math.PI);
-      const sweep = d * 0.09 * Math.sin((y / h) * Math.PI);
+      const taper = 0.98 + 0.04 * Math.cos((y / h) * Math.PI);
+      const sweep = d * 0.018 * Math.sin((y / h) * Math.PI);
       a.setXYZ(
         i,
         (id === 'left-cover' ? -1 : 1) * (flare + bulge),
@@ -657,6 +659,10 @@ export function detailedGeometry(
     const back = plate(w, 3, h, ink, 12, vents);
     back.rotation.x = Math.PI / 2;
     put(back, [0, 0, -d / 2]);
+    const roofVents: T.Path[] = [];
+    for (let i = 0; i < 22; i++)
+      roofVents.push(rectHole(0, (i - 10.5) * 9, w * 0.7, 2.5, 0.8));
+    put(plate(w, 3, d, ink, 7, roofVents), [0, h / 2 + 1.5, 0]);
     for (const x of [-w * 0.44, w * 0.44])
       put(box([1.1, 80, 1], '#416e9b'), [x, 110, d / 2 + 1.6]);
   } else if (level === 'ps5' && id === 'fan') {
@@ -665,31 +671,26 @@ export function detailedGeometry(
     put(disk(19, 41, '#3e464d'), [0, 0, 0], rotor);
     for (let i = 0; i < 23; i++) {
       const a = (i * Math.PI * 2) / 23;
-      const curve: Vec3[] = [];
-      for (let j = 0; j < 5; j++) {
-        const r = 24 + j * 7,
-          theta = a + j * 0.07;
-        curve.push([Math.sin(theta) * r, 0, Math.cos(theta) * r]);
-      }
       const ribbon = new T.Shape();
-      ribbon.moveTo(0, -20);
-      ribbon.lineTo(1, -20);
-      ribbon.lineTo(1, 20);
-      ribbon.lineTo(0, 20);
-      const blade = new T.Mesh(
-        new T.ExtrudeGeometry(ribbon, {
-          steps: 12,
-          bevelEnabled: false,
-          extrudePath: new T.CatmullRomCurve3(
-            curve.map((p) => new T.Vector3(...p)),
-          ),
-        }),
-        mat('#58616a', 0.3),
-      );
+      for (let j = 0; j <= 8; j++) {
+        const r = 22 + (j * 31.5) / 8,
+          theta = a + j * 0.035;
+        const x = Math.sin(theta) * r,
+          z = Math.cos(theta) * r;
+        if (j === 0) ribbon.moveTo(x, z);
+        else ribbon.lineTo(x, z);
+      }
+      for (let j = 8; j >= 0; j--) {
+        const r = 22 + (j * 31.5) / 8,
+          theta = a + j * 0.035 + 0.025;
+        ribbon.lineTo(Math.sin(theta) * r, Math.cos(theta) * r);
+      }
+      ribbon.closePath();
+      const blade = new T.Mesh(extrusion(ribbon, 39), mat('#58616a', 0.3));
       rotor.add(blade);
     }
-    for (const y of [-23, 23]) {
-      put(disk(61, 1, silver, 53), [0, y, 0], rotor);
+    for (const y of [-21.8, 21.8]) {
+      put(disk(60, 1, silver, 53), [0, y, 0], rotor);
       for (let i = 0; i < 4; i++) {
         const a = (i * Math.PI) / 2;
         const arm = box([42, 1, 3], silver);
@@ -844,7 +845,25 @@ export function detailedGeometry(
       for (const z of [-21, 21]) connector([10, 1.4, 4], [x, 2, z]);
     put(plate(30, 0.6, 23, silver, 2), [-8, 3.5, -16]);
   } else if (level === 'camera' && id === 'finder') {
-    put(plate(w, h, d, ink, 4));
+    const roof = new T.Shape();
+    roof.moveTo(-w / 2, -h / 2);
+    roof.lineTo(w / 2, -h / 2);
+    roof.lineTo(w / 2, h * 0.08);
+    roof.lineTo(w * 0.32, h / 2);
+    roof.lineTo(-w * 0.32, h / 2);
+    roof.lineTo(-w / 2, h * 0.08);
+    roof.closePath();
+    const housing = new T.ExtrudeGeometry(roof, {
+      depth: d,
+      bevelEnabled: true,
+      bevelThickness: 1,
+      bevelSize: 1,
+      bevelSegments: 3,
+    });
+    housing.translate(0, 0, -d / 2);
+    put(new T.Mesh(housing, mat(ink, 0.12, 0.8)));
+    put(plate(21, 2, 18, silver, 1), [0, h / 2 + 1.5, 0]);
+    for (const x of [-8, 8]) put(box([2, 2, 18], ink), [x, h / 2 + 2, 0]);
     const eyecup = plate(32, 4, 23, '#11171c', 5, [rectHole(0, 0, 23, 15, 2)]);
     eyecup.rotation.x = Math.PI / 2;
     put(eyecup, [0, 0, -d / 2]);
@@ -862,20 +881,31 @@ export function detailedGeometry(
     );
   } else if (level === 'camera' && id === 'top') {
     put(plate(w, h, d, ink, 6, [rectHole(-8, -4, 31, 25, 3)]));
-    put(plate(21, 2, 18, silver, 1), [-8, h / 2 + 1, 0]);
-    for (const x of [-16, 0]) put(box([2, 2, 18], ink), [x, h / 2 + 2, 0]);
-    for (const x of [-43]) {
-      put(disk(9, 4, ink), [x, h / 2 + 2, 0]);
-      for (let i = 0; i < 24; i++) {
-        const a = (i * Math.PI) / 12;
-        put(box([0.6, 3, 0.6], '#596164'), [
-          x + Math.sin(a) * 8.5,
-          h / 2 + 2,
-          Math.cos(a) * 8.5,
-        ]);
+    put(disk(5, 2, silver), [48, h / 2 + 4, 14]);
+    for (const x of [-60, 60]) put(disk(3, 2, silver, 1.7), [x, h / 2, 0]);
+  } else if (level === 'camera' && id === 'dial') {
+    put(disk(w / 2, h, ink));
+    for (let i = 0; i < 48; i++) {
+      const a = (i * Math.PI) / 24;
+      put(box([0.5, h * 0.8, 0.6], '#4c565a'), [
+        Math.sin(a) * (w / 2 - 0.2),
+        0,
+        Math.cos(a) * (w / 2 - 0.2),
+      ]);
+    }
+    text('P A S M', [0, h / 2 + 0.1, 0], w * 0.8);
+  } else if (level === 'cameralens' && id === 'barrel') {
+    put(disk(w / 2, h, ink, w * 0.42));
+    for (const y of [-h * 0.25, h * 0.22]) {
+      put(disk(w * 0.507, 10, '#202a2c', w * 0.48), [0, y, 0]);
+      for (let i = 0; i < 64; i++) {
+        const a = (i * Math.PI) / 32;
+        const ridge = box([0.55, 9, 0.7], '#3d484b');
+        ridge.rotation.y = a;
+        put(ridge, [Math.sin(a) * w * 0.505, y, Math.cos(a) * w * 0.505]);
       }
     }
-    put(disk(5, 2, silver), [48, h / 2 + 4, 14]);
+    put(disk(w * 0.505, 1.2, silver, w * 0.48), [0, -h / 2 + 0.7, 0]);
   } else if (level === 'gamepad' && (id === 'top' || id === 'back'))
     shellController(id === 'top');
   else if (level === 'gamepad' && (id === 'triggers' || id === 'right-trigger'))

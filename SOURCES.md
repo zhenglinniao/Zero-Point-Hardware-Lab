@@ -343,6 +343,8 @@ The new sources are indexed in docs/component-references.md. Lenovo PSREF and th
 
 The two outer footprints share one physical scale for comparison. Interior positions, package and fastener populations, battery pouches and keyboard artwork are illustrative. Onboard Mac flash is not a removable M.2 SSD, unified memory is not a SO-DIMM, and notebook CPU/GPU packages are soldered. The generic DRAM views do not assert a Mac memory die topology. Issue #33 tracks these first models; #31 remains open for further M-series models.
 
-## 数码设备扩展（2026-10-19）
+## 数码设备重建（2026-10-19）
 
-PS5、iPhone 15 参考结构、Sony α7 IV 参考机身、通用游戏手柄与无线耳机已纳入本地目录。公开参数、功能依据与教学示意范围逐项记录在 [数码设备参考](docs/DIGITAL-DEVICES.md)。厂商页面不作为每个内部几何坐标、包封数量或零件供应商的证明。动圈、镜头和控制器内部结构明确按原理样机处理，不能冒充精确商业产品复刻。
+新增设备的主要结构已经按原版实机拆解和具体型号装配资料重建，取代首版的通用功能方块。PS5 参考 CFI-10xx 原版光驱版，iPhone 参考标准 15，DualSense 参考初代，耳机参考 AirPods Pro 2 USB-C；相机使用 ILCE-7M4 服务分解资料，未借用 A7R IV / V 的内部结构冒充 A7 IV。
+
+资料与几何范围逐项记录在 [数码设备参考](docs/DIGITAL-DEVICES.md)，目录引用由 scripts/generate-reference-index.mjs 生成。原始照片仅用于观察，不打包为本项目贴图或模型资产。主要模块、双面封装数量与部分外形规格有直接资料依据；局部曲率、微型支持件、固定点数量、线路形状仍是近似，不能推导为完整 BOM 或可用于维修的测绘。镜头和动圈的深入层级保留为通用原理模型。

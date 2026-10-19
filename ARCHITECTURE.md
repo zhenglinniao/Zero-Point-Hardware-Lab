@@ -2,11 +2,11 @@
 
 ## Multi-device Chinese explorer (2026-10-19)
 
-The current app contains eight independent device roots, 82 scales and 699 concepts.
+The current app contains eight independent device roots, 82 scales and 741 concepts.
 The 14 new scales are declared with their native dimensions and part ownership in
 `lib/digital/catalogue.ts`, built by `lib/digital/models.ts`, and registered through
 the same model/manifest/level contracts as the desktop and notebooks. Five new
-device families have 106 authored catalogue entries. `lib/devices.ts` is the
+device families have 148 authored catalogue entries. `lib/devices.ts` is the
 home library; tests require its roots to match `systemRoots` exactly.
 
 Each device family uses a documented millimetres-per-unit conversion. Installing a
@@ -667,3 +667,8 @@ This document is only useful while it is true. When you change the scale tree,
 move a module, or settle a decision the hard way, update the section that covers
 it in the same change. If you are a model working on this repository, treat that
 as part of the task rather than a follow-up.
+
+
+### Teardown-based geometry revision
+
+`lib/digital/refinements.ts` applies photo-referenced layouts while preserving existing component IDs, saved lessons and deep links. `lib/digital/geometry.ts` builds native-millimetre shells, apertures, board outlines, connectors, flex, dual-sided packages and mechanical modules. Native transforms stay below the stage-owned root. There are 143 selectable component definitions across the fourteen digital scales, plus five root catalogue entries. Internal fasteners/passives remain part of their named assembly, rather than fictitious independently identified electronic parts.

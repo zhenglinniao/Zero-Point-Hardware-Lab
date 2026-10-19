@@ -6,30 +6,47 @@ Manufacturer documents support component roles, architecture or construction. Th
 
 | ID | Component | Inspection scale | References |
 | --- | --- | --- | --- |
-| ps5 | PlayStation 5 | PlayStation 5 | [索尼 PlayStation · 2020 原版 PS5 官方拆解](https://blog.playstation.com/2020/10/07/ps5-teardown-an-inside-look-at-our-most-transformative-console-yet/) |
-| ps5-left-cover | 左侧曲面外盖 | PlayStation 5 | [索尼 PlayStation · 2020 原版 PS5 官方拆解](https://blog.playstation.com/2020/10/07/ps5-teardown-an-inside-look-at-our-most-transformative-console-yet/) |
-| ps5-right-cover | 右侧曲面外盖 | PlayStation 5 | [索尼 PlayStation · 2020 原版 PS5 官方拆解](https://blog.playstation.com/2020/10/07/ps5-teardown-an-inside-look-at-our-most-transformative-console-yet/) |
-| ps5-frame | 中央承载框架 | PlayStation 5 | [索尼 PlayStation · 2020 原版 PS5 官方拆解](https://blog.playstation.com/2020/10/07/ps5-teardown-an-inside-look-at-our-most-transformative-console-yet/) |
-| ps5board | 主板与计算系统 | PlayStation 5 | [索尼 PlayStation · 2020 原版 PS5 官方拆解](https://blog.playstation.com/2020/10/07/ps5-teardown-an-inside-look-at-our-most-transformative-console-yet/) |
-| ps5cooling | 散热组件 | PlayStation 5 | [索尼 PlayStation · 2020 原版 PS5 官方拆解](https://blog.playstation.com/2020/10/07/ps5-teardown-an-inside-look-at-our-most-transformative-console-yet/) |
-| ps5-fan | 双面进气风扇 | PlayStation 5 | [索尼 PlayStation · 2020 原版 PS5 官方拆解](https://blog.playstation.com/2020/10/07/ps5-teardown-an-inside-look-at-our-most-transformative-console-yet/) |
-| ps5-power | 内置电源模块 | PlayStation 5 | [索尼 PlayStation · 2020 原版 PS5 官方拆解](https://blog.playstation.com/2020/10/07/ps5-teardown-an-inside-look-at-our-most-transformative-console-yet/) |
-| ps5-drive | Ultra HD Blu-ray 光驱 | PlayStation 5 | [索尼 PlayStation · 2020 原版 PS5 官方拆解](https://blog.playstation.com/2020/10/07/ps5-teardown-an-inside-look-at-our-most-transformative-console-yet/) |
-| ps5-m2 | M.2 扩展槽盖板 | PlayStation 5 | [索尼 PlayStation · 2020 原版 PS5 官方拆解](https://blog.playstation.com/2020/10/07/ps5-teardown-an-inside-look-at-our-most-transformative-console-yet/) |
-| ps5-ports | USB 与后部接口组 | PlayStation 5 | [索尼 PlayStation · 2020 原版 PS5 官方拆解](https://blog.playstation.com/2020/10/07/ps5-teardown-an-inside-look-at-our-most-transformative-console-yet/) |
-| ps5board-pcb | 主板 PCB | PS5 主板 | [索尼 PlayStation · 原版 PS5 架构与规格问答](https://blog.playstation.com/2020/11/09/ps5-the-ultimate-faq/) |
-| ps5board-apu | 定制 AMD 处理器 | PS5 主板 | [索尼 PlayStation · 原版 PS5 架构与规格问答](https://blog.playstation.com/2020/11/09/ps5-the-ultimate-faq/) |
-| ps5board-memory | GDDR6 内存封装组 | PS5 主板 | [索尼 PlayStation · 原版 PS5 架构与规格问答](https://blog.playstation.com/2020/11/09/ps5-the-ultimate-faq/) |
-| ps5board-ssd-controller | SSD 控制电路 | PS5 主板 | [索尼 PlayStation · 原版 PS5 架构与规格问答](https://blog.playstation.com/2020/11/09/ps5-the-ultimate-faq/) |
-| ps5board-nand | 内置闪存封装组 | PS5 主板 | [索尼 PlayStation · 原版 PS5 架构与规格问答](https://blog.playstation.com/2020/11/09/ps5-the-ultimate-faq/) |
-| ps5board-vrm | 供电调节区域 | PS5 主板 | [索尼 PlayStation · 原版 PS5 架构与规格问答](https://blog.playstation.com/2020/11/09/ps5-the-ultimate-faq/) |
-| ps5board-shield | 电磁屏蔽盖 | PS5 主板 | [索尼 PlayStation · 原版 PS5 架构与规格问答](https://blog.playstation.com/2020/11/09/ps5-the-ultimate-faq/) |
-| ps5cooling-base | 散热器承载底座 | PS5 散热系统 | [索尼 PlayStation · 2020 原版 PS5 官方拆解](https://blog.playstation.com/2020/10/07/ps5-teardown-an-inside-look-at-our-most-transformative-console-yet/) |
-| ps5cooling-fins | 散热鳍片阵列 | PS5 散热系统 | [索尼 PlayStation · 2020 原版 PS5 官方拆解](https://blog.playstation.com/2020/10/07/ps5-teardown-an-inside-look-at-our-most-transformative-console-yet/) |
-| ps5cooling-pipes | 热管组 | PS5 散热系统 | [索尼 PlayStation · 2020 原版 PS5 官方拆解](https://blog.playstation.com/2020/10/07/ps5-teardown-an-inside-look-at-our-most-transformative-console-yet/) |
-| ps5cooling-coldplate | 处理器接触底板 | PS5 散热系统 | [索尼 PlayStation · 2020 原版 PS5 官方拆解](https://blog.playstation.com/2020/10/07/ps5-teardown-an-inside-look-at-our-most-transformative-console-yet/) |
-| ps5cooling-interface | 液态金属导热界面示意 | PS5 散热系统 | [索尼 PlayStation · 2020 原版 PS5 官方拆解](https://blog.playstation.com/2020/10/07/ps5-teardown-an-inside-look-at-our-most-transformative-console-yet/) |
-| ps5cooling-duct | 导风结构 | PS5 散热系统 | [索尼 PlayStation · 2020 原版 PS5 官方拆解](https://blog.playstation.com/2020/10/07/ps5-teardown-an-inside-look-at-our-most-transformative-console-yet/) |
+| ps5 | PlayStation 5 | PlayStation 5 | [iFixit · 原版 PS5 实机拆解与双面主板照片（2020）](https://www.ifixit.com/Teardown/PlayStation+5+Teardown/138280) |
+| ps5-left-cover | 左侧曲面外盖 | PlayStation 5 | [iFixit · 原版 PS5 实机拆解与双面主板照片（2020）](https://www.ifixit.com/Teardown/PlayStation+5+Teardown/138280) |
+| ps5-right-cover | 右侧曲面外盖 | PlayStation 5 | [iFixit · 原版 PS5 实机拆解与双面主板照片（2020）](https://www.ifixit.com/Teardown/PlayStation+5+Teardown/138280) |
+| ps5-frame | 中央承载框架 | PlayStation 5 | [iFixit · 原版 PS5 实机拆解与双面主板照片（2020）](https://www.ifixit.com/Teardown/PlayStation+5+Teardown/138280) |
+| ps5board | 主板与计算系统 | PlayStation 5 | [iFixit · 原版 PS5 实机拆解与双面主板照片（2020）](https://www.ifixit.com/Teardown/PlayStation+5+Teardown/138280) |
+| ps5cooling | 散热组件 | PlayStation 5 | [iFixit · 原版 PS5 实机拆解与双面主板照片（2020）](https://www.ifixit.com/Teardown/PlayStation+5+Teardown/138280) |
+| ps5-fan | 双面进气风扇 | PlayStation 5 | [iFixit · 原版 PS5 实机拆解与双面主板照片（2020）](https://www.ifixit.com/Teardown/PlayStation+5+Teardown/138280) |
+| ps5-power | 内置电源模块 | PlayStation 5 | [iFixit · 原版 PS5 实机拆解与双面主板照片（2020）](https://www.ifixit.com/Teardown/PlayStation+5+Teardown/138280) |
+| ps5-drive | Ultra HD Blu-ray 光驱 | PlayStation 5 | [iFixit · 原版 PS5 实机拆解与双面主板照片（2020）](https://www.ifixit.com/Teardown/PlayStation+5+Teardown/138280) |
+| ps5-m2 | M.2 扩展槽盖板 | PlayStation 5 | [iFixit · 原版 PS5 实机拆解与双面主板照片（2020）](https://www.ifixit.com/Teardown/PlayStation+5+Teardown/138280) |
+| ps5-ports | USB 与后部接口组 | PlayStation 5 | [iFixit · 原版 PS5 实机拆解与双面主板照片（2020）](https://www.ifixit.com/Teardown/PlayStation+5+Teardown/138280) |
+| ps5-antenna | 无线天线与同轴线组 | PlayStation 5 | [iFixit · 原版 PS5 实机拆解与双面主板照片（2020）](https://www.ifixit.com/Teardown/PlayStation+5+Teardown/138280) |
+| ps5-fasteners | 侧盖下固定螺钉组 | PlayStation 5 | [iFixit · 原版 PS5 实机拆解与双面主板照片（2020）](https://www.ifixit.com/Teardown/PlayStation+5+Teardown/138280) |
+| ps5board-pcb | 主板 PCB | PS5 主板 | [iFixit · 原版 PS5 实机拆解与双面主板照片（2020）](https://www.ifixit.com/Teardown/PlayStation+5+Teardown/138280) |
+| ps5board-apu | 定制 AMD 处理器 | PS5 主板 | [iFixit · 原版 PS5 实机拆解与双面主板照片（2020）](https://www.ifixit.com/Teardown/PlayStation+5+Teardown/138280) |
+| ps5board-memory | GDDR6 内存封装 1 | PS5 主板 | [iFixit · 原版 PS5 实机拆解与双面主板照片（2020）](https://www.ifixit.com/Teardown/PlayStation+5+Teardown/138280) |
+| ps5board-ssd-controller | SSD 控制电路 | PS5 主板 | [iFixit · 原版 PS5 实机拆解与双面主板照片（2020）](https://www.ifixit.com/Teardown/PlayStation+5+Teardown/138280) |
+| ps5board-nand | NAND 闪存 1 / 正面 | PS5 主板 | [iFixit · 原版 PS5 实机拆解与双面主板照片（2020）](https://www.ifixit.com/Teardown/PlayStation+5+Teardown/138280) |
+| ps5board-vrm | 供电调节区域 | PS5 主板 | [iFixit · 原版 PS5 实机拆解与双面主板照片（2020）](https://www.ifixit.com/Teardown/PlayStation+5+Teardown/138280) |
+| ps5board-shield | 电磁屏蔽盖 | PS5 主板 | [iFixit · 原版 PS5 实机拆解与双面主板照片（2020）](https://www.ifixit.com/Teardown/PlayStation+5+Teardown/138280) |
+| ps5board-memory-2 | GDDR6 内存封装 2 | PS5 主板 | [iFixit · 原版 PS5 实机拆解与双面主板照片（2020）](https://www.ifixit.com/Teardown/PlayStation+5+Teardown/138280) |
+| ps5board-memory-3 | GDDR6 内存封装 3 | PS5 主板 | [iFixit · 原版 PS5 实机拆解与双面主板照片（2020）](https://www.ifixit.com/Teardown/PlayStation+5+Teardown/138280) |
+| ps5board-memory-4 | GDDR6 内存封装 4 | PS5 主板 | [iFixit · 原版 PS5 实机拆解与双面主板照片（2020）](https://www.ifixit.com/Teardown/PlayStation+5+Teardown/138280) |
+| ps5board-memory-5 | GDDR6 内存封装 5 | PS5 主板 | [iFixit · 原版 PS5 实机拆解与双面主板照片（2020）](https://www.ifixit.com/Teardown/PlayStation+5+Teardown/138280) |
+| ps5board-memory-6 | GDDR6 内存封装 6 | PS5 主板 | [iFixit · 原版 PS5 实机拆解与双面主板照片（2020）](https://www.ifixit.com/Teardown/PlayStation+5+Teardown/138280) |
+| ps5board-memory-7 | GDDR6 内存封装 7 | PS5 主板 | [iFixit · 原版 PS5 实机拆解与双面主板照片（2020）](https://www.ifixit.com/Teardown/PlayStation+5+Teardown/138280) |
+| ps5board-memory-8 | GDDR6 内存封装 8 | PS5 主板 | [iFixit · 原版 PS5 实机拆解与双面主板照片（2020）](https://www.ifixit.com/Teardown/PlayStation+5+Teardown/138280) |
+| ps5board-nand-2 | NAND 闪存 2 / 正面 | PS5 主板 | [iFixit · 原版 PS5 实机拆解与双面主板照片（2020）](https://www.ifixit.com/Teardown/PlayStation+5+Teardown/138280) |
+| ps5board-nand-3 | NAND 闪存 3 / 正面 | PS5 主板 | [iFixit · 原版 PS5 实机拆解与双面主板照片（2020）](https://www.ifixit.com/Teardown/PlayStation+5+Teardown/138280) |
+| ps5board-nand-4 | NAND 闪存 4 / 背面 | PS5 主板 | [iFixit · 原版 PS5 实机拆解与双面主板照片（2020）](https://www.ifixit.com/Teardown/PlayStation+5+Teardown/138280) |
+| ps5board-nand-5 | NAND 闪存 5 / 背面 | PS5 主板 | [iFixit · 原版 PS5 实机拆解与双面主板照片（2020）](https://www.ifixit.com/Teardown/PlayStation+5+Teardown/138280) |
+| ps5board-nand-6 | NAND 闪存 6 / 背面 | PS5 主板 | [iFixit · 原版 PS5 实机拆解与双面主板照片（2020）](https://www.ifixit.com/Teardown/PlayStation+5+Teardown/138280) |
+| ps5board-ports | HDMI / 网口 / USB 连接器 | PS5 主板 | [iFixit · 原版 PS5 实机拆解与双面主板照片（2020）](https://www.ifixit.com/Teardown/PlayStation+5+Teardown/138280) |
+| ps5board-rtc | 时钟备份电池 | PS5 主板 | [iFixit · 原版 PS5 实机拆解与双面主板照片（2020）](https://www.ifixit.com/Teardown/PlayStation+5+Teardown/138280) |
+| ps5board-m2-slot | M.2 连接座与固定柱 | PS5 主板 | [iFixit · 原版 PS5 实机拆解与双面主板照片（2020）](https://www.ifixit.com/Teardown/PlayStation+5+Teardown/138280) |
+| ps5cooling-base | 散热器承载底座 | PS5 散热系统 | [iFixit · 原版 PS5 实机拆解与双面主板照片（2020）](https://www.ifixit.com/Teardown/PlayStation+5+Teardown/138280) |
+| ps5cooling-fins | 散热鳍片阵列 | PS5 散热系统 | [iFixit · 原版 PS5 实机拆解与双面主板照片（2020）](https://www.ifixit.com/Teardown/PlayStation+5+Teardown/138280) |
+| ps5cooling-pipes | 热管组 | PS5 散热系统 | [iFixit · 原版 PS5 实机拆解与双面主板照片（2020）](https://www.ifixit.com/Teardown/PlayStation+5+Teardown/138280) |
+| ps5cooling-coldplate | 处理器接触底板 | PS5 散热系统 | [iFixit · 原版 PS5 实机拆解与双面主板照片（2020）](https://www.ifixit.com/Teardown/PlayStation+5+Teardown/138280) |
+| ps5cooling-interface | 液态金属导热界面示意 | PS5 散热系统 | [iFixit · 原版 PS5 实机拆解与双面主板照片（2020）](https://www.ifixit.com/Teardown/PlayStation+5+Teardown/138280) |
+| ps5cooling-duct | 导风结构 | PS5 散热系统 | [iFixit · 原版 PS5 实机拆解与双面主板照片（2020）](https://www.ifixit.com/Teardown/PlayStation+5+Teardown/138280) |
 | phone | iPhone 15 | iPhone 15 | [Apple · iPhone 15 官方内部视图](https://support.apple.com/en-ca/104901) |
 | phone-display | OLED 显示总成 | iPhone 15 | [Apple · iPhone 15 官方内部视图](https://support.apple.com/en-ca/104901) |
 | phone-back | 背部玻璃 | iPhone 15 | [Apple · iPhone 15 官方内部视图](https://support.apple.com/en-ca/104901) |
@@ -42,34 +59,47 @@ Manufacturer documents support component roles, architecture or construction. Th
 | phone-speaker | 底部扬声器 | iPhone 15 | [Apple · iPhone 15 官方内部视图](https://support.apple.com/en-ca/104901) |
 | phone-top-speaker | 顶部扬声器 | iPhone 15 | [Apple · iPhone 15 官方内部视图](https://support.apple.com/en-ca/104901) |
 | phone-usb | USB-C 接口总成 | iPhone 15 | [Apple · iPhone 15 官方内部视图](https://support.apple.com/en-ca/104901) |
-| phoneboard-pcb | 多层电路板 | 手机逻辑板 | [Apple · iPhone 15 官方维修资料目录](https://support.apple.com/en-ca/104900) |
-| phoneboard-soc | A16 Bionic 封装示意 | 手机逻辑板 | [Apple · iPhone 15 官方维修资料目录](https://support.apple.com/en-ca/104900) |
-| phoneboard-nand | 闪存封装示意 | 手机逻辑板 | [Apple · iPhone 15 官方维修资料目录](https://support.apple.com/en-ca/104900) |
-| phoneboard-pmic | 电源管理电路 | 手机逻辑板 | [Apple · iPhone 15 官方维修资料目录](https://support.apple.com/en-ca/104900) |
-| phoneboard-radio | 通信与射频区域 | 手机逻辑板 | [Apple · iPhone 15 官方维修资料目录](https://support.apple.com/en-ca/104900) |
-| phoneboard-shield | 屏蔽罩 | 手机逻辑板 | [Apple · iPhone 15 官方维修资料目录](https://support.apple.com/en-ca/104900) |
-| phonecamera-carrier | 模组承载框 | 手机双摄模组 | [Apple · iPhone 15 官方技术规格](https://support.apple.com/en-gb/111831) |
-| phonecamera-mainlens | 主摄镜头示意 | 手机双摄模组 | [Apple · iPhone 15 官方技术规格](https://support.apple.com/en-gb/111831) |
-| phonecamera-widelens | 超广角镜头示意 | 手机双摄模组 | [Apple · iPhone 15 官方技术规格](https://support.apple.com/en-gb/111831) |
-| phonecamera-mainsensor | 主摄传感器示意 | 手机双摄模组 | [Apple · iPhone 15 官方技术规格](https://support.apple.com/en-gb/111831) |
-| phonecamera-widesensor | 超广角传感器示意 | 手机双摄模组 | [Apple · iPhone 15 官方技术规格](https://support.apple.com/en-gb/111831) |
-| phonecamera-flex | 模组连接排线 | 手机双摄模组 | [Apple · iPhone 15 官方技术规格](https://support.apple.com/en-gb/111831) |
-| camera | Sony α7 IV 相机 | Sony α7 IV 相机 | [Sony · α7 IV（ILCE-7M4）官方技术规格](https://www.sony.com/electronics/support/e-mount-body-ilce-7-series/ilce-7m4/specifications) |
-| camera-front | 前壳与握柄 | Sony α7 IV 相机 | [Sony · α7 IV（ILCE-7M4）官方技术规格](https://www.sony.com/electronics/support/e-mount-body-ilce-7-series/ilce-7m4/specifications) |
-| camera-back | 背部外壳 | Sony α7 IV 相机 | [Sony · α7 IV（ILCE-7M4）官方技术规格](https://www.sony.com/electronics/support/e-mount-body-ilce-7-series/ilce-7m4/specifications) |
-| camera-display | 翻转显示屏总成示意 | Sony α7 IV 相机 | [Sony · α7 IV（ILCE-7M4）官方技术规格](https://www.sony.com/electronics/support/e-mount-body-ilce-7-series/ilce-7m4/specifications) |
-| camera-board | 图像处理主板 | Sony α7 IV 相机 | [Sony · α7 IV（ILCE-7M4）官方技术规格](https://www.sony.com/electronics/support/e-mount-body-ilce-7-series/ilce-7m4/specifications) |
-| camera-battery | 可充电电池包 | Sony α7 IV 相机 | [Sony · α7 IV（ILCE-7M4）官方技术规格](https://www.sony.com/electronics/support/e-mount-body-ilce-7-series/ilce-7m4/specifications) |
-| camerasensor | 传感器与防抖组件 | Sony α7 IV 相机 | [Sony · α7 IV（ILCE-7M4）官方技术规格](https://www.sony.com/electronics/support/e-mount-body-ilce-7-series/ilce-7m4/specifications) |
-| camera-shutter | 焦平面快门示意 | Sony α7 IV 相机 | [Sony · α7 IV（ILCE-7M4）官方技术规格](https://www.sony.com/electronics/support/e-mount-body-ilce-7-series/ilce-7m4/specifications) |
-| cameralens | 代表性可换镜头 | Sony α7 IV 相机 | [Sony · α7 IV（ILCE-7M4）官方技术规格](https://www.sony.com/electronics/support/e-mount-body-ilce-7-series/ilce-7m4/specifications) |
-| camera-finder | 电子取景器 | Sony α7 IV 相机 | [Sony · α7 IV（ILCE-7M4）官方技术规格](https://www.sony.com/electronics/support/e-mount-body-ilce-7-series/ilce-7m4/specifications) |
-| camera-dial | 拍摄控制拨轮 | Sony α7 IV 相机 | [Sony · α7 IV（ILCE-7M4）官方技术规格](https://www.sony.com/electronics/support/e-mount-body-ilce-7-series/ilce-7m4/specifications) |
-| camerasensor-carrier | 活动承载框 | 传感器与防抖 | [Sony · α7 IV（ILCE-7M4）官方技术规格](https://www.sony.com/electronics/support/e-mount-body-ilce-7-series/ilce-7m4/specifications) |
-| camerasensor-sensor | 全画幅 CMOS 示意 | 传感器与防抖 | [Sony · α7 IV（ILCE-7M4）官方技术规格](https://www.sony.com/electronics/support/e-mount-body-ilce-7-series/ilce-7m4/specifications) |
-| camerasensor-filter | 保护与滤光层示意 | 传感器与防抖 | [Sony · α7 IV（ILCE-7M4）官方技术规格](https://www.sony.com/electronics/support/e-mount-body-ilce-7-series/ilce-7m4/specifications) |
-| camerasensor-actuators | 防抖驱动机构示意 | 传感器与防抖 | [Sony · α7 IV（ILCE-7M4）官方技术规格](https://www.sony.com/electronics/support/e-mount-body-ilce-7-series/ilce-7m4/specifications) |
-| camerasensor-flex | 柔性信号连接 | 传感器与防抖 | [Sony · α7 IV（ILCE-7M4）官方技术规格](https://www.sony.com/electronics/support/e-mount-body-ilce-7-series/ilce-7m4/specifications) |
+| phone-truedepth | TrueDepth 前置相机总成 | iPhone 15 | [Apple · iPhone 15 官方内部视图](https://support.apple.com/en-ca/104901) |
+| phone-camera-flex | 双摄柔性连接与压盖 | iPhone 15 | [Apple · iPhone 15 官方内部视图](https://support.apple.com/en-ca/104901) |
+| phone-battery-flex | 电池连接排线与压盖 | iPhone 15 | [Apple · iPhone 15 官方内部视图](https://support.apple.com/en-ca/104901) |
+| phone-usb-flex | 底部接口与麦克风排线 | iPhone 15 | [Apple · iPhone 15 官方内部视图](https://support.apple.com/en-ca/104901) |
+| phone-microphone | 底部主麦克风 | iPhone 15 | [Apple · iPhone 15 官方内部视图](https://support.apple.com/en-ca/104901) |
+| phone-fasteners | 内部压盖与固定螺钉 | iPhone 15 | [Apple · iPhone 15 官方内部视图](https://support.apple.com/en-ca/104901) |
+| phoneboard-pcb | 多层电路板 | 手机逻辑板 | [Apple · iPhone 15 官方内部视图](https://support.apple.com/en-ca/104901) |
+| phoneboard-soc | A16 Bionic 封装示意 | 手机逻辑板 | [Apple · iPhone 15 官方内部视图](https://support.apple.com/en-ca/104901) |
+| phoneboard-nand | 闪存封装示意 | 手机逻辑板 | [Apple · iPhone 15 官方内部视图](https://support.apple.com/en-ca/104901) |
+| phoneboard-pmic | 电源管理电路 | 手机逻辑板 | [Apple · iPhone 15 官方内部视图](https://support.apple.com/en-ca/104901) |
+| phoneboard-radio | 通信与射频区域 | 手机逻辑板 | [Apple · iPhone 15 官方内部视图](https://support.apple.com/en-ca/104901) |
+| phoneboard-shield | 屏蔽罩 | 手机逻辑板 | [Apple · iPhone 15 官方内部视图](https://support.apple.com/en-ca/104901) |
+| phoneboard-connectors | 板对板插座与射频接点 | 手机逻辑板 | [Apple · iPhone 15 官方内部视图](https://support.apple.com/en-ca/104901) |
+| phonecamera-carrier | 模组承载框 | 手机双摄模组 | [Apple · iPhone 15 官方内部视图](https://support.apple.com/en-ca/104901) |
+| phonecamera-mainlens | 主摄镜头示意 | 手机双摄模组 | [Apple · iPhone 15 官方内部视图](https://support.apple.com/en-ca/104901) |
+| phonecamera-widelens | 超广角镜头示意 | 手机双摄模组 | [Apple · iPhone 15 官方内部视图](https://support.apple.com/en-ca/104901) |
+| phonecamera-mainsensor | 主摄传感器示意 | 手机双摄模组 | [Apple · iPhone 15 官方内部视图](https://support.apple.com/en-ca/104901) |
+| phonecamera-widesensor | 超广角传感器示意 | 手机双摄模组 | [Apple · iPhone 15 官方内部视图](https://support.apple.com/en-ca/104901) |
+| phonecamera-flex | 模组连接排线 | 手机双摄模组 | [Apple · iPhone 15 官方内部视图](https://support.apple.com/en-ca/104901) |
+| camera | Sony α7 IV 相机 | Sony α7 IV 相机 | [Sony · ILCE-7M4 / 7M4K 服务手册分解图（第三方镜像）](https://manuals.plus/m/662ac7b243a51dfb6adfa3f731348687443abee969b90e085dcd0aebbb51fbad.pdf) |
+| camera-front | 前壳与握柄 | Sony α7 IV 相机 | [Sony · ILCE-7M4 / 7M4K 服务手册分解图（第三方镜像）](https://manuals.plus/m/662ac7b243a51dfb6adfa3f731348687443abee969b90e085dcd0aebbb51fbad.pdf) |
+| camera-back | 背部外壳 | Sony α7 IV 相机 | [Sony · ILCE-7M4 / 7M4K 服务手册分解图（第三方镜像）](https://manuals.plus/m/662ac7b243a51dfb6adfa3f731348687443abee969b90e085dcd0aebbb51fbad.pdf) |
+| camera-display | 翻转显示屏总成示意 | Sony α7 IV 相机 | [Sony · ILCE-7M4 / 7M4K 服务手册分解图（第三方镜像）](https://manuals.plus/m/662ac7b243a51dfb6adfa3f731348687443abee969b90e085dcd0aebbb51fbad.pdf) |
+| camera-board | 图像处理主板 | Sony α7 IV 相机 | [Sony · ILCE-7M4 / 7M4K 服务手册分解图（第三方镜像）](https://manuals.plus/m/662ac7b243a51dfb6adfa3f731348687443abee969b90e085dcd0aebbb51fbad.pdf) |
+| camera-battery | 可充电电池包 | Sony α7 IV 相机 | [Sony · ILCE-7M4 / 7M4K 服务手册分解图（第三方镜像）](https://manuals.plus/m/662ac7b243a51dfb6adfa3f731348687443abee969b90e085dcd0aebbb51fbad.pdf) |
+| camerasensor | 传感器与防抖组件 | Sony α7 IV 相机 | [Sony · ILCE-7M4 / 7M4K 服务手册分解图（第三方镜像）](https://manuals.plus/m/662ac7b243a51dfb6adfa3f731348687443abee969b90e085dcd0aebbb51fbad.pdf) |
+| camera-shutter | 焦平面快门示意 | Sony α7 IV 相机 | [Sony · ILCE-7M4 / 7M4K 服务手册分解图（第三方镜像）](https://manuals.plus/m/662ac7b243a51dfb6adfa3f731348687443abee969b90e085dcd0aebbb51fbad.pdf) |
+| cameralens | 代表性可换镜头 | Sony α7 IV 相机 | [Sony · ILCE-7M4 / 7M4K 服务手册分解图（第三方镜像）](https://manuals.plus/m/662ac7b243a51dfb6adfa3f731348687443abee969b90e085dcd0aebbb51fbad.pdf) |
+| camera-finder | 电子取景器 | Sony α7 IV 相机 | [Sony · ILCE-7M4 / 7M4K 服务手册分解图（第三方镜像）](https://manuals.plus/m/662ac7b243a51dfb6adfa3f731348687443abee969b90e085dcd0aebbb51fbad.pdf) |
+| camera-dial | 拍摄控制拨轮 | Sony α7 IV 相机 | [Sony · ILCE-7M4 / 7M4K 服务手册分解图（第三方镜像）](https://manuals.plus/m/662ac7b243a51dfb6adfa3f731348687443abee969b90e085dcd0aebbb51fbad.pdf) |
+| camera-mount | E 卡口与电气触点 | Sony α7 IV 相机 | [Sony · ILCE-7M4 / 7M4K 服务手册分解图（第三方镜像）](https://manuals.plus/m/662ac7b243a51dfb6adfa3f731348687443abee969b90e085dcd0aebbb51fbad.pdf) |
+| camera-top | 顶部控制壳与热靴 | Sony α7 IV 相机 | [Sony · ILCE-7M4 / 7M4K 服务手册分解图（第三方镜像）](https://manuals.plus/m/662ac7b243a51dfb6adfa3f731348687443abee969b90e085dcd0aebbb51fbad.pdf) |
+| camera-heatplate | 图像主板导热承载板 | Sony α7 IV 相机 | [Sony · ILCE-7M4 / 7M4K 服务手册分解图（第三方镜像）](https://manuals.plus/m/662ac7b243a51dfb6adfa3f731348687443abee969b90e085dcd0aebbb51fbad.pdf) |
+| camera-slots | 双存储卡插槽组件 | Sony α7 IV 相机 | [Sony · ILCE-7M4 / 7M4K 服务手册分解图（第三方镜像）](https://manuals.plus/m/662ac7b243a51dfb6adfa3f731348687443abee969b90e085dcd0aebbb51fbad.pdf) |
+| camera-flex | 传感器与控制柔性排线 | Sony α7 IV 相机 | [Sony · ILCE-7M4 / 7M4K 服务手册分解图（第三方镜像）](https://manuals.plus/m/662ac7b243a51dfb6adfa3f731348687443abee969b90e085dcd0aebbb51fbad.pdf) |
+| camera-base | 底板与三脚架螺孔 | Sony α7 IV 相机 | [Sony · ILCE-7M4 / 7M4K 服务手册分解图（第三方镜像）](https://manuals.plus/m/662ac7b243a51dfb6adfa3f731348687443abee969b90e085dcd0aebbb51fbad.pdf) |
+| camerasensor-carrier | 活动承载框 | 传感器与防抖 | [Sony · ILCE-7M4 / 7M4K 服务手册分解图（第三方镜像）](https://manuals.plus/m/662ac7b243a51dfb6adfa3f731348687443abee969b90e085dcd0aebbb51fbad.pdf) |
+| camerasensor-sensor | 全画幅 CMOS 示意 | 传感器与防抖 | [Sony · ILCE-7M4 / 7M4K 服务手册分解图（第三方镜像）](https://manuals.plus/m/662ac7b243a51dfb6adfa3f731348687443abee969b90e085dcd0aebbb51fbad.pdf) |
+| camerasensor-filter | 保护与滤光层示意 | 传感器与防抖 | [Sony · ILCE-7M4 / 7M4K 服务手册分解图（第三方镜像）](https://manuals.plus/m/662ac7b243a51dfb6adfa3f731348687443abee969b90e085dcd0aebbb51fbad.pdf) |
+| camerasensor-actuators | 防抖驱动机构示意 | 传感器与防抖 | [Sony · ILCE-7M4 / 7M4K 服务手册分解图（第三方镜像）](https://manuals.plus/m/662ac7b243a51dfb6adfa3f731348687443abee969b90e085dcd0aebbb51fbad.pdf) |
+| camerasensor-flex | 柔性信号连接 | 传感器与防抖 | [Sony · ILCE-7M4 / 7M4K 服务手册分解图（第三方镜像）](https://manuals.plus/m/662ac7b243a51dfb6adfa3f731348687443abee969b90e085dcd0aebbb51fbad.pdf) |
 | cameralens-barrel | 外部镜筒 | 可换镜头原理 | [Sony · 光圈与景深的光学原理（通用镜头示意依据）](https://www.sony.co.uk/electronics/what-is-aperture-depth-of-field) |
 | cameralens-frontglass | 前镜组示意 | 可换镜头原理 | [Sony · 光圈与景深的光学原理（通用镜头示意依据）](https://www.sony.co.uk/electronics/what-is-aperture-depth-of-field) |
 | cameralens-focusglass | 移动对焦镜组示意 | 可换镜头原理 | [Sony · 光圈与景深的光学原理（通用镜头示意依据）](https://www.sony.co.uk/electronics/what-is-aperture-depth-of-field) |
@@ -77,36 +107,48 @@ Manufacturer documents support component roles, architecture or construction. Th
 | cameralens-rearglass | 后镜组示意 | 可换镜头原理 | [Sony · 光圈与景深的光学原理（通用镜头示意依据）](https://www.sony.co.uk/electronics/what-is-aperture-depth-of-field) |
 | cameralens-focusmotor | 对焦驱动区域 | 可换镜头原理 | [Sony · 光圈与景深的光学原理（通用镜头示意依据）](https://www.sony.co.uk/electronics/what-is-aperture-depth-of-field) |
 | cameralens-mount | 卡口与触点 | 可换镜头原理 | [Sony · 光圈与景深的光学原理（通用镜头示意依据）](https://www.sony.co.uk/electronics/what-is-aperture-depth-of-field) |
-| gamepad | 双摇杆游戏手柄 | 双摇杆游戏手柄 | [索尼 PlayStation · DualSense 官方功能介绍](https://www.playstation.com/en-us/accessories/dualsense-wireless-controller/) |
-| gamepad-top | 上壳与握柄 | 双摇杆游戏手柄 | [索尼 PlayStation · DualSense 官方功能介绍](https://www.playstation.com/en-us/accessories/dualsense-wireless-controller/) |
-| gamepad-back | 下部外壳 | 双摇杆游戏手柄 | [索尼 PlayStation · DualSense 官方功能介绍](https://www.playstation.com/en-us/accessories/dualsense-wireless-controller/) |
-| gamepadboard | 输入与控制电路 | 双摇杆游戏手柄 | [索尼 PlayStation · DualSense 官方功能介绍](https://www.playstation.com/en-us/accessories/dualsense-wireless-controller/) |
-| gamepad-battery | 充电电池 | 双摇杆游戏手柄 | [索尼 PlayStation · DualSense 官方功能介绍](https://www.playstation.com/en-us/accessories/dualsense-wireless-controller/) |
-| gamepad-leftstick | 左摇杆模块 | 双摇杆游戏手柄 | [索尼 PlayStation · DualSense 官方功能介绍](https://www.playstation.com/en-us/accessories/dualsense-wireless-controller/) |
-| gamepad-rightstick | 右摇杆模块 | 双摇杆游戏手柄 | [索尼 PlayStation · DualSense 官方功能介绍](https://www.playstation.com/en-us/accessories/dualsense-wireless-controller/) |
-| gamepad-buttons | 方向键与动作键组 | 双摇杆游戏手柄 | [索尼 PlayStation · DualSense 官方功能介绍](https://www.playstation.com/en-us/accessories/dualsense-wireless-controller/) |
-| gamepad-touch | 触控面板 | 双摇杆游戏手柄 | [索尼 PlayStation · DualSense 官方功能介绍](https://www.playstation.com/en-us/accessories/dualsense-wireless-controller/) |
-| gamepad-triggers | 肩键与自适应扳机区域 | 双摇杆游戏手柄 | [索尼 PlayStation · DualSense 官方功能介绍](https://www.playstation.com/en-us/accessories/dualsense-wireless-controller/) |
-| gamepad-haptics | 触觉反馈执行器组 | 双摇杆游戏手柄 | [索尼 PlayStation · DualSense 官方功能介绍](https://www.playstation.com/en-us/accessories/dualsense-wireless-controller/) |
-| gamepadboard-pcb | 控制 PCB | 手柄控制电路 | [索尼 PlayStation · DualSense 官方功能介绍](https://www.playstation.com/en-us/accessories/dualsense-wireless-controller/) |
-| gamepadboard-mcu | 控制处理器示意 | 手柄控制电路 | [索尼 PlayStation · DualSense 官方功能介绍](https://www.playstation.com/en-us/accessories/dualsense-wireless-controller/) |
-| gamepadboard-radio | 无线通信区域 | 手柄控制电路 | [索尼 PlayStation · DualSense 官方功能介绍](https://www.playstation.com/en-us/accessories/dualsense-wireless-controller/) |
-| gamepadboard-imu | 运动感知区域示意 | 手柄控制电路 | [索尼 PlayStation · DualSense 官方功能介绍](https://www.playstation.com/en-us/accessories/dualsense-wireless-controller/) |
-| gamepadboard-usb | USB-C 连接器 | 手柄控制电路 | [索尼 PlayStation · DualSense 官方功能介绍](https://www.playstation.com/en-us/accessories/dualsense-wireless-controller/) |
-| earbuds | 无线耳机与充电盒 | 无线耳机与充电盒 | [Apple · AirPods Pro 2 公开功能参考（非本模型内部结构证据）](https://support.apple.com/en-il/111851) |
-| earbuds-case | 充电盒下壳 | 无线耳机与充电盒 | [Apple · AirPods Pro 2 公开功能参考（非本模型内部结构证据）](https://support.apple.com/en-il/111851) |
-| earbuds-lid | 充电盒上盖 | 无线耳机与充电盒 | [Apple · AirPods Pro 2 公开功能参考（非本模型内部结构证据）](https://support.apple.com/en-il/111851) |
-| earbuds-battery | 充电盒电池 | 无线耳机与充电盒 | [Apple · AirPods Pro 2 公开功能参考（非本模型内部结构证据）](https://support.apple.com/en-il/111851) |
-| earbuds-board | 盒内充电管理板 | 无线耳机与充电盒 | [Apple · AirPods Pro 2 公开功能参考（非本模型内部结构证据）](https://support.apple.com/en-il/111851) |
-| earbuds-left | 左耳机示意 | 无线耳机与充电盒 | [Apple · AirPods Pro 2 公开功能参考（非本模型内部结构证据）](https://support.apple.com/en-il/111851) |
-| earbudunit | 右耳机内部 | 无线耳机与充电盒 | [Apple · AirPods Pro 2 公开功能参考（非本模型内部结构证据）](https://support.apple.com/en-il/111851) |
-| earbuds-connector | 充电输入接口 | 无线耳机与充电盒 | [Apple · AirPods Pro 2 公开功能参考（非本模型内部结构证据）](https://support.apple.com/en-il/111851) |
-| earbudunit-shell | 耳机壳体 | 耳机内部结构 | [Apple · AirPods Pro 2 公开功能参考（非本模型内部结构证据）](https://support.apple.com/en-il/111851) |
-| earbuddriver | 动圈发声单元 | 耳机内部结构 | [Apple · AirPods Pro 2 公开功能参考（非本模型内部结构证据）](https://support.apple.com/en-il/111851) |
-| earbudunit-battery | 耳机电池示意 | 耳机内部结构 | [Apple · AirPods Pro 2 公开功能参考（非本模型内部结构证据）](https://support.apple.com/en-il/111851) |
-| earbudunit-processor | 音频处理与通信区域 | 耳机内部结构 | [Apple · AirPods Pro 2 公开功能参考（非本模型内部结构证据）](https://support.apple.com/en-il/111851) |
-| earbudunit-mic | 麦克风区域示意 | 耳机内部结构 | [Apple · AirPods Pro 2 公开功能参考（非本模型内部结构证据）](https://support.apple.com/en-il/111851) |
-| earbudunit-tip | 柔性耳塞套 | 耳机内部结构 | [Apple · AirPods Pro 2 公开功能参考（非本模型内部结构证据）](https://support.apple.com/en-il/111851) |
+| gamepad | DualSense 无线控制器 | DualSense 无线控制器 | [iFixit · 初代 DualSense 机构与维修分解资料](https://www.ifixit.com/Device/DualSense) |
+| gamepad-top | 上壳与握柄 | DualSense 无线控制器 | [iFixit · 初代 DualSense 机构与维修分解资料](https://www.ifixit.com/Device/DualSense) |
+| gamepad-back | 下部外壳 | DualSense 无线控制器 | [iFixit · 初代 DualSense 机构与维修分解资料](https://www.ifixit.com/Device/DualSense) |
+| gamepadboard | 输入与控制电路 | DualSense 无线控制器 | [iFixit · 初代 DualSense 机构与维修分解资料](https://www.ifixit.com/Device/DualSense) |
+| gamepad-battery | 充电电池 | DualSense 无线控制器 | [iFixit · 初代 DualSense 机构与维修分解资料](https://www.ifixit.com/Device/DualSense) |
+| gamepad-leftstick | 左摇杆模块 | DualSense 无线控制器 | [iFixit · 初代 DualSense 机构与维修分解资料](https://www.ifixit.com/Device/DualSense) |
+| gamepad-rightstick | 右摇杆模块 | DualSense 无线控制器 | [iFixit · 初代 DualSense 机构与维修分解资料](https://www.ifixit.com/Device/DualSense) |
+| gamepad-buttons | 方向键与动作键组 | DualSense 无线控制器 | [iFixit · 初代 DualSense 机构与维修分解资料](https://www.ifixit.com/Device/DualSense) |
+| gamepad-touch | 触控面板 | DualSense 无线控制器 | [iFixit · 初代 DualSense 机构与维修分解资料](https://www.ifixit.com/Device/DualSense) |
+| gamepad-triggers | 左侧自适应扳机机构 | DualSense 无线控制器 | [iFixit · 初代 DualSense 机构与维修分解资料](https://www.ifixit.com/Device/DualSense) |
+| gamepad-haptics | 左侧线性触觉执行器 | DualSense 无线控制器 | [iFixit · 初代 DualSense 机构与维修分解资料](https://www.ifixit.com/Device/DualSense) |
+| gamepad-right-trigger | 右侧自适应扳机机构 | DualSense 无线控制器 | [iFixit · 初代 DualSense 机构与维修分解资料](https://www.ifixit.com/Device/DualSense) |
+| gamepad-right-haptic | 右侧线性触觉执行器 | DualSense 无线控制器 | [iFixit · 初代 DualSense 机构与维修分解资料](https://www.ifixit.com/Device/DualSense) |
+| gamepad-holder | 电池承载架 | DualSense 无线控制器 | [iFixit · 初代 DualSense 机构与维修分解资料](https://www.ifixit.com/Device/DualSense) |
+| gamepad-speaker | 中央扬声器 | DualSense 无线控制器 | [iFixit · 初代 DualSense 机构与维修分解资料](https://www.ifixit.com/Device/DualSense) |
+| gamepad-membrane | 按键导电胶与柔性触点膜 | DualSense 无线控制器 | [iFixit · 初代 DualSense 机构与维修分解资料](https://www.ifixit.com/Device/DualSense) |
+| gamepad-wiring | 扳机排线与执行器线缆 | DualSense 无线控制器 | [iFixit · 初代 DualSense 机构与维修分解资料](https://www.ifixit.com/Device/DualSense) |
+| gamepadboard-pcb | 控制 PCB | 手柄控制电路 | [iFixit · 初代 DualSense 机构与维修分解资料](https://www.ifixit.com/Device/DualSense) |
+| gamepadboard-mcu | 控制处理器示意 | 手柄控制电路 | [iFixit · 初代 DualSense 机构与维修分解资料](https://www.ifixit.com/Device/DualSense) |
+| gamepadboard-radio | 无线通信区域 | 手柄控制电路 | [iFixit · 初代 DualSense 机构与维修分解资料](https://www.ifixit.com/Device/DualSense) |
+| gamepadboard-imu | 运动感知区域示意 | 手柄控制电路 | [iFixit · 初代 DualSense 机构与维修分解资料](https://www.ifixit.com/Device/DualSense) |
+| gamepadboard-usb | USB-C 连接器 | 手柄控制电路 | [iFixit · 初代 DualSense 机构与维修分解资料](https://www.ifixit.com/Device/DualSense) |
+| earbuds | AirPods Pro 2 参考结构 | AirPods Pro 2 参考结构 | [52audio · AirPods Pro 2 USB-C 实机拆解（2023）](https://www.52audio.com/archives/178135.html) |
+| earbuds-case | 充电盒下壳 | AirPods Pro 2 参考结构 | [52audio · AirPods Pro 2 USB-C 实机拆解（2023）](https://www.52audio.com/archives/178135.html) |
+| earbuds-lid | 充电盒上盖 | AirPods Pro 2 参考结构 | [52audio · AirPods Pro 2 USB-C 实机拆解（2023）](https://www.52audio.com/archives/178135.html) |
+| earbuds-battery | 充电盒左侧电芯 | AirPods Pro 2 参考结构 | [52audio · AirPods Pro 2 USB-C 实机拆解（2023）](https://www.52audio.com/archives/178135.html) |
+| earbuds-board | 盒内充电管理板 | AirPods Pro 2 参考结构 | [52audio · AirPods Pro 2 USB-C 实机拆解（2023）](https://www.52audio.com/archives/178135.html) |
+| earbuds-left | 左耳机示意 | AirPods Pro 2 参考结构 | [52audio · AirPods Pro 2 USB-C 实机拆解（2023）](https://www.52audio.com/archives/178135.html) |
+| earbudunit | 右耳机内部 | AirPods Pro 2 参考结构 | [52audio · AirPods Pro 2 USB-C 实机拆解（2023）](https://www.52audio.com/archives/178135.html) |
+| earbuds-connector | 充电输入接口 | AirPods Pro 2 参考结构 | [52audio · AirPods Pro 2 USB-C 实机拆解（2023）](https://www.52audio.com/archives/178135.html) |
+| earbuds-battery-right | 充电盒右侧电芯 | AirPods Pro 2 参考结构 | [52audio · AirPods Pro 2 USB-C 实机拆解（2023）](https://www.52audio.com/archives/178135.html) |
+| earbuds-tray | 双耳机定位托盘与充电触点 | AirPods Pro 2 参考结构 | [52audio · AirPods Pro 2 USB-C 实机拆解（2023）](https://www.52audio.com/archives/178135.html) |
+| earbuds-coil | 无线充电线圈与磁体 | AirPods Pro 2 参考结构 | [52audio · AirPods Pro 2 USB-C 实机拆解（2023）](https://www.52audio.com/archives/178135.html) |
+| earbuds-hinge | 上盖金属铰链 | AirPods Pro 2 参考结构 | [52audio · AirPods Pro 2 USB-C 实机拆解（2023）](https://www.52audio.com/archives/178135.html) |
+| earbudunit-shell | 耳机壳体 | 耳机内部结构 | [52audio · AirPods Pro 2 USB-C 实机拆解（2023）](https://www.52audio.com/archives/178135.html) |
+| earbuddriver | 动圈发声单元 | 耳机内部结构 | [52audio · AirPods Pro 2 USB-C 实机拆解（2023）](https://www.52audio.com/archives/178135.html) |
+| earbudunit-battery | 耳机纽扣形电池 | 耳机内部结构 | [52audio · AirPods Pro 2 USB-C 实机拆解（2023）](https://www.52audio.com/archives/178135.html) |
+| earbudunit-processor | 耳柄音频 SiP 与柔性电路 | 耳机内部结构 | [52audio · AirPods Pro 2 USB-C 实机拆解（2023）](https://www.52audio.com/archives/178135.html) |
+| earbudunit-mic | 麦克风区域示意 | 耳机内部结构 | [52audio · AirPods Pro 2 USB-C 实机拆解（2023）](https://www.52audio.com/archives/178135.html) |
+| earbudunit-tip | 柔性耳塞套 | 耳机内部结构 | [52audio · AirPods Pro 2 USB-C 实机拆解（2023）](https://www.52audio.com/archives/178135.html) |
+| earbudunit-flex | 声腔柔性连接 | 耳机内部结构 | [52audio · AirPods Pro 2 USB-C 实机拆解（2023）](https://www.52audio.com/archives/178135.html) |
+| earbudunit-contacts | 耳柄充电接点 | 耳机内部结构 | [52audio · AirPods Pro 2 USB-C 实机拆解（2023）](https://www.52audio.com/archives/178135.html) |
 | earbuddriver-frame | 单元支架 | 动圈发声原理 | [COMSOL · 动圈扬声器的磁路、音圈与振膜原理](https://doc.comsol.com/6.3/doc/com.comsol.help.models.aco.lumped_loudspeaker_driver/lumped_loudspeaker_driver.html) |
 | earbuddriver-magnet | 永磁体与磁路示意 | 动圈发声原理 | [COMSOL · 动圈扬声器的磁路、音圈与振膜原理](https://doc.comsol.com/6.3/doc/com.comsol.help.models.aco.lumped_loudspeaker_driver/lumped_loudspeaker_driver.html) |
 | earbuddriver-coil | 音圈 | 动圈发声原理 | [COMSOL · 动圈扬声器的磁路、音圈与振膜原理](https://doc.comsol.com/6.3/doc/com.comsol.help.models.aco.lumped_loudspeaker_driver/lumped_loudspeaker_driver.html) |
