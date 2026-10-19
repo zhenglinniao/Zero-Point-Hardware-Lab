@@ -3531,3 +3531,30 @@ a {
     white-space: nowrap;
   }
 }
+.exploration-mode {
+  position: relative;
+  width: max-content;
+  max-width: 100%;
+  margin: 0;
+  color: #737b70;
+  font-size: 11px;
+  line-height: 1.4;
+}
+.exploration-mode summary { cursor: pointer; color: #53634e; }
+.exploration-mode summary span { margin-left: 10px; font-size: 10px; color: #8a927f; }
+.exploration-mode > p {
+  position: absolute;
+  top: 100%; left: 0; z-index: 8;
+  width: min(62ch, 60vw);
+  margin: 6px 0 0; padding: 12px 15px;
+  border: 1px solid #d7d9ce; border-radius: 8px;
+  background: #fffefa; color: #53634e;
+  box-shadow: 0 8px 24px #19241e20;
+  font-size: 12px; line-height: 1.7;
+  overflow-wrap: anywhere;
+}
+@media(max-width: 600px) {
+  .exploration-mode > p { width: calc(100vw - 48px); }
+  .zln-lab .stage-heading .stage-meta { display: flex; margin-top: 4px; }
+  .zln-lab .stage-heading .stage-meta .breadcrumbs { display: none; }
+}

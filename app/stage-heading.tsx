@@ -3,6 +3,7 @@ import { ArrowLeft, ChevronRight, MousePointerClick, X } from 'lucide-react';
 import type { Concept } from '@/lib/manifest';
 import { levelPath, levels, type LevelId } from '@/lib/levels';
 import { conceptNameZh, scaleNameZh } from '@/lib/zh';
+import { explorationMode } from '@/lib/exploration-mode';
 
 type Props = {
   level: LevelId;
@@ -36,7 +37,8 @@ export default function StageHeading({
   onNavigate,
 }: Props) {
   const scale = levels[level],
-    path = levelPath(level);
+    path = levelPath(level),
+    mode = explorationMode(level, explode);
   return (
     <section className="stage-heading">
       <div>
@@ -47,10 +49,16 @@ export default function StageHeading({
               ? logical
                 ? '逻辑资源分解'
                 : '分层拆解'
-              : scaleNameZh(level,scale.name)}
+              : scaleNameZh(level, scale.name)}
         </h1>
         <div className="stage-meta">
-          <p className="eyebrow">{scale.kind === 'logical' ? '逻辑架构示意' : '硬件结构示意'}</p>
+          <details className="exploration-mode" data-mode={mode.kind}>
+            <summary title={mode.description}>
+              {mode.label}
+              <span>查看说明</span>
+            </summary>
+            <p>{mode.description}</p>
+          </details>
           <nav className="breadcrumbs" aria-label="Component hierarchy">
             {path.length > 1 && (
               <button
@@ -67,14 +75,16 @@ export default function StageHeading({
                   aria-current={id === level ? 'page' : undefined}
                   onClick={() => onNavigate(id)}
                 >
-                  {scaleNameZh(id,levels[id].name)}
+                  {scaleNameZh(id, levels[id].name)}
                 </button>
               </span>
             ))}
             {selected && selected.shortName !== scale.name && (
               <span>
                 <ChevronRight size={12} />
-                <span className="crumb-selected">{conceptNameZh(selected)}</span>
+                <span className="crumb-selected">
+                  {conceptNameZh(selected)}
+                </span>
               </span>
             )}
           </nav>
