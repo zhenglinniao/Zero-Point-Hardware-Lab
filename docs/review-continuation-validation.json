@@ -1,0 +1,318 @@
+{
+  "date": "2026-10-19",
+  "tests": {
+    "total": 180,
+    "pass": 180,
+    "fail": 0
+  },
+  "typecheck": "pass",
+  "lint": "pass",
+  "build": "pass",
+  "entryGzipKiB": 72.9,
+  "entryBudgetKiB": 220,
+  "geometryValidity": {
+    "levels": 116,
+    "poses": 348,
+    "pieces": 3245,
+    "systems": {
+      "pc": 38,
+      "legion": 15,
+      "macbook": 15,
+      "ps5": 6,
+      "phone": 6,
+      "camera": 7,
+      "gamepad": 8,
+      "earbuds": 5,
+      "engine": 10,
+      "evmotor": 6
+    }
+  },
+  "preview": {
+    "results": [
+      {
+        "id": "ps5",
+        "amount": 0,
+        "cameraSettled": "true",
+        "visible": "12",
+        "level": "ps5",
+        "componentTypes": "12",
+        "transitioning": "false",
+        "drawCalls": "293",
+        "triangles": "974034",
+        "explode": "0"
+      },
+      {
+        "id": "ps5",
+        "amount": 25,
+        "cameraSettled": "true",
+        "visible": "12",
+        "level": "ps5",
+        "componentTypes": "12",
+        "transitioning": "false",
+        "drawCalls": "293",
+        "triangles": "974034",
+        "explode": "25"
+      },
+      {
+        "id": "ps5",
+        "amount": 50,
+        "cameraSettled": "true",
+        "visible": "12",
+        "level": "ps5",
+        "componentTypes": "12",
+        "transitioning": "false",
+        "drawCalls": "293",
+        "triangles": "974034",
+        "explode": "50"
+      },
+      {
+        "id": "ps5",
+        "amount": 100,
+        "cameraSettled": "true",
+        "visible": "12",
+        "level": "ps5",
+        "componentTypes": "12",
+        "transitioning": "false",
+        "drawCalls": "155",
+        "triangles": "487032",
+        "explode": "100"
+      },
+      {
+        "id": "ps5-power",
+        "amount": 0,
+        "cameraSettled": "true",
+        "visible": "9",
+        "level": "ps5-power",
+        "componentTypes": "9",
+        "transitioning": "false",
+        "drawCalls": "50",
+        "triangles": "93992",
+        "explode": "0"
+      },
+      {
+        "id": "ps5-power",
+        "amount": 25,
+        "cameraSettled": "true",
+        "visible": "9",
+        "level": "ps5-power",
+        "componentTypes": "9",
+        "transitioning": "false",
+        "drawCalls": "50",
+        "triangles": "93992",
+        "explode": "25"
+      },
+      {
+        "id": "ps5-power",
+        "amount": 50,
+        "cameraSettled": "true",
+        "visible": "9",
+        "level": "ps5-power",
+        "componentTypes": "9",
+        "transitioning": "false",
+        "drawCalls": "50",
+        "triangles": "93992",
+        "explode": "50"
+      },
+      {
+        "id": "ps5-power",
+        "amount": 100,
+        "cameraSettled": "true",
+        "visible": "9",
+        "level": "ps5-power",
+        "componentTypes": "9",
+        "transitioning": "false",
+        "drawCalls": "25",
+        "triangles": "46996",
+        "explode": "100"
+      },
+      {
+        "id": "ps5cooling",
+        "amount": 0,
+        "cameraSettled": "true",
+        "visible": "8",
+        "level": "ps5cooling",
+        "componentTypes": "8",
+        "transitioning": "false",
+        "drawCalls": "16",
+        "triangles": "72440",
+        "explode": "0"
+      },
+      {
+        "id": "ps5cooling",
+        "amount": 25,
+        "cameraSettled": "true",
+        "visible": "8",
+        "level": "ps5cooling",
+        "componentTypes": "8",
+        "transitioning": "false",
+        "drawCalls": "16",
+        "triangles": "72440",
+        "explode": "25"
+      },
+      {
+        "id": "ps5cooling",
+        "amount": 50,
+        "cameraSettled": "true",
+        "visible": "8",
+        "level": "ps5cooling",
+        "componentTypes": "8",
+        "transitioning": "false",
+        "drawCalls": "16",
+        "triangles": "72440",
+        "explode": "50"
+      },
+      {
+        "id": "ps5cooling",
+        "amount": 100,
+        "cameraSettled": "true",
+        "visible": "8",
+        "level": "ps5cooling",
+        "componentTypes": "8",
+        "transitioning": "false",
+        "drawCalls": "8",
+        "triangles": "36220",
+        "explode": "100"
+      },
+      {
+        "id": "card",
+        "amount": 0,
+        "cameraSettled": "true",
+        "visible": "310",
+        "level": "card",
+        "componentTypes": "39",
+        "transitioning": "false",
+        "drawCalls": "368",
+        "triangles": "346454",
+        "explode": "0"
+      },
+      {
+        "id": "card",
+        "amount": 25,
+        "cameraSettled": "true",
+        "visible": "310",
+        "level": "card",
+        "componentTypes": "39",
+        "transitioning": "false",
+        "drawCalls": "365",
+        "triangles": "345878",
+        "explode": "25"
+      },
+      {
+        "id": "card",
+        "amount": 50,
+        "cameraSettled": "true",
+        "visible": "310",
+        "level": "card",
+        "componentTypes": "39",
+        "transitioning": "false",
+        "drawCalls": "365",
+        "triangles": "345878",
+        "explode": "50"
+      },
+      {
+        "id": "card",
+        "amount": 100,
+        "cameraSettled": "true",
+        "visible": "310",
+        "level": "card",
+        "componentTypes": "39",
+        "transitioning": "false",
+        "drawCalls": "195",
+        "triangles": "172964",
+        "explode": "100"
+      },
+      {
+        "id": "pc",
+        "amount": 0,
+        "cameraSettled": "true",
+        "visible": "34",
+        "level": "pc",
+        "componentTypes": "17",
+        "transitioning": "false",
+        "drawCalls": "983",
+        "triangles": "1936802",
+        "explode": "0"
+      },
+      {
+        "id": "pc",
+        "amount": 25,
+        "cameraSettled": "true",
+        "visible": "34",
+        "level": "pc",
+        "componentTypes": "17",
+        "transitioning": "false",
+        "drawCalls": "982",
+        "triangles": "1936800",
+        "explode": "25"
+      },
+      {
+        "id": "pc",
+        "amount": 50,
+        "cameraSettled": "true",
+        "visible": "34",
+        "level": "pc",
+        "componentTypes": "17",
+        "transitioning": "false",
+        "drawCalls": "982",
+        "triangles": "1936800",
+        "explode": "50"
+      },
+      {
+        "id": "pc",
+        "amount": 100,
+        "cameraSettled": "true",
+        "visible": "34",
+        "level": "pc",
+        "componentTypes": "17",
+        "transitioning": "false",
+        "drawCalls": "687",
+        "triangles": "1291548",
+        "explode": "100"
+      },
+      {
+        "id": "ps5-power",
+        "viewport": "mobile"
+      },
+      {
+        "id": "ps5cooling",
+        "viewport": "mobile"
+      }
+    ],
+    "errors": []
+  },
+  "finalLayout": {
+    "results": [
+      {
+        "width": 1440,
+        "id": "ps5-power",
+        "amount": 25
+      },
+      {
+        "width": 1440,
+        "id": "ps5cooling",
+        "amount": 0
+      },
+      {
+        "width": 1440,
+        "id": "card",
+        "amount": 0
+      },
+      {
+        "width": 390,
+        "id": "ps5-power",
+        "amount": 50
+      },
+      {
+        "width": 390,
+        "id": "ps5cooling",
+        "amount": 50
+      }
+    ],
+    "errors": []
+  },
+  "limits": [
+    "selected geometry checks, not all pairs at every pose",
+    "photo-derived PS5 layout, not OEM CAD",
+    "R10 physical envelope fixed; full connector/photo acceptance pending"
+  ]
+}
