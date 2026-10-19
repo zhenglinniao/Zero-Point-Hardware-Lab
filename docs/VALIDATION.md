@@ -2,7 +2,30 @@
 
 日期：2026-10-19（Asia/Shanghai）。环境：Windows，Node.js v24.20.0，npm 11.19.0。
 
-## 当前版本：原创学习产品重设计
+## 当前版本：中文介绍与多设备扩展
+
+| 检查 | 最终结果 |
+| --- | --- |
+| npm test | 120 / 120 通过，0 失败、0 跳过 |
+| npm run build | TypeScript 与 Vite 生产构建通过 |
+| npm run size | 入口约 72.3 KiB gzip，低于未修改的 220 KiB 预算 |
+| 目录一致性 | 8 个独立系统 / 82 个探索层级 / 699 条目录资料 |
+| 学习内容 | 8 条路径 / 24 个实验；旧的本地进度 id 继续有效 |
+| node --experimental-strip-types scripts/digital-smoke.mjs | 退出码 0，无 pageerror |
+| node scripts/learning-smoke.mjs | 退出码 0，无 pageerror |
+| node scripts/notebook-smoke.mjs | 退出码 0，无 pageerror |
+
+新增设备的浏览器检查覆盖 14 个层级各自的 0% / 50% / 100% 姿态，共 42 种组合，并实际完成 PS5、手机、相机、手柄与耳机的 5 条课程 / 15 个实验。还覆盖设备分类筛选、中文介绍、隐藏与恢复、PS5 主板进入/返回、390 × 844 视口下的设备库及导航。
+
+原有内存课程的观察门槛、错题反馈、答对记录、刷新续学、复习、重置确认、损坏存储回退与 SM 自由探索链接通过回归。原有笔记本主板 → SO-DIMM → DRAM 封装的深入路径、MacBook 切换与重置、笔记本对比与互换、台式机拆解、中文指南和手机导航也重新通过浏览器验证。
+
+几何测试新增了对子组件原生单位换算、真实运行时姿态和装配间隔的检查。画面检查发现的「动画重置外层缩放导致内部组件变大」已经用内部容器修正，并覆盖回归；PS5 主要模块、手机电池/逻辑板和耳机/盒盖的代表性装配关系有额外检查。
+
+已查看五类新设备的装配、代表性拆解和中文介绍画面。修正了懒加载 CSS 顺序造成的部件阅读面板配色覆盖；最终手机介绍面板实测背景为 rgb(252,251,246)，正文为 rgb(104,116,94)。代表性截图保存在 docs/screenshots/digital-library.png、ps5-dissection.png、phone-chinese-detail.png、camera-dissection.png、earbuds-dissection.png。
+
+这些检查覆盖已列明的场景，不等于真实手机触控矩阵、全部 699 条原文的人工翻译审校、完整机械公差检查或实际维修验证。中文内容对原有部件提供功能导读，并保留原文及数值；新数码模型属于明确标注的教学示意。参考和精度边界见 DIGITAL-DEVICES.md。
+
+## 第二轮：原创学习产品重设计（历史记录）
 
 - `npm test`：112 / 112 通过，0 失败、0 跳过；含新增课程数据、进度过滤、续学与课程链接测试。
 - `npm run build`：TypeScript 与 Vite 生产构建通过。

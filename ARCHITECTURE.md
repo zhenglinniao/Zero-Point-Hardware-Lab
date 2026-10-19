@@ -1,5 +1,38 @@
 # PC Anatomy — architecture
 
+## Multi-device Chinese explorer (2026-10-19)
+
+The current app contains eight independent device roots, 82 scales and 699 concepts.
+The 14 new scales are declared with their native dimensions and part ownership in
+`lib/digital/catalogue.ts`, built by `lib/digital/models.ts`, and registered through
+the same model/manifest/level contracts as the desktop and notebooks. Five new
+device families have 106 authored catalogue entries. `lib/devices.ts` is the
+home library; tests require its roots to match `systemRoots` exactly.
+
+Each device family uses a documented millimetres-per-unit conversion. Installing a
+child applies one uniform scale and its mounting rotation **inside an identity
+wrapper**. `applyPiecePose` owns the selectable root transform, so setting that
+root's scale directly would lose the conversion on the first runtime frame. The
+new regression test applies actual poses, rather than only inspecting the static
+builder. Additional checks separate major PS5 modules, fit earbuds beneath the
+closed lid and keep the phone battery clear of its logic board. These checks do
+not establish production-grade tolerances or a complete mechanical reproduction.
+
+`lib/zh.ts` supplies offline Chinese terminology and authored functional reading
+summaries. Existing source descriptions/specification values remain unchanged;
+the detail panel offers the original text explicitly. These are Chinese summaries,
+not a claim of verbatim professional translation. New digital entries are authored
+in Chinese. Search includes Chinese component names and device aliases.
+
+The home screen has an eight-device filterable library; the app has eight teaching
+paths and 24 experiments. `app/page.tsx` owns route selection and saved completion;
+it lazy-loads `app/lab.tsx`, which owns explorer composition. The shared renderer
+still loads dynamically after entering the lab. New device descriptions and scope
+are documented in `docs/DIGITAL-DEVICES.md`. Five new devices are illustrative;
+neither component coordinates nor optics/acoustics are claimed as proprietary
+engineering reconstructions. New device roots do not opt into unrelated comparison
+groups; the existing same-category comparison workbench remains available.
+
 ## Zero Point learning product (2026-10-19 redesign)
 
 The root route now opens an original Chinese learning dashboard. `app/learning-home.tsx`
