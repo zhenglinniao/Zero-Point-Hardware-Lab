@@ -9,6 +9,46 @@ const step = (
 /** Observation checkpoints on the real pose timeline. Nested mechanisms have
  * their own independent timeline; these are not real-world repair instructions. */
 export const deviceDisassembly: Partial<Record<LevelId, DisassemblyStep[]>> = {
+  engine: [
+    step('Assembled', 0, '辨认倾斜气缸、油箱、空滤、消声器和手拉启动器。'),
+    step(
+      '移开外部总成',
+      20,
+      '供油进排气与启动组件先离开机体，露出散热缸体和缸盖。',
+    ),
+    step('分离缸盖', 35, '沿气缸轴线移开缸盖，观察活塞冠部和两根推杆。'),
+    step(
+      'Dissection',
+      50,
+      '分别进入曲轴箱、曲柄连杆、OHV 配气、正时与供油系统。',
+    ),
+    step(
+      '机构细分',
+      68,
+      '从曲柄连杆继续拆活塞、开口环、组合油环、活塞销和挡圈。',
+    ),
+    step('Inventory', 100, '逐件核对零件名称、作用、装配关系与尺寸来源。'),
+  ],
+  evmotor: [
+    step('Assembled', 0, '观察输出轴、水冷机壳与三相接线盒。'),
+    step('移开机壳', 20, '壳体、端盖与轴承离开电磁核心，露出定子和转子。'),
+    step(
+      '抽出转子',
+      35,
+      '转子沿轴线退出定子孔，保持 0.495 mm 的原始径向气隙基准。',
+    ),
+    step('Dissection', 50, '进入定子绕组、内嵌磁钢转子、夹套、轴承或接线盒。'),
+    step(
+      '绕组与磁路',
+      68,
+      '分别选择槽绝缘、铜线束、槽楔、跨槽线圈以及八块磁钢。',
+    ),
+    step(
+      'Inventory',
+      100,
+      '核对 48 槽、8 极、三相、轴系和冷却组件的独立说明。',
+    ),
+  ],
   pc: [
     step('Assembled', 0, '先观察机箱中各模块的安装位置。'),
     step('移开外壳', 20, '观察侧板、前板与顶板如何让出内部空间。'),

@@ -15,6 +15,9 @@ export const categories = [
   'Storage',
   'Compute',
   'Graphics',
+  'Mechanical',
+  'Magnetic',
+  'Fluid',
 ] as const;
 export type Category = (typeof categories)[number];
 
@@ -27,6 +30,9 @@ export const colors: Record<Category, string> = {
   Storage: '#6cbfa4',
   Compute: '#709fcb',
   Graphics: '#b497cf',
+  Mechanical: '#b0b6bf',
+  Magnetic: '#d99c65',
+  Fluid: '#7caeaf',
 };
 
 export interface Concept {

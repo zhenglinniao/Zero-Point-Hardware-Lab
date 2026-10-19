@@ -100,8 +100,8 @@ await test('left and right trigger internals use mirrored installation coordinat
 await test('the device library exposes every independent system exactly once',()=>{
   assert.deepEqual(new Set(devices.map((device)=>device.level)),new Set(systemRoots));
   assert.equal(devices.length,new Set(devices.map((device)=>device.level)).size);
-  assert.equal(digitalRoots.length,5);
-  assert.equal(Object.keys(digitalLevels).length,32);
+  assert.equal(digitalRoots.length,7);
+  assert.equal(Object.keys(digitalLevels).length,48);
 });
 await test('every digital scale has native selectable geometry, Chinese descriptions and a reversible owner',()=>{
   for(const definition of digitalDefinitions) {
@@ -130,9 +130,12 @@ await test('nested digital assemblies retain native millimetre proportions under
     assert.ok(Math.abs(assembly.scale.x-scale)<1e-9);
     assert.equal(assembly.scale.x,assembly.scale.y);
     assert.equal(assembly.scale.x,assembly.scale.z);
-    const original=new T.Box3().setFromObject(models.get(part.open as DigitalLevel)!.root);
-    const expected=original.applyMatrix4(new T.Matrix4().compose(piece.object.position,assembly.quaternion,assembly.scale)).getSize(new T.Vector3());
-    const actual=new T.Box3().setFromObject(piece.object).getSize(new T.Vector3());
+    const original=models.get(part.open as DigitalLevel)!.root;
+    const position=original.position.clone(),quaternion=original.quaternion.clone(),native=original.scale.clone();
+    original.position.copy(piece.object.position);original.quaternion.copy(assembly.quaternion);original.scale.copy(assembly.scale);
+    const expected=new T.Box3().setFromObject(original,true).getSize(new T.Vector3());
+    original.position.copy(position);original.quaternion.copy(quaternion);original.scale.copy(native);original.updateMatrixWorld(true);
+    const actual=new T.Box3().setFromObject(piece.object,true).getSize(new T.Vector3());
     assert.ok(expected.distanceTo(actual)<1e-6,part.open);
   }
 });

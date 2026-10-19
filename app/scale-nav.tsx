@@ -1,5 +1,7 @@
 'use client';
 import {
+  Cog,
+  Magnet,
   BatteryCharging,
   Box,
   Camera,
@@ -36,6 +38,22 @@ import { branchZh, scaleNameZh } from '@/lib/zh';
 
 /** One icon per scale, so the branch you are on is recognisable at a glance. */
 const levelIcon: Record<LevelId, typeof Box> = {
+  'engine': Cog,
+  'engine-cylinder': Cog,
+  'engine-cover': Cog,
+  'engine-block': Cog,
+  'engine-crank': Cog,
+  'engine-piston': Cog,
+  'engine-head': Cog,
+  'engine-timing': Cog,
+  'engine-induction': Cog,
+  'engine-starter': Cog,
+  'evmotor': Magnet,
+  'ev-stator': Magnet,
+  'ev-rotor': Magnet,
+  'ev-housing': Magnet,
+  'ev-bearing': Magnet,
+  'ev-terminal': Magnet,
   'ps5-fan': Fan,
   'phone-haptic': Zap,
   'phone-speaker': Headphones,

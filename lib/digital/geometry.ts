@@ -1,3 +1,4 @@
+import { powertrainGeometry } from '../powertrain/geometry.ts';
 import { mechanicalGeometry } from './mechanical-geometry.ts';
 import * as T from 'three';
 import { earbudShell, chargingCase } from './molded-shells.ts';
@@ -20,6 +21,8 @@ export function detailedGeometry(
   unit: number,
   tools: ModelTools,
 ): T.Group {
+  const powertrain = powertrainGeometry(level, part, tools);
+  if (powertrain) { const native = new T.Group(); native.scale.setScalar(1 / unit); native.add(powertrain); const result = new T.Group(); result.add(native); return result; }
   const g = new T.Group();
   const imported = level === 'gamepad' ? gamepadExterior(part) : null;
   if (imported) g.add(imported);

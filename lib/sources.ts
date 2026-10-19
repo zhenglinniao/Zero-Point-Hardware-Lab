@@ -12,6 +12,11 @@
  * for that construction alone, and its name says it is an independent review.
  */
 export const sources = {
+  leafmotorcad: {name:'Motor-CAD · 2012 LEAF 建模教程（2018，第三方托管的原教程；截面为建模参数）',url:'https://www.selidori.com/tech/00000-04999/1436-c03IY.pdf'},
+  hondaut2: {name:'Honda · GX160 UT2 官方维修手册（规格与服务尺寸）',url:'https://www.honda-engines-eu.com/files/files/shop-manual-gx120-160-200-ut2-en.pdf'},
+  hondaassembly: {name:'Honda · GX120/160/200 官方发动机装配分解图',url:'https://www.honda-engines-eu.com/files/files/engine-assembly-gx120-200-en.pdf'},
+  leafteardown: {name:'DOE / ORNL · 2012 LEAF 实物拆测（2012，第 21–23 页）',url:'https://www1.eere.energy.gov/vehiclesandfuels/pdfs/merit_review_2012/adv_power_electronics/ape006_burress_2012_p.pdf'},
+  leafdimensions: {name:'DOE / ORNL · Electric Motor R&D 2013（第 14 页尺寸与绕组）',url:'https://www.energy.gov/sites/prod/files/2014/03/f13/ape051_miller_2013_o.pdf'},
   dualsensetrigger: {name:'iFixit · DualSense 肩键、自适应扳机与连接膜拆解',url:'https://www.ifixit.com/Teardown/PS5+Controller+Trigger+Teardown/158397'},
   dualsensestick: {name:'iFixit · DualSense 双轴电位器、万向架与回中弹簧拆解',url:'https://www.ifixit.com/News/48944/heres-why-ps5-joysticks-drift-and-why-theyll-only-get-worse'},
   optilandprescription: {name:'Optiland · DoubleGauss 六片四组光学处方（MIT）',url:'https://github.com/optiland/optiland/blob/master/optiland/samples/objectives.py'},

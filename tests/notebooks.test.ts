@@ -59,7 +59,7 @@ after(() => {
 });
 
 await test('system menus partition the scale forest without crossing machines', () => {
-  assert.deepEqual(systemRoots, ['pc', 'legion', 'macbook', 'ps5', 'phone', 'camera', 'gamepad', 'earbuds']);
+  assert.deepEqual(systemRoots, ['pc', 'legion', 'macbook', 'ps5', 'phone', 'camera', 'gamepad', 'earbuds', 'engine', 'evmotor']);
   for (const root of systemRoots) {
     const entries = branches(root).flatMap((branch) => branch.levels);
     assert.equal(new Set(entries).size, entries.length);

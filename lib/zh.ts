@@ -1,7 +1,7 @@
 import type { Category, Concept } from './concept.ts';
 import type { LevelId } from './levels.ts';
 
-export const categoryZh: Record<Category, string> = { Chassis: '外壳与结构', Cooling: '散热系统', Board: '电路与连接', Power: '供电系统', Memory: '内存系统', Storage: '存储系统', Compute: '处理与计算', Graphics: '图形系统' };
+export const categoryZh: Record<Category, string> = { Chassis: '外壳与结构', Cooling: '散热系统', Board: '电路与连接', Power: '供电系统', Memory: '内存系统', Storage: '存储系统', Compute: '处理与计算', Graphics: '图形系统', Mechanical: '机械与传动', Magnetic: '电磁系统', Fluid: '进排气与流体' };
 export const levelZh: Partial<Record<LevelId, string>> = {
   pc:'台式电脑', motherboard:'主板', dimm:'DDR5 内存模组', dram:'DDR5 芯片封装', banks:'DDR5 存储阵列', bank:'DDR5 存储体', cell:'DRAM 存储单元', ddr4:'DDR4 内存模组', ddr4dram:'DDR4 芯片封装', ddr4banks:'DDR4 存储阵列', ddr4array:'DDR4 存储体', ddr4cell:'DDR4 存储单元', ryzen:'Ryzen 9 9950X 处理器', ryzenio:'Ryzen I/O 裸片', corei9:'Core Ultra 9 285K 处理器', coreio:'Core Ultra I/O 模块', psu:'850W 模组化电源', psubronze:'750W 非模组电源', fan:'机箱风扇', cooler:'塔式处理器散热器', liquid:'一体式水冷', ssd:'SATA 固态硬盘', nvme:'NVMe 固态硬盘', card:'RTX 5090 显卡', die:'GB202 处理器架构', gpc:'图形处理簇 GPC', tpc:'纹理处理簇 TPC', sm:'流式多处理器 SM', rx9070:'Radeon RX 9070 XT 显卡', navi48:'Navi 48 架构', rxse:'着色器引擎', rxwgp:'工作组处理器 WGP', rxcu:'计算单元 CU', arcb580:'Arc B580 显卡', bmg:'BMG-G21 架构', xeslice:'渲染切片', xecore:'Xe 核心', xve:'Xe 向量引擎', legion:'联想拯救者 Legion 5', legionboard:'笔记本系统主板', legioncpu:'Ryzen 7 5800H', legioncore:'Zen 3 处理器核心', legiongpu:'RTX 3060 笔记本 GPU', legionsm:'Ampere SM', legionmemory:'DDR4 SO-DIMM 内存', legionpackage:'笔记本 DRAM 封装', legiondram:'笔记本 DRAM 裸片', legionbank:'笔记本 DRAM 存储体', legioncell:'笔记本 DRAM 存储单元', legionstorage:'笔记本 NVMe 存储', legioncooling:'笔记本散热', legionbattery:'笔记本电池', legiondisplay:'笔记本显示屏', macbook:'MacBook Pro 14 英寸', macboard:'MacBook 逻辑板', m1pro:'M1 Pro 芯片', maccpu:'M1 Pro CPU 集群', maccore:'M1 Pro CPU 核心', macgpu:'M1 Pro GPU', macgpucore:'M1 Pro GPU 核心', macmemory:'统一内存', macdram:'统一内存 DRAM 裸片', macbank:'统一内存存储体', maccell:'统一内存存储单元', macstorage:'MacBook 存储', maccooling:'MacBook 散热', macbattery:'MacBook 电池', macdisplay:'MacBook 显示屏',
 };
@@ -68,6 +68,7 @@ const profiles: Profile[] = [
   [/cover|chassis|shroud|housing|panel|glass|enclosure|backplate|filter/i,'外壳、盖板或保护结构围绕内部组件构成机械边界。','保护部件并参与安装、屏蔽或空气流动的组织。'],
 ];
 const categoryIntro: Record<Category,[string,string]> = {
+  Mechanical:['这是传递力或约束运动的机械组件。','维持运动关系、承受载荷或传递转矩。'], Magnetic:['这是电机的磁路或绕组组件。','在电能与机械能之间转换能量。'], Fluid:['这是进排气、供油或流体通道组件。','组织燃料、空气或冷却介质的流动。'],
   Chassis:['这是设备的机械结构或保护组件，形态与安装位置用于展示装配关系。','为内部组件提供支撑、保护或空间组织。'], Cooling:['这是热管理系统中的组件，需结合发热元件与空气路径理解。','参与热量传递或空气组织，帮助设备控制温度。'], Board:['这是电路、连接或输入输出相关组件，作用需结合所在系统理解。','与相邻组件交换电力、数据、控制或外部输入输出信号。'], Power:['这是电力供应、转换或管理相关组件。','帮助设备获得和分配合适的工作电力。'], Memory:['这是工作存储系统中的组件或逻辑区域。','参与工作数据的保存、寻址、访问或传输。'], Storage:['这是长期存储系统中的组件或控制区域。','参与文件与系统数据的非易失性保存或访问。'], Compute:['这是计算系统中的硬件或逻辑功能区域。','参与指令执行、数据处理或资源组织。'], Graphics:['这是图形系统中的硬件或逻辑功能区域。','参与图形或并行计算流程，并与相关存储和控制资源协作。'],
 };
 export function chineseIntro(c: Concept): { description: string; purpose: string } {
