@@ -247,7 +247,11 @@ export function refineDigitalDefinitions(definitions: Definition[]) {
       '按官方背部内部视图，矩形软包电池位于中下部左侧；外侧包含封边、引出片与易拉胶条。',
   });
   edit('phone', 'board', { size: [18, 3, 78], pos: [22, -0.15, -12] });
-  edit('phone', 'camera', { pos: [-17, 0, -50], size: [30, 7, 30] });
+  edit('phone', 'camera', {
+    pos: [-17, 0, -50],
+    size: [30, 7, 30],
+    delta: [-25, 20, -20],
+  });
   edit('phone', 'coil', {
     size: [42, 0.3, 42],
     pos: [-5, 2.3, 12],

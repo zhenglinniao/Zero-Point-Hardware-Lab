@@ -193,14 +193,45 @@ export function detailedGeometry(
     );
   };
   const chip = (size: Vec3, pos: Vec3, label = '', parent = g) => {
-    put(box(size, ink, 0.12), pos, parent);
-    for (const x of [-size[0] / 2, size[0] / 2])
-      for (let i = 0; i < 6; i++)
-        put(
-          box([0.35, 0.2, 0.35], silver, 0.65),
-          [pos[0] + x, pos[1] - 0.1, pos[2] + ((i - 2.5) * size[2]) / 7],
-          parent,
+    // Mould compound over a thin package substrate; no invented gull-wing
+    // leads on memory/SoC packages. The underside pad grid is representative,
+    // not a claimed package ball count or electrical pin map.
+    put(
+      box([size[0], size[1] * 0.16, size[2]], '#35463e', 0.18),
+      [pos[0], pos[1] - size[1] * 0.42, pos[2]],
+      parent,
+    );
+    put(
+      box([size[0] * 0.96, size[1] * 0.84, size[2] * 0.96], ink, 0.08),
+      [pos[0], pos[1] + size[1] * 0.08, pos[2]],
+      parent,
+    );
+    const pads = new T.InstancedMesh(
+      new T.SphereGeometry(Math.min(0.3, size[0] * 0.025), 8, 6),
+      mat(silver, 0.72, 0.33),
+      64,
+    );
+    for (let row = 0; row < 8; row++)
+      for (let col = 0; col < 8; col++)
+        pads.setMatrixAt(
+          row * 8 + col,
+          new T.Matrix4().makeTranslation(
+            pos[0] + (col / 7 - 0.5) * size[0] * 0.82,
+            pos[1] - size[1] / 2,
+            pos[2] + (row / 7 - 0.5) * size[2] * 0.82,
+          ),
         );
+    pads.instanceMatrix.needsUpdate = true;
+    parent.add(pads);
+    put(
+      disk(Math.min(0.45, size[0] * 0.04), 0.025, '#77817e'),
+      [
+        pos[0] - size[0] * 0.37,
+        pos[1] + size[1] / 2 + 0.03,
+        pos[2] - size[2] * 0.35,
+      ],
+      parent,
+    );
     if (label)
       text(
         label,
@@ -556,23 +587,36 @@ export function detailedGeometry(
           ? 11 *
             Math.exp(-Math.pow((y + 60) / 105, 2) - Math.pow((z - 30) / 95, 2))
           : 0;
-      const taper = 0.91 + 0.09 * Math.cos((y / h) * Math.PI * 2);
+      const taper = 0.96 + 0.04 * Math.cos((y / h) * Math.PI * 2);
       const sweep = 12 * Math.sin((y / h) * Math.PI);
       a.setXYZ(
         i,
         (id === 'left-cover' ? -1 : 1) * (flare + bulge),
-        y - 20 * Math.pow(Math.abs(y) / (h / 2), 9) * (z / d + 0.5),
+        y -
+          Math.sign(y) *
+            20 *
+            Math.pow(Math.abs(y) / (h / 2), 9) *
+            (z / d + 0.5),
         z * taper + sweep,
       );
     }
+    const reverseFaces = (geometry: T.BufferGeometry) => {
+      const index = geometry.getIndex()!;
+      for (let i = 0; i < index.count; i += 3) {
+        const b = index.getX(i + 1);
+        index.setX(i + 1, index.getX(i + 2));
+        index.setX(i + 2, b);
+      }
+    };
+    if (id === 'right-cover') reverseFaces(geo);
     geo.computeVertexNormals();
     const m = mat(part.color, 0.05, 0.62).clone();
-    m.side = T.DoubleSide;
     put(new T.Mesh(geo, m));
     const inner = geo.clone();
     const vertices = inner.getAttribute('position');
     for (let i = 0; i < vertices.count; i++)
       vertices.setX(i, vertices.getX(i) + (id === 'left-cover' ? 2.6 : -2.6));
+    reverseFaces(inner);
     inner.computeVertexNormals();
     put(new T.Mesh(inner, mat('#cdd2d1', 0.05, 0.65)));
     const edgeIndices: number[] = [];
@@ -640,6 +684,19 @@ export function detailedGeometry(
     }
     front.geometry.computeVertexNormals();
     put(front, [0, 0, d / 2]);
+    for (const side of [-1, 1]) {
+      put(box([17, h * 0.91, 2.5], '#12181d', 0.05, 1), [
+        side * 43,
+        0,
+        d / 2 - 1,
+      ]);
+      for (let i = 0; i < 56; i++)
+        put(box([16, 1.1, 4], '#333b40', 0.15, 0.2), [
+          side * 43,
+          (i - 27.5) * 5.5,
+          d / 2 + 1,
+        ]);
+    }
     const vents: T.Path[] = [];
     for (let i = 0; i < 37; i++)
       vents.push(rectHole(0, (i - 18) * 8, w * 0.72, 2.2, 0.8));
@@ -652,7 +709,8 @@ export function detailedGeometry(
     put(plate(w * 0.76, 3, d, '#12191f', 7, roofVents), [0, h / 2 + 1.5, 0]);
     for (const x of [-w * 0.44, w * 0.44])
       put(box([1.1, 80, 1], '#416e9b'), [x, 110, d / 2 + 1.6]);
-    put(disk(80, 8, '#171d23', 15), [0, -h / 2 - 8, 0]);
+    put(disk(80, 8, '#171d23', 15), [0, -h / 2 - 22, 0]);
+    put(box([40, 24, 65], '#171d23', 0.05, 3), [0, -h / 2 - 10, 0]);
     for (const x of [-31, 31])
       for (let i = 0; i < 22; i++)
         put(box([5, 2, 13], '#12191f'), [x, 75 + i * 4.5, d / 2 - 4]);
@@ -775,6 +833,23 @@ export function detailedGeometry(
       ]),
       [0, -2, 0],
     );
+  } else if (level === 'phonecamera' && id === 'carrier') {
+    put(
+      plate(31, 1.2, 31, silver, 2, [
+        circleHole(-7, -7, 6.1),
+        circleHole(7, 7, 7.1),
+      ]),
+      [0, 0.7, 0],
+    );
+    put(plate(31, 1, 31, '#26312f', 2), [0, -1, 0]);
+    for (const [x, z] of [
+      [-13, -13],
+      [13, -13],
+      [-13, 13],
+      [13, 13],
+    ])
+      screw([x, 1.5, z], 0.65);
+    connector([7, 0.8, 3], [0, -1, 17]);
   } else if (level === 'phone' && id === 'truedepth') {
     put(plate(w, h, d, silver, 1));
     for (const x of [-8, 0, 8]) {
@@ -1083,6 +1158,26 @@ export function detailedGeometry(
       }
       case 'lens':
         lens(Math.min(w, d) / 2, h);
+        if (level === 'phonecamera') {
+          put(
+            plate(w, 1, d, silver, 1, [
+              circleHole(0, 0, Math.min(w, d) * 0.42),
+            ]),
+            [0, -h / 2 + 0.5, 0],
+          );
+          for (const x of [-w * 0.43, w * 0.43])
+            put(box([0.8, h * 0.5, d * 0.7], '#333c40', 0.2, 0.1), [
+              x,
+              -h * 0.12,
+              0,
+            ]);
+          for (let i = 0; i < 6; i++)
+            put(box([0.18, 0.4, d * 0.55], copper, 0.6), [
+              -w * 0.32 + i * w * 0.055,
+              -h / 2 + 0.2,
+              0,
+            ]);
+        }
         break;
       case 'ring':
         put(disk(Math.min(w, d) / 2, h, part.color, Math.min(w, d) * 0.34));

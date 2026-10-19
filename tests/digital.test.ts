@@ -220,3 +220,21 @@ await test('board details remain attached to their selectable PCB and batches ha
     assert.ok(bodies>40,`${level} must contain actual support geometry`);
   }
 });
+
+await test('the wide PS5 stand stays below its side covers instead of piercing the outer skin',()=>{
+  const model=models.get('ps5')!;
+  const frame=model.pieces.find(piece=>piece.concept==='ps5-frame')!;
+  model.root.updateMatrixWorld(true);
+  const point=new T.Vector3();let standVertices=0;
+  frame.object.traverse(object=>{
+    if(!(object instanceof T.Mesh))return;
+    const positions=object.geometry.getAttribute('position');
+    for(let i=0;i<positions.count;i++){
+      point.fromBufferAttribute(positions,i).applyMatrix4(object.matrixWorld);
+      if(Math.abs(point.x)<=55/40)continue;
+      standVertices++;
+      assert.ok(point.y < -195/40,'wide foot must clear the full cover height');
+    }
+  });
+  assert.ok(standVertices>0);
+});

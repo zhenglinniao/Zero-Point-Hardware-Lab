@@ -27,7 +27,11 @@
 
 ## 结构重建更新
 
-新增五类设备已按实机拆解、Apple 内部视图及 Sony ILCE-7M4 分解资料重做主要结构：异形 PCB、双面封装、薄壁开孔壳体、柔性排线与连接器、独立执行器、托盘及代表性紧固件。PS5 主板细分 8 颗 GDDR6 与两面共 6 颗 NAND；手机纠正底部组件布局，补齐 TrueDepth 与接口连接；手柄拆分左右扳机的电机、蜗杆与齿轮。
+本轮继续以既有电脑、笔记本为对照，重做外壳曲面与内部可视细节：手柄使用有内外壁和贯通输入开孔的连续握柄壳，黑色中央面板贴合曲面；相机使用带内腔的立体握把和包围板件的侧壁；耳机声腔与短柄连续过渡，盒体保留薄壁圆角。
+
+电路板有双面板面、铜边、过孔、丝印与分区支持器件；主要芯片增加封装基板、塑封体和底部焊点示意，避免将 BGA 类封装画成侧面引脚芯片。PS5 继续调整侧盖收腰、顶部外翻与进气边界，手机缩短背盖展开距离，方便观察主体。
+
+五类设备参考实机拆解、Apple 内部视图及 Sony ILCE-7M4 分解资料，包含：异形 PCB、双面封装、薄壁开孔壳体、柔性排线与连接器、独立执行器、托盘及代表性紧固件。PS5 主板细分 8 颗 GDDR6 与两面共 6 颗 NAND；手机纠正底部组件布局，补齐 TrueDepth 与接口连接；手柄拆分左右扳机的电机、蜗杆与齿轮。
 
 几何由项目独立编写，不直接使用拆解照片当贴图。建模依据、已核对事实与未测绘部分见[重建记录](docs/DIGITAL-DEVICES.md)。
 
@@ -43,15 +47,23 @@
 ![PS5 分层拆解](docs/screenshots/ps5-dissection.png)
 
 <details>
-<summary>更多预览：PS5 主板、手机、相机与手柄</summary>
+<summary>更多预览：PS5、手机、相机、手柄与耳机</summary>
+
+![PS5 曲面侧盖与底座](docs/screenshots/ps5-assembled.png)
 
 ![PS5 主板双面封装与屏蔽结构](docs/screenshots/ps5-board-detail.png)
+
+![手机双摄、逻辑板、电池与背盖分层](docs/screenshots/phone-dissection.png)
 
 ![手机中文部件说明](docs/screenshots/phone-chinese-detail.png)
 
 ![相机拆解](docs/screenshots/camera-dissection.png)
 
+![手柄曲面外壳与输入部件](docs/screenshots/gamepad-assembled.png)
+
 ![手柄机构拆解](docs/screenshots/gamepad-dissection.png)
+
+![耳机薄壁壳体与内部总成](docs/screenshots/earbuds-dissection.png)
 
 </details>
 
@@ -102,7 +114,7 @@ npm run build
 npm run size
 ```
 
-已通过 **124 项测试**。另提供浏览器验收，覆盖学习流程、进度持久化、新设备拆解、部件交互与移动布局。先运行生产预览，再在另一个终端执行：
+已通过 **127 项测试**。另提供浏览器验收，覆盖学习流程、进度持久化、新设备拆解、部件交互与移动布局。先运行生产预览，再在另一个终端执行：
 
 ```bash
 node scripts/learning-smoke.mjs
