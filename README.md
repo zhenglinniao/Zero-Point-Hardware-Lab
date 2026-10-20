@@ -225,11 +225,9 @@ npx vercel --prod
 
 更换域名时，请统一修改首页、指南、`public/robots.txt` 和 `scripts/sitemap-urls.ts` 中的站点地址，然后运行 `node --experimental-strip-types scripts/generate-sitemap.mjs`。子路径部署还需调整 Vite `base` 与静态链接。
 
-## 来源、原创扩展与许可
+## 原创扩展与许可
 
-本项目基于 Yoseph 的 MIT 开源项目 [PC Anatomy](https://github.com/Yoosseph/pc-anatomy)，复用其电脑模型、渲染器及相关资料；上游快照为 `ace99de7956f741b6bdb70de56d5dc4b4aafb7ae`。
-
-zln 在此基础上设计实现中文学习台、原创 SVG 结构示意、课程与知识检查、学习记录，以及 PS5、手机、相机、手柄和耳机的程序化教学几何、部件目录与课程。中文功能导读属于解释性整理，原有英文资料与数值规格保留以供核对。
+zln 设计实现中文学习台、原创 SVG 结构示意、课程与知识检查、学习记录，以及 PS5、手机、相机、手柄和耳机的程序化教学几何、部件目录与课程。中文功能导读属于解释性整理，原有英文资料与数值规格保留以供核对。
 
 硬件参考与厂商资料见 [SOURCES.md](SOURCES.md) 和[数码设备参考](docs/DIGITAL-DEVICES.md)。产品名称与商标归其各自权利人所有，本项目不代表厂商官方产品。
 
